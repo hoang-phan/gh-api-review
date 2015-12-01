@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "full_name": "Org1/repo1",
+    "html_url": "https://mock.com/Org1/repo1",
+    "owner": {
+      "login": "Org1",
+      "avatar_url": "https://mock.com/1"
+    }
+  },
+  {
+    "id": 2,
+    "full_name": "Org2/repo2",
+    "html_url": "https://mock.com/Org2/repo2",
+    "owner": {
+      "login": "Org2",
+      "avatar_url": "https://mock.com/2"
+    }
+  }
+]
