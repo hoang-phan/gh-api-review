@@ -14,6 +14,7 @@ gem 'octokit'
 gem 'sidekiq'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
+gem "bootstrap-switch-rails"
 
 group :development, :test do
   gem 'byebug'
@@ -25,8 +26,10 @@ group :development do
 end
 
 group :test do
+  gem 'simplecov'
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'cucumber-rails', :require => false
 end

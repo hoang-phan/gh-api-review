@@ -1,0 +1,7 @@
+.row
+  .col-xs-1
+    = image_tag repository.avatar_url, class: 'full-width'
+  .col-xs-8
+    = link_to repository.full_name, repository.html_url
+  .col-xs-3
+    = check_box_tag :enable_hook

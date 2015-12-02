@@ -1,1 +1,7 @@
-= link_to 'Fetch repositories from Github', fetch_repositories_path, method: :post, class: 'btn btn-primary'
+.row.clearfix.page-header.relative
+  = link_to 'Fetch repositories from Github', fetch_repositories_path, method: :post, class: 'btn btn-primary pull-right middle'
+  %h3.pull-left Repositories
+.page-content
+  %p Enable hooks for your repositories
+  .repositories-list
+    = render @repositories
