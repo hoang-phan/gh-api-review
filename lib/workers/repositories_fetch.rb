@@ -4,14 +4,8 @@ class RepositoriesFetch
   def perform
     Repository.destroy_all
 
-    $client.repositories.each do |repo|
-      Repository.create(
-        external_id: repo['id'],
-        full_name: repo['full_name'],
-        html_url: repo['html_url'],
-        avatar_url: repo['owner']['avatar_url'],
-        owner: repo['owner']['login']
-      )
+    $client.repositories(GITHUB_ENV['owner_name']).map do |repo|
+      Repository.find_or_create_by(full_name: repo['full_name'])
     end
   end
 end

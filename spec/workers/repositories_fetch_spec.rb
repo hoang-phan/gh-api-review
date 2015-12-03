@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RepositoriesFetch do
-  include RepositoryMacro
 
   describe '#perform' do
     let(:fake_client) { double(repositories: repositories) }
@@ -14,7 +13,7 @@ RSpec.describe RepositoriesFetch do
 
     it 'fetch all repositories' do
       repositories.each do |repo|
-        expect(match_local(repo)).to be_truthy
+        expect(Repository).to be_exists(full_name: repo['full_name'])
       end
     end
   end

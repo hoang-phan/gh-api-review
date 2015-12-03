@@ -17,13 +17,12 @@ ActiveRecord::Schema.define(version: 20151201140108) do
   enable_extension "plpgsql"
 
   create_table "repositories", force: :cascade do |t|
-    t.integer  "external_id"
     t.string   "full_name"
-    t.string   "html_url"
-    t.string   "avatar_url"
-    t.string   "owner"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.boolean  "watched",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
+
+  add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
 end
