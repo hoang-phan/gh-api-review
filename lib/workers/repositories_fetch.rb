@@ -2,13 +2,15 @@ class RepositoriesFetch
   include Sidekiq::Worker
 
   def perform
-    Repository.destroy_all
+    not_delete = []
 
     $client.repositories(GITHUB_ENV['owner_name']).each do |repo|
-      repository = Repository.find_or_create_by(full_name: repo['full_name'])
-      $client.branches(repo['full_name']).each do |branch|
-        repository.branches.find_or_create_by(name: branch['name'])
+      unless Repository.exists?(full_name: repo['full_name'])
+        Repository.create(full_name: repo['full_name'])
       end
+      not_delete << repo['full_name']
     end
+
+    Repository.where.not(full_name: not_delete).destroy_all
   end
 end

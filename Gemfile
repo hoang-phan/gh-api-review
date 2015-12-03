@@ -32,6 +32,8 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'faker'
   gem 'cucumber-rails', :require => false
 end
 

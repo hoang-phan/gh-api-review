@@ -2,7 +2,7 @@
   .col-xs-1
     = image_tag 'logo.png', class: 'full-width'
   .col-xs-8
-    = repository.full_name
+    = link_to repository.full_name, repository_path(repository)
   .col-xs-3
     = check_box_tag :enable_hook, nil, repository.watched
     = hidden_field_tag :repo_id, repository.id

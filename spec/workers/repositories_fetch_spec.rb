@@ -5,28 +5,24 @@ RSpec.describe RepositoriesFetch do
   describe '#perform' do
     let(:fake_client) { double(repositories: repositories) }
     let(:repositories) { JSON(File.read("#{Rails.root}/spec/fixtures/repos.json")) }
-    let(:branch_name) { 'master' }
-    let(:branches) do
-      [
-        {
-          'name' => branch_name
-        }
-      ]
-    end
+    let!(:obsolete_repository) { create(:repository) }
+    let!(:existing_repository) { create(:repository, watched: true, full_name: repositories.first['full_name']) }
 
     before do
-      allow(fake_client).to receive(:branches).and_return(branches)
       $client = fake_client
-
       subject.perform
     end
 
-    it 'fetch all repositories with all of its branch' do
-      repositories.each do |repo|
-        repository = Repository.find_by(full_name: repo['full_name'])
-        expect(repository).to be_present
-        expect(repository.branches).to be_exists(name: branch_name)
-      end
+    it 'keeps existing repositories' do
+      expect(Repository).to be_exists(full_name: repositories.first['full_name'], watched: true)
+    end
+
+    it 'fetches new repositories' do
+      expect(Repository).to be_exists(full_name: repositories.second['full_name'], watched: false)
+    end
+
+    it 'deletes obsolete repositories' do
+      expect(Repository).not_to be_exists(full_name: obsolete_repository.full_name)
     end
   end
 end

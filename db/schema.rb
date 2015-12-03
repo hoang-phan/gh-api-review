@@ -19,10 +19,12 @@ ActiveRecord::Schema.define(version: 20151203064915) do
   create_table "branches", force: :cascade do |t|
     t.integer  "repository_id"
     t.string   "name"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "watched",       default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
+  add_index "branches", ["name"], name: "index_branches_on_name", using: :btree
   add_index "branches", ["repository_id"], name: "index_branches_on_repository_id", using: :btree
 
   create_table "repositories", force: :cascade do |t|
@@ -32,6 +34,7 @@ ActiveRecord::Schema.define(version: 20151203064915) do
     t.datetime "updated_at",                 null: false
   end
 
+  add_index "repositories", ["full_name"], name: "index_repositories_on_full_name", using: :btree
   add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
   add_foreign_key "branches", "repositories"
