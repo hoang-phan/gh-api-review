@@ -26,6 +26,7 @@ group :development do
 end
 
 group :test do
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers'
   gem 'simplecov'
   gem 'rspec-rails'
   gem 'capybara'
