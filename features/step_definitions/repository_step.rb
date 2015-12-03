@@ -5,7 +5,7 @@ end
 
 Then(/^the local repositories should be reloaded$/) do
   @repositories.each do |repo|
-    expect(Repository).to be_exists(external_id: repo['id'])
+    expect(Repository).to be_exists(full_name: repo['full_name'])
   end
 end
 
@@ -15,7 +15,11 @@ end
 
 Given(/^I have the following repositories$/) do |table|
   table.hashes.each do |row|
-    Repository.create(full_name: row['Name'], html_url: row['Url'], avatar_url: row['Image Url'])
+    Repository.create(full_name: row['Name'])
   end
 end
+
+
+
+
 

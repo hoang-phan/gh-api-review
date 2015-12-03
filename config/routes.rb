@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :repositories, only: :index do
-    collection do
-      post :fetch
-    end
-  end
+  resources :repositories, only: [:index, :create]
+  # resources :branches, only: [:index, :create]
+
+  root to: 'repositories#index'
 end

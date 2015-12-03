@@ -10,8 +10,8 @@ Then(/^I should see '(.*)'$/) do |content|
   expect(page).to have_content content
 end
 
-Then(/^I should see all the following links$/) do |table|
+Then(/^I should see all the following$/) do |table|
   table.hashes.each do |row|
-    expect(page).to have_link(row['Link'], href: row['Url'])
+    expect(page).to have_content(row['Content'])
   end
 end

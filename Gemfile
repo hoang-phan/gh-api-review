@@ -14,7 +14,7 @@ gem 'octokit'
 gem 'sidekiq'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
-gem "bootstrap-switch-rails"
+gem 'bootstrap-switch-rails'
 
 group :development, :test do
   gem 'byebug'
