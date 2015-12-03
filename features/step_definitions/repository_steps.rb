@@ -19,6 +19,17 @@ Given(/^I have the following repositories$/) do |table|
   end
 end
 
+Given(/^I have the repository '(.*)'$/) do |repo|
+  create(:repository, full_name: repo)
+end
+
+Given(/^the repository '(.*)' has the following branches$/) do |repo, table|
+  repository = Repository.find_by(full_name: repo)
+  table.hashes.each do |row|
+    repository.branches.create(name: row['Name'])
+  end
+end
+
 
 
 

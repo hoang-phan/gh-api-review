@@ -6,6 +6,7 @@ class CreateRepositories < ActiveRecord::Migration
       t.timestamps null: false
     end
 
+    add_index :repositories, :full_name
     add_index :repositories, :watched
   end
 end

@@ -19,4 +19,17 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!
+
+  config.include FactoryGirl::Syntax::Methods
 end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+
+    with.library :active_record
+    with.library :active_model
+    with.library :action_controller
+  end
+end
+

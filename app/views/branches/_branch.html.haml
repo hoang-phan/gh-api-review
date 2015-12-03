@@ -1,0 +1,8 @@
+.row.repository-item
+  .col-xs-1
+    = image_tag 'logo.png', class: 'full-width'
+  .col-xs-8
+    = branch.name
+  .col-xs-3
+    = check_box_tag :enable_hook, nil, false
+    = hidden_field_tag :branch_id, branch.id

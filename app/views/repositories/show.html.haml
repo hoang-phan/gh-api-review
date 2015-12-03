@@ -1,0 +1,7 @@
+.row.clearfix.page-header.relative
+  = link_to 'Fetch branches from Github', branches_path(repository_id: @repository.id), method: :post, class: 'btn btn-primary pull-right middle'
+  %h3.pull-left= @repository.full_name
+.page-content
+  %p Choose your branches to watch
+  .repositories-list
+    = render @repository.branches
