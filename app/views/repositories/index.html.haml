@@ -1,8 +1,8 @@
 .row.clearfix.page-header.relative
-  = link_to 'Fetch repositories from Github', repositories_path, method: :post, class: 'btn btn-primary pull-right middle'
+  = link_to t('repositories.fetch'), repositories_path, method: :post, class: 'btn btn-primary pull-right middle'
   %h3.pull-left Repositories
 .page-content
-  %p Choose your repositories to watch
+  %p= t('repositories.title')
   .repositories-list
     = render @repositories
 

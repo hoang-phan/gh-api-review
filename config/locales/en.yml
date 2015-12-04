@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  repositories:
+    fetch: Fetch repositories from Github
+    title: Choose your repositories to watch
+  branches:
+    fetch: Fetch branches from Github
+    title: Choose your branches to watch
