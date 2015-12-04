@@ -3,13 +3,15 @@ require 'rails_helper'
 RSpec.describe BranchesFetch do
 
   describe '#perform' do
-    let(:fake_client) { double(branches: branches) }
+    let(:fake_client) { double }
     let(:branches) { JSON(File.read("#{Rails.root}/spec/fixtures/branches.json")) }
     let!(:obsolete_branch) { create(:branch, repository: repository) }
     let!(:existing_branch) { create(:branch, repository: repository, watched: true, name: branches.first['name']) }
     let(:repository) { create(:repository) }
 
     before do
+      allow(fake_client).to receive(:branches).with(repository.full_name, page: 0, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
+      allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page'])
       $client = fake_client
       subject.perform(repository.id)
     end

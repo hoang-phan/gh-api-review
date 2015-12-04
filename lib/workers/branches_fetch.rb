@@ -8,7 +8,9 @@ class BranchesFetch
     repository = Repository.find_by_id(repo_id)
 
     if repository
-      fetch_single_attribute(repository.branches, $client.branches(repository.full_name), 'name')
+      fetch_single_attribute(repository.branches, 'name') do |page|
+        $client.branches(repository.full_name, page: page, per_page: GITHUB_ENV['results_per_page'])
+      end
     end
   end
 end

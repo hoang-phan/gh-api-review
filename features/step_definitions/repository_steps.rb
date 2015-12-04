@@ -1,6 +1,8 @@
 Given(/^there are some repositories on remote server$/) do
   @repositories = JSON(File.read("#{Rails.root}/spec/fixtures/repos.json"))
-  $client = double(organization_repositories: @repositories)
+  $client = double
+  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 0, per_page: GITHUB_ENV['results_per_page']).and_return(@repositories)
+  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 1, per_page: GITHUB_ENV['results_per_page'])
 end
 
 Then(/^the local repositories should be reloaded$/) do
