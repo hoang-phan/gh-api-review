@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20151203064915) do
     t.datetime "updated_at",                 null: false
   end
 
-  add_index "repositories", ["full_name"], name: "index_repositories_on_full_name", using: :btree
   add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
   add_foreign_key "branches", "repositories"

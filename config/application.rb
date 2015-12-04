@@ -33,6 +33,7 @@ module GithubReviewer
     config.active_record.raise_in_transactional_callbacks = true
     config.sass.preferred_syntax = :sass
     config.eager_load_paths += ["#{config.root}/lib/workers"]
+    config.i18n.available_locales = :en
     
     config.generators do |g|
       g.test_framework :rspec
