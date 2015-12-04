@@ -1,6 +1,6 @@
 Given(/^there are some repositories on remote server$/) do
   @repositories = JSON(File.read("#{Rails.root}/spec/fixtures/repos.json"))
-  $client = double(repositories: @repositories)
+  $client = double(organization_repositories: @repositories)
 end
 
 Then(/^the local repositories should be reloaded$/) do

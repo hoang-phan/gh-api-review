@@ -4,7 +4,7 @@ class RepositoriesFetch
   def perform
     not_delete = []
 
-    $client.repositories(GITHUB_ENV['owner_name']).each do |repo|
+    $client.organization_repositories(GITHUB_ENV['owner_name']).each do |repo|
       unless Repository.exists?(full_name: repo['full_name'])
         Repository.create(full_name: repo['full_name'])
       end

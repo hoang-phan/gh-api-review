@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe RepositoriesFetch do
 
   describe '#perform' do
-    let(:fake_client) { double(repositories: repositories) }
+    let(:fake_client) { double(organization_repositories: repositories) }
     let(:repositories) { JSON(File.read("#{Rails.root}/spec/fixtures/repos.json")) }
     let!(:obsolete_repository) { create(:repository) }
     let!(:existing_repository) { create(:repository, watched: true, full_name: repositories.first['full_name']) }
