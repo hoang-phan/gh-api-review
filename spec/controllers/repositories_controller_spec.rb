@@ -14,7 +14,7 @@ RSpec.describe RepositoriesController, type: :controller do
       expect(RepositoriesFetch).to receive(:perform_async)
       post :create
       expect(response).to redirect_to(repositories_path)
-      expect(flash[:notice]).to eq 'Request sent. Please reload page later'
+      expect(flash[:notice]).to eq I18n.t('common.request_sent')
     end
   end
 

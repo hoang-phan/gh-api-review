@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  common:
+    request_sent: Request sent. Please reload page later!
   repositories:
     fetch: Fetch repositories from Github
     title: Choose your repositories to watch
