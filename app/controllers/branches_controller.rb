@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
   def create
     BranchesFetch.perform_async(params[:repository_id])
-    flash[:notice] = 'Request sent. Please reload page later'
+    flash[:notice] = t('common.request_sent')
     redirect_to repository_path(params[:repository_id])
   end
 

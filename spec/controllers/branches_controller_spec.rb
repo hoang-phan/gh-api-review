@@ -9,7 +9,7 @@ RSpec.describe BranchesController, type: :controller do
       expect(BranchesFetch).to receive(:perform_async).with(repository.id.to_s)
       post :create, repository_id: repository.id
       expect(response).to redirect_to repository_path(repository)
-      expect(flash[:notice]).to eq 'Request sent. Please reload page later'
+      expect(flash[:notice]).to eq I18n.t('common.request_sent')
     end
   end
 end

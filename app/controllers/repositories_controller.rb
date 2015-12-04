@@ -7,7 +7,7 @@ class RepositoriesController < ApplicationController
 
   def create
     RepositoriesFetch.perform_async
-    flash[:notice] = 'Request sent. Please reload page later'
+    flash[:notice] = t('common.request_sent')
     redirect_to repositories_path
   end
 
