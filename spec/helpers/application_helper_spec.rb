@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe ApplicationHelper, type: :helper do
   describe '#bootstrap_class_for' do
     subject { helper.bootstrap_class_for(flash_type) }
-    let(:flash_type) { :other }
+    let(:flash_type) { 'other' }
 
     context 'flash_type is error' do
-      let(:flash_type) { :error }
+      let(:flash_type) { described_class::TYPE_ERROR }
       it { is_expected.to eq 'alert-error' }
     end
 
     context 'flash_type is notice' do
-      let(:flash_type) { :notice }
+      let(:flash_type) { described_class::TYPE_NOTICE }
       it { is_expected.to eq 'alert-info' }
     end
 
