@@ -1,8 +1,8 @@
 Given(/^there are some repositories on remote server$/) do
   @repositories = JSON(File.read("#{Rails.root}/spec/fixtures/repos.json"))
   $client = double
-  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 0, per_page: GITHUB_ENV['results_per_page']).and_return(@repositories)
-  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 1, per_page: GITHUB_ENV['results_per_page'])
+  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(@repositories)
+  allow($client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 2, per_page: GITHUB_ENV['results_per_page'])
 end
 
 Then(/^the local repositories should be reloaded$/) do
@@ -28,7 +28,7 @@ end
 Given(/^the repository '(.*)' has the following branches$/) do |repo, table|
   repository = Repository.find_by(full_name: repo)
   table.hashes.each do |row|
-    repository.branches.create(name: row['Name'])
+    repository.branches.create(name: row['Name'], watched: row['Watched'])
   end
 end
 

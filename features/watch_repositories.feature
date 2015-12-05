@@ -1,6 +1,6 @@
 @javascript
 Feature: As a user
-  I want to watch/unwatch repositories and branches
+  I want to watch/unwatch repositories
 
 Scenario Outline: Watch/Unwatch a repository
   Given I have the <Old Status> repository '<Repository>'

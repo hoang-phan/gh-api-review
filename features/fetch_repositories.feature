@@ -2,7 +2,7 @@ Feature: As a user
   I want to fetch all repositories from github
 
 Scenario:
-  Given I am on the repositories page
+  Given I am on the root page
   And there are some repositories on remote server
   When I click on 'Fetch repositories from Github'
   Then I should see 'Request sent. Please reload page later'
