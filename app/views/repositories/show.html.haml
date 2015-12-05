@@ -1,7 +1,7 @@
 .row.clearfix.page-header.relative
   = link_to t('branches.fetch'), branches_path(repository_id: @repository.id), method: :post, class: 'btn btn-primary pull-right middle'
-  %h3.pull-left= @repository.full_name
+  %h3.pull-left= link_to @repository.full_name, root_path
 .page-content
   %p= t('branches.title')
-  .repositories-list
+  .branch-list
     = render @repository.branches

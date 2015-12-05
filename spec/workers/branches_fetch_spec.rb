@@ -10,8 +10,8 @@ RSpec.describe BranchesFetch do
     let(:repository) { create(:repository) }
 
     before do
-      allow(fake_client).to receive(:branches).with(repository.full_name, page: 0, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
-      allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page'])
+      allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
+      allow(fake_client).to receive(:branches).with(repository.full_name, page: 2, per_page: GITHUB_ENV['results_per_page'])
       $client = fake_client
       subject.perform(repository.id)
     end

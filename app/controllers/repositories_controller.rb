@@ -1,5 +1,5 @@
 class RepositoriesController < ApplicationController
-  before_action :set_repository, only: :show
+  before_action :set_repository, only: [:show, :update]
 
   def index
     @repositories = Repository.all
@@ -14,8 +14,16 @@ class RepositoriesController < ApplicationController
   def show
   end
 
+  def update
+    @repository.update(repository_params)
+  end
+
   private
   def set_repository
     @repository = Repository.find(params[:id])
+  end
+
+  def repository_params
+    params.require(:repository).permit(:watched)
   end
 end

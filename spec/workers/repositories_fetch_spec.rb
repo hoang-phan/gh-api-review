@@ -9,8 +9,8 @@ RSpec.describe RepositoriesFetch do
     let!(:existing_repository) { create(:repository, watched: true, full_name: repositories.first['full_name']) }
 
     before do
-      allow(fake_client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 0, per_page: GITHUB_ENV['results_per_page']).and_return(repositories)
-      allow(fake_client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 1, per_page: GITHUB_ENV['results_per_page'])
+      allow(fake_client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(repositories)
+      allow(fake_client).to receive(:org_repos).with(GITHUB_ENV['owner_name'], page: 2, per_page: GITHUB_ENV['results_per_page'])
       $client = fake_client
       subject.perform
     end

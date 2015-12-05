@@ -1,5 +1,7 @@
 class Repository < ActiveRecord::Base
-  scope :watched, -> { where(watched: true) }
+  include Concerns::Watchable 
+
+  default_scope -> { order(:id) }
 
   has_many :branches, dependent: :destroy
 end
