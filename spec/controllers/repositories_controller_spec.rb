@@ -27,4 +27,24 @@ RSpec.describe RepositoriesController, type: :controller do
       expect(assigns(:repository)).to eq repository
     end
   end
+
+  describe 'PUT update' do
+    let(:params) do 
+      {
+        repository: { watched: watched }, 
+        id: repository.id,
+        format: :js
+      }
+    end
+
+    let!(:repository) { create(:repository) }
+    let(:watched) { true }
+
+    it 'updates successfully' do
+      expect {
+        put :update, params
+      }.to change(Repository.watched, :count).by(1)
+      expect(response).to render_template(:update)
+    end
+  end
 end

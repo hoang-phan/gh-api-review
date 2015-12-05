@@ -21,8 +21,8 @@ Given(/^I have the following repositories$/) do |table|
   end
 end
 
-Given(/^I have the repository '(.*)'$/) do |repo|
-  create(:repository, full_name: repo)
+Given(/^I have the (unwatched |watched )?repository '(.*)'$/) do |status, repo|
+  create(:repository, full_name: repo, watched: status == 'watched ')
 end
 
 Given(/^the repository '(.*)' has the following branches$/) do |repo, table|
@@ -31,6 +31,16 @@ Given(/^the repository '(.*)' has the following branches$/) do |repo, table|
     repository.branches.create(name: row['Name'])
   end
 end
+
+When(/^I (?:watch|unwatch) the repository '(.*)'$/) do |repo|
+  find('.repository-item', text: repo).find('.bootstrap-switch').click
+end
+
+Then(/^the repository '(.*)' should be (watched|unwatched)$/) do |repo, status|
+  expect(Repository.find_by(full_name: repo).watched).to eq (status == 'watched')
+end
+
+
 
 
 
