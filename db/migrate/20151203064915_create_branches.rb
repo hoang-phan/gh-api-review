@@ -3,7 +3,7 @@ class CreateBranches < ActiveRecord::Migration
     create_table :branches do |t|
       t.references :repository, index: true, foreign_key: true
       t.string :name
-      t.boolean :watched, default: false
+      t.boolean :watched, default: true
 
       t.timestamps null: false
     end

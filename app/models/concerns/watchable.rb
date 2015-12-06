@@ -6,7 +6,8 @@ module Concerns::Watchable
 
   included do
     scope :watched, -> { where(watched: true) }
-
+    scope :unwatched, -> { where(watched: false) }
+    
     def watched_string
       watched ? STRING_WATCHED : STRING_UNWATCHED
     end
