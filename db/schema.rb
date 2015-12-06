@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203064915) do
+ActiveRecord::Schema.define(version: 20151205160314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,13 +19,23 @@ ActiveRecord::Schema.define(version: 20151203064915) do
   create_table "branches", force: :cascade do |t|
     t.integer  "repository_id"
     t.string   "name"
-    t.boolean  "watched",       default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.boolean  "watched",       default: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "branches", ["name"], name: "index_branches_on_name", using: :btree
   add_index "branches", ["repository_id"], name: "index_branches_on_repository_id", using: :btree
+
+  create_table "commits", force: :cascade do |t|
+    t.string   "sha"
+    t.string   "message"
+    t.string   "committer"
+    t.datetime "committed_at"
+    t.integer  "repository_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "repositories", force: :cascade do |t|
     t.string   "full_name"
@@ -34,6 +44,7 @@ ActiveRecord::Schema.define(version: 20151203064915) do
     t.datetime "updated_at",                 null: false
   end
 
+  add_index "repositories", ["full_name"], name: "index_repositories_on_full_name", using: :btree
   add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
   add_foreign_key "branches", "repositories"

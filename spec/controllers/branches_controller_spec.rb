@@ -23,12 +23,12 @@ RSpec.describe BranchesController, type: :controller do
     end
 
     let!(:branch) { create(:branch, repository: repository) }
-    let(:watched) { true }
+    let(:watched) { false }
 
     it 'updates successfully' do
       expect {
         put :update, params
-      }.to change(Branch.watched, :count).by(1)
+      }.to change(Branch.watched, :count).by(-1)
       expect(response).to render_template(:update)
     end
   end

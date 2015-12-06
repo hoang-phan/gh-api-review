@@ -4,4 +4,5 @@ class Repository < ActiveRecord::Base
   default_scope -> { order(:id) }
 
   has_many :branches, dependent: :destroy
+  has_many :commits, dependent: :destroy
 end

@@ -6,7 +6,7 @@ RSpec.describe BranchesFetch do
     let(:fake_client) { double }
     let(:branches) { JSON(File.read("#{Rails.root}/spec/fixtures/branches.json")) }
     let!(:obsolete_branch) { create(:branch, repository: repository) }
-    let!(:existing_branch) { create(:branch, repository: repository, watched: true, name: branches.first['name']) }
+    let!(:existing_branch) { create(:branch, repository: repository, watched: false, name: branches.first['name']) }
     let(:repository) { create(:repository) }
 
     before do
@@ -17,11 +17,11 @@ RSpec.describe BranchesFetch do
     end
 
     it 'keeps existing branches' do
-      expect(repository.branches).to be_exists(name: branches.first['name'], watched: true)
+      expect(repository.branches).to be_exists(name: branches.first['name'], watched: false)
     end
 
     it 'fetches new branches' do
-      expect(repository.branches).to be_exists(name: branches.second['name'], watched: false)
+      expect(repository.branches).to be_exists(name: branches.second['name'], watched: true)
     end
 
     it 'deletes obsolete branches' do
