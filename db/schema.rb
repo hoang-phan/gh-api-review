@@ -37,6 +37,10 @@ ActiveRecord::Schema.define(version: 20151205160314) do
     t.datetime "updated_at",    null: false
   end
 
+  add_index "commits", ["committed_at"], name: "index_commits_on_committed_at", using: :btree
+  add_index "commits", ["repository_id"], name: "index_commits_on_repository_id", using: :btree
+  add_index "commits", ["sha"], name: "index_commits_on_sha", using: :btree
+
   create_table "repositories", force: :cascade do |t|
     t.string   "full_name"
     t.boolean  "watched",    default: false

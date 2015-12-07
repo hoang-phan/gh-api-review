@@ -28,3 +28,5 @@ en:
   branches:
     fetch: Fetch branches from Github
     title: Choose your branches to watch
+  commits:
+    view_on_github: View on Github

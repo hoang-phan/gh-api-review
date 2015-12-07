@@ -15,3 +15,8 @@ Then(/^I should see all the following$/) do |table|
     expect(page).to have_content(row['Content'])
   end
 end
+
+Given(/^now is '(.*)'$/) do |time_str|
+  Timecop.freeze(time_str)
+end
+

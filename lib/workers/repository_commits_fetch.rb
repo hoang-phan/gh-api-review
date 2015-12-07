@@ -8,7 +8,9 @@ class RepositoryCommitsFetch
     if repository = Repository.find_by_id(repository_id)
       watched_branches(repository).each do |branch|
         $client.commits_since(repository.full_name, started_date, branch).each do |commit|
-          repository.commits.create(commit_attributes(commit))
+          unless repository.commits.exists?(sha: commit['sha'])
+            repository.commits.create(commit_attributes(commit))
+          end
         end
       end
     end
@@ -39,7 +41,7 @@ class RepositoryCommitsFetch
       sha: commit_json['sha'],
       committer: commit_json['committer']['login'],
       committed_at: commit_json['commit']['author']['date'],
-      message: commit_json['message']
+      message: commit_json['commit']['message']
     }
   end
 end

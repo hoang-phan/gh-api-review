@@ -47,3 +47,7 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 World FactoryGirl::Syntax::Methods
 
+After('@time_freeze') do
+  Timecop.return
+end
+

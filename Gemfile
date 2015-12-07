@@ -28,6 +28,7 @@ group :development do
 end
 
 group :test do
+  gem 'timecop'
   gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers'
   gem 'simplecov'
   gem 'rspec-rails'
