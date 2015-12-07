@@ -20,3 +20,7 @@ Given(/^now is '(.*)'$/) do |time_str|
   Timecop.freeze(time_str)
 end
 
+Then(/^I should see link '(.*)' to (.*) page$/) do |link, path|
+  expect(page).to have_link(link, href: eval("#{path}_path"))
+end
+

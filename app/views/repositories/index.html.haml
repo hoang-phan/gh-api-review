@@ -1,5 +1,7 @@
 .row.clearfix.page-header.relative
-  = link_to t('repositories.fetch'), repositories_path, method: :post, class: 'btn btn-primary pull-right middle'
+  .middle.pull-right
+    = link_to t('repositories.fetch'), repositories_path, method: :post, class: 'btn btn-primary'
+    = link_to 'Commits', commits_path, class: 'btn btn-default'
   %h3.pull-left Repositories
 .page-content
   %p= t('repositories.title')
