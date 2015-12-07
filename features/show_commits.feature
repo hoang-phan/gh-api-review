@@ -18,4 +18,4 @@ Scenario:
   | message 3 | Committed by commiter 3 about 1 hour ago       |
   | message 4 | Committed by commiter 4 2 days ago             |
 
-
+  And I should see link 'Repositories' to repositories page

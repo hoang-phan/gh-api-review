@@ -11,3 +11,4 @@ Scenario: Show all repositories
   | Content   |
   | Org/Repo1 |
   | Org/Repo2 |
+  And I should see link 'Commits' to commits page

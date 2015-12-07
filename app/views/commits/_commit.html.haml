@@ -1,4 +1,7 @@
 .row.commit-item
-  .col-xs-12
-    %p= link_to commit.message, commit_path(commit)
+  .col-xs-1
+    = link_to image_tag('github.png', class: 'full-width'), commit.github_url, target: '_blank'
+  .col-xs-11
+    %div= link_to commit.short_message, commit_path(commit)
     %em Committed by #{commit.committer} #{time_ago_in_words(commit.committed_at)} ago.
+%br

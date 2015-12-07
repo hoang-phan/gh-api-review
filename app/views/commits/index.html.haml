@@ -1,5 +1,7 @@
 .row.clearfix.page-header.relative
   %h3.pull-left Commits
+  .middle.pull-right
+    = link_to 'Repositories', repositories_path, class: 'btn btn-default'
 .page-content
   .commit-list
     = render @commits
