@@ -4,7 +4,7 @@ RSpec.describe RepositoryCommitsFetch do
   COMMIT_ATTRIBUTES = %w(sha committer committed_at message)
 
   describe '#perform' do
-    let(:json1) do
+    let(:watched_json) do
       {
         'sha' => sha,
         'committer' => {
@@ -13,13 +13,28 @@ RSpec.describe RepositoryCommitsFetch do
         'commit' => {
           'author' => {
             'date' => committed_at
-          }
-        },
-        'message' => message
+          },
+          'message' => message
+        }
       }
     end
 
-    let(:json2) do
+    let(:existing_json) do
+      {
+        'sha' => existing_sha,
+        'committer' => {
+          'login' => 'new commiter'
+        },
+        'commit' => {
+          'author' => {
+            'date' => committed_at
+          },
+          'message' => message
+        }
+      }
+    end
+
+    let(:unwatched_json) do
       {
         'sha' => 'sha2',
         'committer' => {
@@ -28,9 +43,9 @@ RSpec.describe RepositoryCommitsFetch do
         'commit' => {
           'author' => {
             'date' => DateTime.parse('2015-10-10')
-          }
-        },
-        'message' => 'another message'
+          },
+          'message' => 'another message'
+        }
       }
     end
 
@@ -43,12 +58,14 @@ RSpec.describe RepositoryCommitsFetch do
     let(:committed_at) { DateTime.parse('2015-10-10') }
     let(:new_commit) { Commit.last }
     let(:message) { Faker::Lorem.sentence }
+    let(:existing_sha) { 'existing_sha' }
+    let!(:existing_commit) { create(:commit, sha: existing_sha) }
 
     before do
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 2, per_page: GITHUB_ENV['results_per_page'])
-      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name']).and_return([json1])
-      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, unwatch_branch.name).and_return([json2])
+      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name']).and_return([watched_json])
+      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, unwatch_branch.name).and_return([unwatched_json])
       $client = fake_client
     end
 

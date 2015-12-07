@@ -5,8 +5,11 @@ class CreateCommits < ActiveRecord::Migration
       t.string :message
       t.string :committer
       t.datetime :committed_at
-      t.references :repository
+      t.references :repository, index: true
       t.timestamps null: false
     end
+
+    add_index :commits, :sha
+    add_index :commits, :committed_at
   end
 end
