@@ -11,6 +11,7 @@ class RepositoryCommitsFetch
           unless repository.commits.exists?(sha: commit['sha'])
             repository.commits.create(commit_attributes(commit))
           end
+          CommitFetch.perform_async(commit['sha'])
         end
       end
     end

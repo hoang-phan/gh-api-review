@@ -12,7 +12,7 @@ RSpec.describe CommitFetch do
     before do
       allow(fake_client).to receive(:commit).with(repository.full_name, commit.sha, per_page: GITHUB_ENV['results_per_page']).and_return(commit_json)
       $client = fake_client
-      subject.perform(commit.id)
+      subject.perform(commit.sha)
     end
 
     it 'fetches all file changes' do

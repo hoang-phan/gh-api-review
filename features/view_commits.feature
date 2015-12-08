@@ -1,14 +1,27 @@
-@time_freeze
 Feature: As a user
-  I want to see all commits
+  I want to see all commit info
 
 Scenario:
   Given I have the following commits
-  | Message  | Committer  | Committed At        |
-  | message 1| commiter 1 | 2015-12-12 01:12:00 |
+  | Sha | Message  | Committer  | Committed At        |
+  | 010a| message 1| committer 1| 2015-12-12 01:12:00 |
+  And the commit with sha '010a' has some file changes
+  | filename       | patch |
+  | dir/file.ext   | @@ -10,5 +10,5 @@\nline 1\nline 2\nline 3\n+line 4\n-line 5\nline 6 |
   And I am on the commits page
   When I click on 'message 1'
   Then I should see all the following
   | Content             |
   | message 1           |
   | Author committer 1  |
+  And the following lines are unchanged
+  | Line   |
+  | line 1 |
+  | line 2 |
+  | line 3 |
+  And the following lines are added
+  | Line   |
+  | line 4 |
+  And the following lines are removed
+  | Line   |
+  | line 5 |

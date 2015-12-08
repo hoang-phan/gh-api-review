@@ -4,8 +4,8 @@ class CommitFetch
   include Sidekiq::Worker
   include ::CollectionFetch
 
-  def perform(commit_id)
-    if commit = Commit.find_by(id: commit_id)
+  def perform(sha)
+    if commit = Commit.find_by(sha: sha)
       commit.file_changes.destroy_all
 
       files = $client.commit(commit.repository.full_name, commit.sha, per_page: GITHUB_ENV['results_per_page'])['files']
