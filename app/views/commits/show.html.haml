@@ -1,2 +1,8 @@
-%h1 Commits#show
-%p Find me in app/views/commits/show.html.haml
+.row.clearfix.page-header.relative
+  .middle.pull-right
+    = link_to 'Commits', commits_path, class: 'btn btn-default'
+  %h3.pull-left @commit.short_message
+  .page-content
+    %p Author #{@commit.committer}
+  .file-changes-list
+  

@@ -1,5 +1,6 @@
 class Commit < ActiveRecord::Base
   belongs_to :repository
+  has_many :file_changes, dependent: :destroy
 
   def github_url
     "https://github.com/#{repository.full_name}/commit/#{sha}"

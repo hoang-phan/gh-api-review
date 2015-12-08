@@ -4,7 +4,7 @@ Feature: As a user
 
 Scenario:
   Given now is '2015-12-12 01:12:20 UTC'
-  Given I have the following commits
+  And I have the following commits
   | Message  | Committer  | Committed At        |
   | message 1| commiter 1 | 2015-12-12 01:12:00 |
   | message 2| commiter 2 | 2015-12-12 01:11:20 |
