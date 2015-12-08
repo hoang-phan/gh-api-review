@@ -1,0 +1,30 @@
+{"sha":"cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59",
+ "files":
+  [{"sha":"e031cd39b1077df37b777a5029fb342ba64b860f",
+    "filename":"Gemfile",
+    "status":"modified",
+    "additions":2,
+    "deletions":0,
+    "changes":2,
+    "blob_url":
+     "https://github.com/EastAgile/bookstore_HoaNguyen/blob/cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59/Gemfile",
+    "raw_url":
+     "https://github.com/EastAgile/bookstore_HoaNguyen/raw/cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59/Gemfile",
+    "contents_url":
+     "https://api.github.com/repos/EastAgile/bookstore_HoaNguyen/contents/Gemfile?ref=cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59",
+    "patch":
+     "@@ -52,6 +52,8 @@ gem 'redis-rails'\n \n gem 'stripe'\n \n+gem 'twilio-ruby'\n+\n group :development, :test do\n   gem 'byebug', '~> 8.0.0'\n   gem 'rspec-rails', '~> 3.3.3'"},
+   {"sha":"5b9ff6327b41ab732e07511c229639297b2b7ede",
+    "filename":"spec/models/order_spec.rb",
+    "status":"modified",
+    "additions":1,
+    "deletions":0,
+    "changes":1,
+    "blob_url":
+     "https://github.com/EastAgile/bookstore_HoaNguyen/blob/cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59/spec/models/order_spec.rb",
+    "raw_url":
+     "https://github.com/EastAgile/bookstore_HoaNguyen/raw/cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59/spec/models/order_spec.rb",
+    "contents_url":
+     "https://api.github.com/repos/EastAgile/bookstore_HoaNguyen/contents/spec/models/order_spec.rb?ref=cb4e155ccd47f1d04a3d5d580ae3d2b2a7e7be59",
+    "patch":
+     "@@ -10,4 +10,5 @@\n   it { should validate_presence_of(:telephone_number) }\n   it { should validate_presence_of(:country) }\n   it { should validate_presence_of(:postcode) }\n+\n end"}]}

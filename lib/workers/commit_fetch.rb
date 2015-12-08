@@ -6,12 +6,12 @@ class CommitFetch
 
   def perform(commit_id)
     if commit = Commit.find_by(id: commit_id)
-      commit.files.destroy_all
-      
-      files = $client.commit(commit.repository.full_name, commit.sha)['files']
-      
+      commit.file_changes.destroy_all
+
+      files = $client.commit(commit.repository.full_name, commit.sha, per_page: GITHUB_ENV['results_per_page'])['files']
+
       files.each do |file|
-        FileChange.create(filename: file['filename'], patch: file['patch'])
+        commit.file_changes.create(filename: file['filename'], patch: file['patch'])
       end
     end
   end

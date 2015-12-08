@@ -39,7 +39,7 @@ class RepositoryCommitsFetch
   def commit_attributes(commit_json)
     {
       sha: commit_json['sha'],
-      committer: commit_json['committer']['login'],
+      committer: commit_json['commit']['committer']['login'],
       committed_at: commit_json['commit']['author']['date'],
       message: commit_json['commit']['message']
     }
