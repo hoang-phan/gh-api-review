@@ -3,8 +3,7 @@ class BranchesController < ApplicationController
 
   def create
     BranchesFetch.perform_async(params[:repository_id])
-    flash[:notice] = t('common.request_sent')
-    redirect_to repository_path(params[:repository_id])
+    redirect_to repository_path(params[:repository_id]), notice: t('common.request_sent')
   end
 
   def show
