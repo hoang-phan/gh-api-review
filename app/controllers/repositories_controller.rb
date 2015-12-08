@@ -7,8 +7,7 @@ class RepositoriesController < ApplicationController
 
   def create
     RepositoriesFetch.perform_async
-    flash[:notice] = t('common.request_sent')
-    redirect_to repositories_path
+    redirect_to repositories_path, notice: t('common.request_sent')
   end
 
   def show

@@ -5,4 +5,4 @@
 .page-content
   %p Author #{@commit.committer}
   .file-changes-list
-    = render partial: 'file_changes/file_change', collection: @commit.file_changes
+    = render @commit.file_changes

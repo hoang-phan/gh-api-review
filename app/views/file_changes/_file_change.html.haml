@@ -1,4 +1,2 @@
 %p.file-change-header= file_change.filename
-%pre.file-change-content
-  - file_change.patch.split("\n").each_with_index do |line, index|
-    %span #{index} | #{display_line(line)}
+%pre.file-change-content= raw file_change.patch
