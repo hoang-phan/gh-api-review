@@ -7,14 +7,14 @@ RSpec.describe RepositoryCommitsFetch do
     let(:watched_json) do
       {
         'sha' => sha,
-        'committer' => {
-          'login' => committer
-        },
         'commit' => {
           'author' => {
             'date' => committed_at
           },
-          'message' => message
+          'message' => message,
+          'committer' => {
+            'login' => committer
+          }
         }
       }
     end
@@ -22,14 +22,14 @@ RSpec.describe RepositoryCommitsFetch do
     let(:existing_json) do
       {
         'sha' => existing_sha,
-        'committer' => {
-          'login' => 'new commiter'
-        },
         'commit' => {
           'author' => {
             'date' => committed_at
           },
-          'message' => message
+          'message' => message,
+          'committer' => {
+            'login' => 'new commiter'
+          }
         }
       }
     end
@@ -37,14 +37,14 @@ RSpec.describe RepositoryCommitsFetch do
     let(:unwatched_json) do
       {
         'sha' => 'sha2',
-        'committer' => {
-          'login' => 'anotheruser'
-        },
         'commit' => {
           'author' => {
             'date' => DateTime.parse('2015-10-10')
           },
-          'message' => 'another message'
+          'message' => 'another message',
+          'committer' => {
+            'login' => 'anotheruser'
+          }
         }
       }
     end

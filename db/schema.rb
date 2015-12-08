@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151205160314) do
+ActiveRecord::Schema.define(version: 20151207161403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,16 @@ ActiveRecord::Schema.define(version: 20151205160314) do
   add_index "commits", ["committed_at"], name: "index_commits_on_committed_at", using: :btree
   add_index "commits", ["repository_id"], name: "index_commits_on_repository_id", using: :btree
   add_index "commits", ["sha"], name: "index_commits_on_sha", using: :btree
+
+  create_table "file_changes", force: :cascade do |t|
+    t.string   "filename"
+    t.text     "patch"
+    t.integer  "commit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "file_changes", ["commit_id"], name: "index_file_changes_on_commit_id", using: :btree
 
   create_table "repositories", force: :cascade do |t|
     t.string   "full_name"
