@@ -11,10 +11,6 @@ Then(/^the local repositories should be reloaded$/) do
   end
 end
 
-When(/^I wait for the fetch repositories worker$/) do
-  RepositoriesFetch.drain
-end
-
 Given(/^I have the following repositories$/) do |table|
   table.hashes.each do |row|
     Repository.create(full_name: row['Name'])
