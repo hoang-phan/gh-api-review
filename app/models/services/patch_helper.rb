@@ -3,6 +3,7 @@ module PatchHelper
     include ActionView::Helpers::TagHelper
 
     def modified_patch(patch)
+      return '' unless patch
       s1 = s2 = 0
       patch.split("\n").inject('') do |displayed, line|
         code_line = if (parts = line.match(/^@@ -(\d+),(\d+) \+(\d+),(\d+) @@(.*)$/))
