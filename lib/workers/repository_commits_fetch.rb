@@ -40,9 +40,17 @@ class RepositoryCommitsFetch
   def commit_attributes(commit_json)
     {
       sha: commit_json['sha'],
-      committer: (commit_json['committer'] || commit_json['commit']['committer'])['login'],
+      committer: committer(commit_json),
       committed_at: commit_json['commit']['author']['date'],
       message: commit_json['commit']['message']
     }
+  end
+
+  def committer(commit_json)
+    if commit_json['committer']
+      commit_json['committer']['login']
+    else
+      commit_json['commit']['committer']['name']
+    end
   end
 end
