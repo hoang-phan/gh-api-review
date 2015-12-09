@@ -1,19 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe RepositoryCommitsFetch do
-  COMMIT_ATTRIBUTES = %w(sha committer committed_at message)
-
   describe '#perform' do
-    let(:watched_json) do
+    let(:watched_json1) do
       {
         'sha' => sha,
         'commit' => {
           'author' => {
             'date' => committed_at
           },
+          'message' => message
+        },
+        'committer' => {
+          'login' => committer
+        }
+      }
+    end
+
+    let(:watched_json2) do
+      {
+        'sha' => sha1,
+        'commit' => {
+          'author' => {
+            'date' => committed_at
+          },
           'message' => message,
           'committer' => {
-            'login' => committer
+            'name' => committer_name
           }
         }
       }
@@ -28,7 +41,7 @@ RSpec.describe RepositoryCommitsFetch do
           },
           'message' => message,
           'committer' => {
-            'login' => 'new commiter'
+            'name' => 'new committer'
           }
         }
       }
@@ -43,7 +56,7 @@ RSpec.describe RepositoryCommitsFetch do
           },
           'message' => 'another message',
           'committer' => {
-            'login' => 'anotheruser'
+            'name' => 'anotheruser'
           }
         }
       }
@@ -54,9 +67,10 @@ RSpec.describe RepositoryCommitsFetch do
     let!(:unwatch_branch) { create(:branch, repository: repository, watched: false, name: branches.first['name']) }
     let(:repository) { create(:repository, watched: true) }
     let(:sha) { Faker::Number.hexadecimal(8) }
+    let(:sha1) { Faker::Number.hexadecimal(8) }
     let(:committer) { Faker::Internet.user_name }
+    let(:committer_name) { Faker::Name.name }
     let(:committed_at) { DateTime.parse('2015-10-10') }
-    let(:new_commit) { Commit.last }
     let(:message) { Faker::Lorem.sentence }
     let(:existing_sha) { 'existing_sha' }
     let!(:existing_commit) { create(:commit, sha: existing_sha) }
@@ -64,7 +78,7 @@ RSpec.describe RepositoryCommitsFetch do
     before do
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 2, per_page: GITHUB_ENV['results_per_page'])
-      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name']).and_return([watched_json])
+      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name']).and_return([watched_json1, watched_json2])
       allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, unwatch_branch.name).and_return([unwatched_json])
       $client = fake_client
     end
@@ -72,11 +86,10 @@ RSpec.describe RepositoryCommitsFetch do
     it 'fetches new commits of the non-unwatched branches' do
       expect {
         subject.perform(repository.id)
-      }.to change(repository.commits, :count).by(1)
+      }.to change(repository.commits, :count).by(2)
 
-      COMMIT_ATTRIBUTES.each do |key|
-        expect(new_commit.send(key)).to eq send(key)
-      end
+      expect(repository.commits).to be_exists(sha: sha, committer: committer, message: message, committed_at: committed_at)
+      expect(repository.commits).to be_exists(sha: sha1, committer: committer_name, message: message, committed_at: committed_at)
     end
   end
 end

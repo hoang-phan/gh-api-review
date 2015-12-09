@@ -37,9 +37,22 @@ Given(/^I have some commits of repository '(.*)' on Github$/) do |repo|
       'author' => {
         'date' => Date.today
       },
+      'message' => 'message'
+    },
+    'committer' => {
+      'login' => 'committer'
+    }
+  }
+
+  @commits_result2 = {
+    'sha' => '88383',
+    'commit' => {
+      'author' => {
+        'date' => Date.today
+      },
       'message' => 'message',
       'committer' => {
-        'login' => 'committer'
+        'name' => 'committer2'
       }
     }
   }
@@ -49,13 +62,14 @@ Given(/^I have some commits of repository '(.*)' on Github$/) do |repo|
   allow(@client).to receive(:commit).with(repo, anything, per_page: GITHUB_ENV['results_per_page']).and_return(@commit_json)
   allow(@client).to receive(:branches).with(repo, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(@branches_json)
   allow(@client).to receive(:branches).with(repo, page: 2, per_page: GITHUB_ENV['results_per_page'])
-  allow(@client).to receive(:commits_since).with(repo, anything, anything).and_return([@commits_result])
+  allow(@client).to receive(:commits_since).with(repo, anything, anything).and_return([@commits_result, @commits_result2])
   $client = @client
 end
 
 Then(/^the commits of repository '(.*)' should be reloaded$/) do |repo|
   repository = Repository.find_by(full_name: repo)
-  commit = repository.commits.find_by(sha: @commits_result['sha'], message: @commits_result['commit']['message'], committer: @commits_result['commit']['committer']['login'])
+  commit = repository.commits.find_by(sha: @commits_result['sha'], message: @commits_result['commit']['message'], committer: @commits_result['committer']['login'])
   expect(commit).to be_present
-  expect(commit.file_changes.pluck(:patch)).to match_array ["\n...\n<span>   52</span> | <span>   52</span> | <span class=\"unchanged-line\"> gem &#39;redis-rails&#39;</span>\n<span>   53</span> | <span>   53</span> | <span class=\"unchanged-line\"> </span>\n<span>   54</span> | <span>   54</span> | <span class=\"unchanged-line\"> gem &#39;stripe&#39;</span>\n<span>   55</span> | <span>   55</span> | <span class=\"unchanged-line\"> </span>\n<span>     </span> | <span>   56</span> | <span class=\"added-line\">+gem &#39;twilio-ruby&#39;</span>\n<span>     </span> | <span>   57</span> | <span class=\"added-line\">+</span>\n<span>   56</span> | <span>   58</span> | <span class=\"unchanged-line\"> group :development, :test do</span>\n<span>   57</span> | <span>   59</span> | <span class=\"unchanged-line\">   gem &#39;byebug&#39;, &#39;~&gt; 8.0.0&#39;</span>\n<span>   58</span> | <span>   60</span> | <span class=\"unchanged-line\">   gem &#39;rspec-rails&#39;, &#39;~&gt; 3.3.3&#39;</span>", "\n...\n<span>   10</span> | <span>   10</span> | <span class=\"unchanged-line\"></span>\n<span>   11</span> | <span>   11</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:telephone_number) }</span>\n<span>   12</span> | <span>   12</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:country) }</span>\n<span>   13</span> | <span>   13</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:postcode) }</span>\n<span>     </span> | <span>   14</span> | <span class=\"added-line\">+</span>\n<span>   14</span> | <span>   15</span> | <span class=\"unchanged-line\"> end</span>"]
+  expect(commit.file_changes.pluck(:patch)).to include "\n...\n<span>   52</span> | <span>   52</span> | <span class=\"unchanged-line\"> gem &#39;redis-rails&#39;</span>\n<span>   53</span> | <span>   53</span> | <span class=\"unchanged-line\"> </span>\n<span>   54</span> | <span>   54</span> | <span class=\"unchanged-line\"> gem &#39;stripe&#39;</span>\n<span>   55</span> | <span>   55</span> | <span class=\"unchanged-line\"> </span>\n<span>     </span> | <span>   56</span> | <span class=\"added-line\">+gem &#39;twilio-ruby&#39;</span>\n<span>     </span> | <span>   57</span> | <span class=\"added-line\">+</span>\n<span>   56</span> | <span>   58</span> | <span class=\"unchanged-line\"> group :development, :test do</span>\n<span>   57</span> | <span>   59</span> | <span class=\"unchanged-line\">   gem &#39;byebug&#39;, &#39;~&gt; 8.0.0&#39;</span>\n<span>   58</span> | <span>   60</span> | <span class=\"unchanged-line\">   gem &#39;rspec-rails&#39;, &#39;~&gt; 3.3.3&#39;</span>", "\n...\n<span>   10</span> | <span>   10</span> | <span class=\"unchanged-line\"></span>\n<span>   11</span> | <span>   11</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:telephone_number) }</span>\n<span>   12</span> | <span>   12</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:country) }</span>\n<span>   13</span> | <span>   13</span> | <span class=\"unchanged-line\">   it { should validate_presence_of(:postcode) }</span>\n<span>     </span> | <span>   14</span> | <span class=\"added-line\">+</span>\n<span>   14</span> | <span>   15</span> | <span class=\"unchanged-line\"> end</span>"
+  expect(repository.commits).to be_exists sha: @commits_result2['sha'], message: @commits_result2['commit']['message'], committer: @commits_result2['commit']['committer']['name']
 end
