@@ -8,7 +8,7 @@ Scenario Outline:
   When I click on '<Repository>'
   And I click on 'Fetch branches from Github'
   Then I should see 'Request sent. Please reload page later'
-  When I wait for the fetch branches worker
+  When I wait for 'BranchesFetch' workers to finish
   Then the local branches of repository '<Repository>' should be reloaded
 
   Examples:

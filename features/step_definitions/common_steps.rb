@@ -24,3 +24,6 @@ Then(/^I should see link '(.*)' to (.*) page$/) do |link, path|
   expect(page).to have_link(link, href: eval("#{path}_path"))
 end
 
+Then(/^I wait for '(.*)' workers to finish$/) do |worker|
+  worker.constantize.drain
+end
