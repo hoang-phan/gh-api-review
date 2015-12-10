@@ -6,8 +6,8 @@ RSpec.describe CommitHelper, type: :helper do
     let(:special_class) { 'class' }
     let(:line_changes) do
       {
-        key_1 => [line_1],
-        key_2 => [line_2, true]
+        key_1 => [line_1, '1'],
+        key_2 => [line_2, '2', true]
       }
     end
     let(:key_1) { '1' }
@@ -15,6 +15,6 @@ RSpec.describe CommitHelper, type: :helper do
     let(:line_1) { Faker::Lorem.sentence }
     let(:line_2) { Faker::Lorem.sentence }
 
-    it { is_expected.to eq "<p><span class=\"line-number\">#{key_1.rjust(5)}</span><span class=\"line unchanged-line\">#{line_1}</span></p><p><span class=\"line-number\">#{key_2.rjust(5)}</span><span class=\"line #{special_class}\">#{line_2}</span></p>" }
+    it { is_expected.to eq "<p data-line=\"1\"><span class=\"line-number\">#{key_1.rjust(5)}</span><span class=\"line unchanged-line\">#{line_1}</span></p><p data-line=\"2\"><span class=\"line-number\">#{key_2.rjust(5)}</span><span class=\"line #{special_class}\">#{line_2}</span></p>" }
   end
 end

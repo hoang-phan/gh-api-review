@@ -10,8 +10,8 @@ class RepositoryCommitsFetch
         $client.commits_since(repository.full_name, started_date, branch).each do |commit|
           unless repository.commits.exists?(sha: commit['sha'])
             repository.commits.create(commit_attributes(commit))
+            CommitFetch.perform_async(commit['sha'])
           end
-          CommitFetch.perform_async(commit['sha'])
         end
       end
     end

@@ -31,3 +31,5 @@ en:
   commits:
     fetch: Fetch commits
     view_on_github: View on Github
+  comments:
+    placeholder: What do you want to say?
