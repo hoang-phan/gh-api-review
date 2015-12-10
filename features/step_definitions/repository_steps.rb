@@ -12,9 +12,9 @@ Then(/^the local repositories should be reloaded$/) do
 end
 
 Given(/^I have the following repositories$/) do |table|
-  table.hashes.each do |row|
-    Repository.create(full_name: row['Name'])
-  end
+  Repository.import(table.hashes.map do |row|
+    Repository.new(full_name: row['Name'])
+  end)
 end
 
 Given(/^I have the (unwatched |watched )?repository '(.*)'$/) do |status, repo|
@@ -23,9 +23,9 @@ end
 
 Given(/^the repository '(.*)' has the following branches$/) do |repo, table|
   repository = Repository.find_by(full_name: repo)
-  table.hashes.each do |row|
-    repository.branches.create(name: row['Name'], watched: row['Watched'])
-  end
+  Branch.import(table.hashes.map do |row|
+    repository.branches.build(name: row['Name'], watched: row['Watched'])
+  end)
 end
 
 When(/^I (?:watch|unwatch) the repository '(.*)'$/) do |repo|

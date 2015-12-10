@@ -43,10 +43,11 @@ ActiveRecord::Schema.define(version: 20151207161403) do
 
   create_table "file_changes", force: :cascade do |t|
     t.string   "filename"
-    t.text     "patch"
+    t.string   "patch"
+    t.json     "line_changes"
     t.integer  "commit_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "file_changes", ["commit_id"], name: "index_file_changes_on_commit_id", using: :btree
@@ -61,5 +62,7 @@ ActiveRecord::Schema.define(version: 20151207161403) do
   add_index "repositories", ["full_name"], name: "index_repositories_on_full_name", using: :btree
   add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
-  add_foreign_key "branches", "repositories"
+  add_foreign_key "branches", "repositories", on_delete: :cascade
+  add_foreign_key "commits", "repositories", on_delete: :cascade
+  add_foreign_key "file_changes", "commits", on_delete: :cascade
 end
