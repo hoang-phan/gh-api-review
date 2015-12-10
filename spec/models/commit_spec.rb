@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Commit, type: :model do
   it { is_expected.to belong_to(:repository) }
-  it { is_expected.to have_many(:file_changes).dependent(:destroy) }
+  it { is_expected.to have_many(:file_changes) }
 
   describe '#github_url' do
     let(:repository) { create(:repository) }

@@ -5,7 +5,7 @@ class CreateCommits < ActiveRecord::Migration
       t.string :message
       t.string :committer
       t.datetime :committed_at
-      t.references :repository, index: true
+      t.references :repository, index: true, foreign_key: { on_delete: :cascade }
       t.timestamps null: false
     end
 

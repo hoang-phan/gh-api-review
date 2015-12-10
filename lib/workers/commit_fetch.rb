@@ -6,12 +6,12 @@ class CommitFetch
 
   def perform(sha)
     if commit = Commit.find_by(sha: sha)
-      commit.file_changes.destroy_all
+      FileChange.where(commit: commit).delete_all
 
       files = $client.commit(commit.repository.full_name, commit.sha, per_page: GITHUB_ENV['results_per_page'])['files']
 
       files.each do |file|
-        commit.file_changes.create(filename: file['filename'], patch: file['patch'])
+        FileChange.create(filename: file['filename'], patch: file['patch'], commit_id: commit.id)
       end
     end
   end

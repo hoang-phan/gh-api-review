@@ -6,7 +6,7 @@ module CollectionFetch
       scope.create(field => value)
     end
 
-    scope.where.not(field => remote_values).destroy_all
+    scope.where.not(field => remote_values).delete_all
   end
 
   def remote_values(scope, field)

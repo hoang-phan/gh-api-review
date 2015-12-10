@@ -4,7 +4,7 @@ class CreateFileChanges < ActiveRecord::Migration
       t.string :filename
       t.string :patch
       t.json :line_changes
-      t.references :commit, index: true
+      t.references :commit, index: true, foreign_key: { on_delete: :cascade }
       t.timestamps null: false
     end
   end
