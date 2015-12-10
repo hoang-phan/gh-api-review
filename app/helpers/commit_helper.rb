@@ -1,8 +1,8 @@
 module CommitHelper
   def display_line_change(line_changes, special_class)
     line_changes.map do |key, value|
-      content_tag :p do
-        content_tag(:span, key.rjust(5), class: 'line-number') + content_tag(:span, value[0], class: line_class(value[1], special_class))
+      content_tag :p, data: { line: value[1] } do
+        content_tag(:span, key.rjust(5), class: 'line-number') + content_tag(:span, value[0], class: line_class(value[2], special_class))
       end
     end.join('')
   end

@@ -73,3 +73,17 @@ Then(/^the commits of repository '(.*)' should be reloaded$/) do |repo|
   expect(commit.file_changes.pluck(:patch)).to match_array @commit_json['files'].map { |file| file['patch'] }
   expect(repository.commits).to be_exists sha: @commits_result2['sha'], message: @commits_result2['commit']['message'], committer: @commits_result2['commit']['committer']['name']
 end
+
+When(/^I click on line change with text '(.*)'$/) do |line|
+  find('.file-change-content p', text: line).click
+end
+
+Then(/^I should see comment dialog$/) do
+  expect(page).to have_css 'input[type=submit][value="Add comment"]', count: 1
+end
+
+Then(/^I should successfully commented with '(.*)' on line (\d+) of the file '(.*)' of commit '(.*)'$/) do |comment, pos, file, sha|
+  @client = double
+  expect(@client).to receive(:create_commit_comment).with(anything, sha, comment, file, nil, pos.to_i)
+  $client = @client
+end

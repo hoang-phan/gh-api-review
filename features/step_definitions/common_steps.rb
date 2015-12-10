@@ -27,3 +27,7 @@ end
 Then(/^I wait for '(.*)' workers to finish$/) do |worker|
   worker.constantize.drain
 end
+
+When(/^I wait for ajax to finish$/) do
+  wait_for_ajax
+end
