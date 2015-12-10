@@ -1,8 +1,23 @@
+.file-change-header
+  font-size: 13px
+  font-weight: bold
+  font-style: italic
 .file-change-content
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+  font-size: 11px
   line-height: 1.1
-  .row
-    .col-xs-1,.col-xs-11
-      white-space: pre
+  p
+    margin: 0
+  span
+    white-space: pre
+    display: inline-block
+    &.line-number
+      width: 30px
+      margin-right: 5px
+      vertical-align: top
+    &.line
+      width: calc(100% - 45px)
+      word-wrap: break-word
   .added-line
     background: rgba(0, 255, 0, 0.2)
   .removed-line

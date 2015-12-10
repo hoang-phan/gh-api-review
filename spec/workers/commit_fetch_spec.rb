@@ -17,7 +17,7 @@ RSpec.describe CommitFetch do
     it 'fetches all file changes' do
       expect(commit.file_changes.count).to eq files_json.count
       commit_json['files'].each do |file_json|
-        expect(commit.file_changes).to be_exists filename: file_json['filename'], patch: PatchHelper.modified_patch(file_json['patch'])
+        expect(commit.file_changes).to be_exists filename: file_json['filename'], patch: file_json['patch']
       end
     end
   end

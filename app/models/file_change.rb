@@ -6,6 +6,6 @@ class FileChange < ActiveRecord::Base
   private
 
   def process_patch
-    self.patch = PatchHelper.modified_patch(patch)
+    self.line_changes = PatchHelper.build_patch(patch)
   end
 end
