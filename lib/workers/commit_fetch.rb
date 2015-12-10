@@ -10,9 +10,9 @@ class CommitFetch
 
       files = $client.commit(commit.repository.full_name, commit.sha, per_page: GITHUB_ENV['results_per_page'])['files']
 
-      files.each do |file|
-        FileChange.create(filename: file['filename'], patch: file['patch'], commit_id: commit.id)
-      end
+      FileChange.import(files.map do |file|
+        FileChange.new(filename: file['filename'], patch: file['patch'], line_changes: PatchHelper.build_patch(file['patch']), commit_id: commit.id)
+      end)
     end
   end
 end

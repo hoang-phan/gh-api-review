@@ -2,8 +2,12 @@ module CollectionFetch
   def fetch_single_attribute(scope, field, &block)
     remote_values = remote_values(scope, field, &block)
 
-    (remote_values - scope.pluck(field)).each do |value|
-      scope.create(field => value)
+    new_records = (remote_values - scope.pluck(field)).map do |value|
+      scope.new(field => value)
+    end
+
+    if new_records.any?
+      new_records.first.class.import(new_records)
     end
 
     scope.where.not(field => remote_values).delete_all
