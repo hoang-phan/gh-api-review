@@ -7,7 +7,7 @@ module PatchHelper
       s1 = s2 = 0
       result = { '+' => {}, '-' => {} }
 
-      patch.split("\n").each.with_index(1) do |line, index|
+      patch.split("\n").each_with_index do |line, index|
         code_line = if (parts = line.match(/^@@ -(\d+),(\d+) \+(\d+),(\d+) @@(.*)$/))
           s2, e2, s1, e1 = parts[1..4].map(&:to_i)
           parts[5]

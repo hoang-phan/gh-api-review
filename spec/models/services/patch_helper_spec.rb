@@ -6,17 +6,17 @@ RSpec.describe PatchHelper do
     let(:line_changes) do
       {
         '+' => {
-          10 => ['line 1', 1],
-          11 => ['+line 2', 2, true],
-          12 => ['line 4', 4],
-          18 => ['+line 5', 5, true],
-          19 => ['line 6', 6]
+          10 => ['line 1', 0],
+          11 => ['+line 2', 1, true],
+          12 => ['line 4', 3],
+          18 => ['+line 5', 4, true],
+          19 => ['line 6', 5]
         },
         '-' => {
-          10 => ['line 1', 1],
-          11 => ['-line 3', 3, true],
-          12 => ['line 4', 4],
-          18 => ['line 6', 6]
+          10 => ['line 1', 0],
+          11 => ['-line 3', 2, true],
+          12 => ['line 4', 3],
+          18 => ['line 6', 5]
         }
       }
     end

@@ -28,6 +28,10 @@ Then(/^I wait for '(.*)' workers to finish$/) do |worker|
   worker.constantize.drain
 end
 
+When(/^I fill in '(.*)' with '(.*)'$/) do |field, value|
+  fill_in field, with: value
+end
+
 When(/^I wait for ajax to finish$/) do
   wait_for_ajax
 end

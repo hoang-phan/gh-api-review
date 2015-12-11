@@ -74,11 +74,13 @@ Then(/^the commits of repository '(.*)' should be reloaded$/) do |repo|
   expect(repository.commits).to be_exists sha: @commits_result2['sha'], message: @commits_result2['commit']['message'], committer: @commits_result2['commit']['committer']['name']
 end
 
-When(/^I click on line change with text '(.*)'$/) do |line|
-  find('.file-change-content p', text: line).click
+When(/^I click on last line change with text '(.*)'$/) do |line|
+  wait_until { page.all('.line', text: line).present? }
+  all('.line', text: line).last.click
 end
 
-Then(/^I should see comment dialog$/) do
+Then(/^I should see comment dialog on line (\d+)$/) do |ln|
+  expect(page).to have_css "input[name='line'][value='#{ln}']", visible: false
   expect(page).to have_css 'input[type=submit][value="Add comment"]', count: 1
 end
 
