@@ -1,6 +1,11 @@
 language: ruby
+addons:
+  postgresql: "9.3"
 rvm:
   - 2.2.3
+before_install:
+  - sudo /etc/init.d/postgresql stop
+  - sudo /etc/init.d/postgresql start 9.3
 before_script:
   - cp config/database.yml.example config/database.yml
   - cp config/github.yml.example config/github.yml
