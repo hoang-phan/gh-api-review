@@ -6,6 +6,7 @@ rvm:
 before_install:
   - sudo /etc/init.d/postgresql stop
   - sudo /etc/init.d/postgresql start 9.3
+  - redis-server &
 before_script:
   - cp config/database.yml.example config/database.yml
   - cp config/github.yml.example config/github.yml
