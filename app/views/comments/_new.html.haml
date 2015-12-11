@@ -1,10 +1,11 @@
 .form-group
-  = form_tag comments_path, method: :post do
+  = form_tag comments_path, method: :post, remote: true do
     .fieldset
-      = text_area_tag :body, nil, placeholder: t('comments.placeholder')
-      = hidden_field_tag :line_number, @line_number
+      = text_area_tag :body, nil, placeholder: t('comments.placeholder'), class: 'form-control'
+      = hidden_field_tag :line, @line
       = hidden_field_tag :repo, @repo
       = hidden_field_tag :sha, @sha
       = hidden_field_tag :filename, @filename
+    %br
     .fieldset
-      = submit_tag 'Add comment'
+      = submit_tag 'Add comment', class: 'btn btn-primary'

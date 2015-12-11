@@ -1,6 +1,7 @@
-%p.file-change-header= file_change.filename
-.row.file-change-content
-  .col-xs-6
-    = raw display_line_change(file_change.line_changes['-'], 'removed-line')
-  .col-xs-6
-    = raw display_line_change(file_change.line_changes['+'], 'added-line')
+.file-change
+  %p.file-change-header= file_change.filename
+  .row.file-change-content
+    .col-xs-6
+      = raw display_line_change(file_change.line_changes['-'], 'removed-line')
+    .col-xs-6
+      = raw display_line_change(file_change.line_changes['+'], 'added-line')
