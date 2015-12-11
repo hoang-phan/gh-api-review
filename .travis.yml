@@ -1,6 +1,10 @@
 language: ruby
 rvm:
   - 2.2.3
+before_script:
+  - cp config/database.yml.example config/database.yml
+  - cp config/github.yml.example config/github.yml
+  - bundle exec rake db:test:prepare
 script:
   - bundle exec rspec spec
   - bundle exec cucumber features
