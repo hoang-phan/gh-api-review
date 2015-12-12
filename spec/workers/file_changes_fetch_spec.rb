@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CommitFetch do
+RSpec.describe FileChangesFetch do
   describe '#perform' do
     let(:fake_client) { double }
     let(:commit_json) { JSON(File.read("#{Rails.root}/spec/fixtures/commit.json")) }

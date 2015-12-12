@@ -1,8 +1,7 @@
 require Rails.root.join('lib', 'helpers', 'collection_fetch')
 
-class CommitFetch
+class FileChangesFetch
   include Sidekiq::Worker
-  include ::CollectionFetch
 
   def perform(sha)
     if commit = Commit.find_by(sha: sha)

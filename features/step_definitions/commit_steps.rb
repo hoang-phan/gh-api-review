@@ -58,8 +58,10 @@ Given(/^I have some commits of repository '(.*)' on Github$/) do |repo|
   }
 
   @commit_json = JSON(File.read("#{Rails.root}/spec/fixtures/commit.json"))
+  @comments_json = JSON(File.read("#{Rails.root}/spec/fixtures/comments.json"))
   @branches_json = JSON(File.read("#{Rails.root}/spec/fixtures/branches.json"))
   allow(@client).to receive(:commit).with(repo, anything, per_page: GITHUB_ENV['results_per_page']).and_return(@commit_json)
+  allow(@client).to receive(:commit_comments).with(repo, anything, per_page: GITHUB_ENV['results_per_page']).and_return(@comments_json)
   allow(@client).to receive(:branches).with(repo, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(@branches_json)
   allow(@client).to receive(:branches).with(repo, page: 2, per_page: GITHUB_ENV['results_per_page'])
   allow(@client).to receive(:commits_since).with(repo, anything, anything).and_return([@commits_result, @commits_result2])
@@ -71,6 +73,7 @@ Then(/^the commits of repository '(.*)' should be reloaded$/) do |repo|
   commit = repository.commits.find_by(sha: @commits_result['sha'], message: @commits_result['commit']['message'], committer: @commits_result['committer']['login'])
   expect(commit).to be_present
   expect(commit.file_changes.pluck(:patch)).to match_array @commit_json['files'].map { |file| file['patch'] }
+  expect(commit.comments.pluck(:external_id)).to match_array @comments_json.map { |json| json['id'] }
   expect(repository.commits).to be_exists sha: @commits_result2['sha'], message: @commits_result2['commit']['message'], committer: @commits_result2['commit']['committer']['name']
 end
 

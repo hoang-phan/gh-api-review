@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207161403) do
+ActiveRecord::Schema.define(version: 20151212073215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,23 @@ ActiveRecord::Schema.define(version: 20151207161403) do
 
   add_index "branches", ["name"], name: "index_branches_on_name", using: :btree
   add_index "branches", ["repository_id"], name: "index_branches_on_repository_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "external_id"
+    t.string   "user"
+    t.string   "body"
+    t.integer  "commit_id"
+    t.integer  "line"
+    t.string   "filename"
+    t.datetime "commented_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "comments", ["commented_at"], name: "index_comments_on_commented_at", using: :btree
+  add_index "comments", ["commit_id"], name: "index_comments_on_commit_id", using: :btree
+  add_index "comments", ["filename"], name: "index_comments_on_filename", using: :btree
+  add_index "comments", ["line"], name: "index_comments_on_line", using: :btree
 
   create_table "commits", force: :cascade do |t|
     t.string   "sha"
@@ -63,6 +80,7 @@ ActiveRecord::Schema.define(version: 20151207161403) do
   add_index "repositories", ["watched"], name: "index_repositories_on_watched", using: :btree
 
   add_foreign_key "branches", "repositories", on_delete: :cascade
+  add_foreign_key "comments", "commits", on_delete: :cascade
   add_foreign_key "commits", "repositories", on_delete: :cascade
   add_foreign_key "file_changes", "commits", on_delete: :cascade
 end

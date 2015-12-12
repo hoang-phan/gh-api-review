@@ -9,7 +9,8 @@ Scenario Outline:
   Then I should see 'Request sent. Please reload page later'
   And I wait for 'CommitsFetch' workers to finish
   And I wait for 'RepositoryCommitsFetch' workers to finish
-  And I wait for 'CommitFetch' workers to finish
+  And I wait for 'FileChangesFetch' workers to finish
+  And I wait for 'CommentsFetch' workers to finish
   Then the commits of repository '<Repository>' should be reloaded
 
   Examples:
