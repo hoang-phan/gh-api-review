@@ -1,0 +1,16 @@
+[{
+ "id":"14919080",
+ "user":{"login":"user1"},
+ "line":31,
+ "path":"app/views/resources/desks/index.html.haml",
+ "body":"This is a body",
+ "updated_at":"2015/10/10 01:23:45"
+},
+{
+ "id":"149190332",
+ "user":{"login":"user2"},
+ "line":22,
+ "path":"app/views/resources/desks/show.html.haml",
+ "body":"Body 2",
+ "updated_at":"2015/12/12 16:12:00"
+}]

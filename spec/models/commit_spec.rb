@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Commit, type: :model do
   it { is_expected.to belong_to(:repository) }
   it { is_expected.to have_many(:file_changes) }
+  it { is_expected.to have_many(:comments) }
 
   describe '#github_url' do
     let(:repository) { create(:repository) }

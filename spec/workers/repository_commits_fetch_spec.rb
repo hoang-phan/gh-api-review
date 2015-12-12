@@ -84,6 +84,10 @@ RSpec.describe RepositoryCommitsFetch do
     end
 
     it 'fetches new commits of the non-unwatched branches' do
+      expect(FileChangesFetch).to receive(:perform_async).with(sha)
+      expect(FileChangesFetch).to receive(:perform_async).with(sha1)
+      expect(CommentsFetch).to receive(:perform_async).with(sha)
+      expect(CommentsFetch).to receive(:perform_async).with(sha1)
       expect {
         subject.perform(repository.id)
       }.to change(repository.commits, :count).by(2)
