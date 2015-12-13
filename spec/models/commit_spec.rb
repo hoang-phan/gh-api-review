@@ -22,4 +22,16 @@ RSpec.describe Commit, type: :model do
       expect(commit.short_message).to eq "abc"
     end
   end
+
+  describe '#line_comments' do
+    let(:commit) { create(:commit) }
+    let!(:comments) { create_list(:comment, 3, commit: commit) }
+    let(:result) { commit.line_comments }
+
+    it 'returns hash of comments base on filename and line' do
+      comments.each do |comment|
+        expect(result[comment.filename][comment.line]).to eq [comment.user, comment.body, comment.commented_at]
+      end 
+    end
+  end
 end

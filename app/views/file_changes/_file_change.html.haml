@@ -2,6 +2,8 @@
   %p.file-change-header= file_change.filename
   .row.file-change-content
     .col-xs-6
-      = raw display_line_change(file_change.line_changes['-'], 'removed-line')
+      - file_change.line_changes['-'].each do |key, value|
+        = render 'file_changes/line_change', key: key, value: value, special_class: 'removed-line', filename: file_change.filename
     .col-xs-6
-      = raw display_line_change(file_change.line_changes['+'], 'added-line')
+      - file_change.line_changes['+'].each do |key, value|
+        = render 'file_changes/line_change', key: key, value: value, special_class: 'added-line', filename: file_change.filename

@@ -21,7 +21,7 @@ RSpec.describe CommentsFetch do
           filename: comment['path'],
           body: comment['body'],
           user: comment['user']['login'],
-          line: comment['line']
+          line: comment['position']
         })
       end
     end
