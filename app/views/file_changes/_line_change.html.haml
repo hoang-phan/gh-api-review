@@ -1,6 +1,3 @@
 .line-change{ 'data-line' => value[1] }
   = raw display_line_change(key, value, special_class)
-  .comments
-    - if @line_comments[filename].try(:[], value[1])
-      - if value[2] || special_class == 'added-line'
-        = render 'file_changes/comment', comment: @line_comments[filename][value[1]]
+  .comments= display_comment(@line_comments, filename, value[1], value[2], special_class)

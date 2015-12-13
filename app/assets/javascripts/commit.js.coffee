@@ -11,4 +11,6 @@ $ ->
         commit_id: location.pathname.split('/').pop()
 
       success: (data) ->
-        $this.siblings('.comments').append(data)
+        $comments = $this.siblings('.comments')
+        $comments.append(data)
+        $comments.find('[name=body]').markdown()
