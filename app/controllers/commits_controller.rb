@@ -5,6 +5,7 @@ class CommitsController < ApplicationController
 
   def show
     @commit = Commit.find(params[:id])
+    @line_comments = @commit.line_comments
   end
 
   def create

@@ -23,6 +23,19 @@ Given(/^the commit with sha '(.*)' has some file changes$/) do |sha, table|
   end)
 end
 
+Given(/^the commit with sha '(.*)' has some comments$/) do |sha, table|
+  commit = Commit.find_by_sha(sha)
+  Comment.import(table.hashes.map do |row|
+    commit.comments.build(row)
+  end)
+end
+
+Then(/^I should see comment '(.*)' of user '(.*)' on line (.*) of file '(.*)'$/) do |body, user, line, filename|
+  line_comment = find('.file-change', text: filename).all(".line-change[data-line='#{line}'] .comments").last
+  expect(line_comment).to have_content(user)
+  expect(line_comment).to have_content(body)
+end
+
 Then(/^the following lines are (.*)$/) do |status, table|
   table.hashes.each do |row|
     expect(page).to have_css(".#{status}-line", text: row['Line'])
