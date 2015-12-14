@@ -1,3 +1,4 @@
 .line-change{ 'data-line' => value[1] }
   = raw display_line_change(key, value, special_class)
-  .comments= display_comment(@line_comments, filename, value[1], value[2], special_class)
+  .comments
+    = display_comments(@line_comments, filename, value[1], value[2], special_class)
