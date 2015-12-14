@@ -13,4 +13,26 @@ $ ->
       success: (data) ->
         $comments = $this.siblings('.comments')
         $comments.append(data)
-        $comments.find('[name=body]').markdown()
+        $textarea = $comments.find('[name=body]')
+        $textarea.focus()
+        $textarea.on 'keydown', (e) ->
+          keyCode = e.keyCode || e.which
+          if keyCode == 9
+            e.preventDefault()
+            caretPos = $(this)[0].selectionStart
+            val = $(this).val()
+            $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
+            $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
+
+        $textarea.textcomplete [
+          match: /\b(\w+)$/
+          search: (term, callback) ->
+            callback($.map(snippets, (value, key) ->
+              if matchString(key, term) then key else null
+            ))
+          index: 1
+          replace: (word) ->
+            "#{snippets[word]}".split('[[cursor]]')
+        ]
+
+
