@@ -33,8 +33,8 @@ RSpec.describe Commit, type: :model do
     let(:commit) { create(:commit) }
     let(:filename) { 'dir/file' }
     let(:line) { 10 }
-    let!(:comment_1) { create(:comment, filename: filename, line: line, commit: commit, commented_at: 1.hours.ago) }
-    let!(:comment_2) { create(:comment, filename: filename, line: line, commit: commit, commented_at: 2.hours.ago) }
+    let!(:comment_1) { create(:comment, filename: filename, line: line, commit: commit, commented_at: Time.parse('2012/12/11 11:22:33')) }
+    let!(:comment_2) { create(:comment, filename: filename, line: line, commit: commit, commented_at: Time.parse('2012/12/11 11:11:11')) }
     let(:result) { commit.line_comments }
 
     it 'returns hash of comments base on filename and line' do
