@@ -1,5 +1,20 @@
+matchString = (str, term) ->
+  regex = ''
+  for ch in term
+    regex += "#{ch}.*"
+  str.match(regex)
+
 $ ->
   $fileChangeContent = $('.file-change-content')
+
+  snippets = {}
+
+  $.ajax
+    url: '/snippets'
+    dataType: 'json'
+    success: (data) ->
+      snippets = data.snippets
+
   $fileChangeContent.find('p').on 'click', ->
     $this = $(this)
     $.ajax
