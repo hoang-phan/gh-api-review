@@ -1,6 +1,6 @@
 class CommitsController < ApplicationController
   def index
-    @commits = Commit.includes(:repository)
+    @commits = Commit.includes(:repository).from_newest
   end
 
   def show

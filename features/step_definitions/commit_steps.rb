@@ -10,8 +10,10 @@ Given(/^I have the following commits$/) do |table|
 end
 
 Then(/^I should see all the following commits$/) do |table|
+  commit_items = all('.commit-item')
   table.hashes.each do |row|
-    content_block = find('.commit-item', text: row['Title'])
+    content_block = commit_items[row['Position'].to_i]
+    expect(content_block).to have_content(row['Title'])
     expect(content_block).to have_content(row['Description'])
   end
 end

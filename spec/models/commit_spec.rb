@@ -5,6 +5,12 @@ RSpec.describe Commit, type: :model do
   it { is_expected.to have_many(:file_changes) }
   it { is_expected.to have_many(:comments) }
 
+  describe '.from_newest' do
+    it 'sorted from newest' do
+      expect(described_class.from_newest.to_sql).to eq described_class.order(committed_at: :desc).to_sql
+    end
+  end
+
   describe '#github_url' do
     let(:repository) { create(:repository) }
     let(:commit) { build(:commit, repository: repository) }
@@ -27,11 +33,12 @@ RSpec.describe Commit, type: :model do
     let(:commit) { create(:commit) }
     let(:filename) { 'dir/file' }
     let(:line) { 10 }
-    let!(:comments) { create_list(:comment, 2, filename: filename, line: line, commit: commit) }
+    let!(:comment_1) { create(:comment, filename: filename, line: line, commit: commit, commented_at: 1.hours.ago) }
+    let!(:comment_2) { create(:comment, filename: filename, line: line, commit: commit, commented_at: 2.hours.ago) }
     let(:result) { commit.line_comments }
 
     it 'returns hash of comments base on filename and line' do
-      expect(commit.line_comments[filename][line]).to match_array comments.map { |c| [c.user, c.body, c.commented_at] }
+      expect(commit.line_comments[filename][line]).to eq [comment_2, comment_1].map { |c| [c.user, c.body, c.commented_at] }
     end
   end
 end

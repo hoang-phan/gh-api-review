@@ -3,6 +3,8 @@ class Commit < ActiveRecord::Base
   has_many :file_changes
   has_many :comments
 
+  scope :from_newest, -> { order(committed_at: :desc) }
+
   def github_url
     "https://github.com/#{repository.full_name}/commit/#{sha}"
   end
@@ -13,7 +15,7 @@ class Commit < ActiveRecord::Base
 
   def line_comments
     result = {}
-    comments.each do |comment|
+    comments.from_oldest.each do |comment|
       result[comment.filename] ||= {}
       result[comment.filename][comment.line] ||= []
       result[comment.filename][comment.line] << comment.display

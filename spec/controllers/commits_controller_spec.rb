@@ -6,7 +6,7 @@ RSpec.describe CommitsController, type: :controller do
     it "returns http success" do
       get :index
       expect(response).to be_success
-      expect(assigns(:commits).to_sql).to eq Commit.all.to_sql
+      expect(assigns(:commits).to_sql).to eq Commit.order(committed_at: :desc).to_sql
     end
   end
 
