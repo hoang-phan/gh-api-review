@@ -10,6 +10,10 @@ Then(/^I should see '(.*)'$/) do |content|
   expect(page).to have_content content
 end
 
+Then(/^I should see '(.*)' in '(.*)' field$/) do |content, field|
+  expect(page).to have_field(field, with: content)
+end
+
 Then(/^I should see all the following$/) do |table|
   table.hashes.each do |row|
     expect(page).to have_content(row['Content'])
@@ -34,4 +38,16 @@ end
 
 When(/^I wait for ajax to finish$/) do
   wait_for_ajax
+end
+
+When(/^I focus first field with name '(.*)'$/) do |field|
+  @field = first("[name=#{field}]")
+end
+
+When(/^I press tab$/) do
+  @field.native.send_keys :tab
+end
+
+When(/^I enter '(.*)'$/) do |str|
+  @field.set(str)
 end

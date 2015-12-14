@@ -15,6 +15,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-switch
-//= require bootstrap-markdown-bundle
 //= require_tree ../../../vendor/assets/javascripts/.
 //= require_tree .

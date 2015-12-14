@@ -107,3 +107,17 @@ Then(/^I should successfully commented with '(.*)' on line (\d+) of the file '(.
   expect(@client).to receive(:create_commit_comment).with(anything, sha, comment, file, nil, pos.to_i)
   $client = @client
 end
+
+Given(/^there are some snippets$/) do |table|
+  snippets = table.hashes.each_with_object({}) do |row, result|
+    result[row['key']] = row['value']
+  end
+  SnippetsController
+  stub_const('SnippetsController::ALL_SNIPPETS', snippets)
+end
+
+When(/^I choose '(.*)' from autocomplete$/) do |option|
+  page.execute_script("$([name='#{name}']).trigger('keydown')")
+  @field.native.send_keys :return
+end
+
