@@ -51,3 +51,11 @@ end
 When(/^I enter '(.*)'$/) do |str|
   @field.set(str)
 end
+
+Then(/^I should see '(.*)' on '(.*)' field$/) do |content, field|
+  expect(page).to have_field(field, with: content)
+end
+
+Then(/^no ajax call should be made$/) do
+  expect(finished_all_ajax_requests?).to be_truthy
+end

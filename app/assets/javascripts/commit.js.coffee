@@ -17,6 +17,8 @@ $ ->
 
   $fileChangeContent.find('p').on 'click', ->
     $this = $(this)
+    $comments = $this.siblings('.comments')
+    return if $comments.find('.comment-form').length > 0
     $.ajax
       url: '/comments/new'
       method: 'get'
@@ -26,7 +28,6 @@ $ ->
         commit_id: location.pathname.split('/').pop()
 
       success: (data) ->
-        $comments = $this.siblings('.comments')
         $comments.append(data)
         $textarea = $comments.find('[name=body]')
         $textarea.focus()
@@ -49,5 +50,9 @@ $ ->
           replace: (word) ->
             "#{snippets[word]}".split('[[cursor]]')
         ]
+
+        $comments.find('.cancel-btn').on 'click', (e) ->
+          $comments.find('.comment-form').remove()
+          false
 
 

@@ -98,8 +98,13 @@ When(/^I click on last line change with text '(.*)'$/) do |line|
 end
 
 Then(/^I should see comment dialog on line (\d+)$/) do |ln|
+  expect(page).to have_css ".line-change[data-line='#{ln}'] .comment-form"
   expect(page).to have_css "input[name='line'][value='#{ln}']", visible: false
-  expect(page).to have_css 'input[type=submit][value="Add comment"]', count: 1
+end
+
+Then(/^I should not see comment dialog on line (\d+)$/) do |ln|
+  expect(page).not_to have_css ".line-change[data-line='#{ln}'] .comment-form"
+  expect(page).not_to have_css "input[name='line'][value='#{ln}']", visible: false
 end
 
 Then(/^I should successfully commented with '(.*)' on line (\d+) of the file '(.*)' of commit '(.*)'$/) do |comment, pos, file, sha|
@@ -120,4 +125,11 @@ When(/^I choose '(.*)' from autocomplete$/) do |option|
   page.execute_script("$([name='#{name}']).trigger('keydown')")
   @field.native.send_keys :return
 end
+
+When(/^I click '(.*)' within comment dialog on line (\d+)$/) do |btn, ln|
+  within ".line-change[data-line='#{ln}'] .comment-form" do
+    click_on btn
+  end
+end
+
 
