@@ -1,7 +1,7 @@
 module CommitHelper
-  def display_comment(line_comments, filename, line, is_modified, klass)
-    if show_comment?(is_modified, klass) && (comment = line_comments[filename].try(:[], line))
-      render 'file_changes/comment', comment: comment
+  def display_comments(line_comments, filename, line, is_modified, klass)
+    if show_comment?(is_modified, klass) && (comments = line_comments[filename].try(:[], line)).present?
+      render 'file_changes/comments', comments: comments
     end
   end
 

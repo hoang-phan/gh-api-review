@@ -12,8 +12,8 @@ class CreateComments < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-      add_index :comments, :filename
-      add_index :comments, :line
-      add_index :comments, :commented_at
+    add_index :comments, :filename
+    add_index :comments, :line
+    add_index :comments, :commented_at
   end
 end

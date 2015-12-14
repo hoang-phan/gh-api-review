@@ -14,10 +14,9 @@ class Commit < ActiveRecord::Base
   def line_comments
     result = {}
     comments.each do |comment|
-      result[comment.filename] = (result[comment.filename] || {}).merge(comment.to_hash)
-    end
-    result.each do |key, value|
-      result[key] = Hash[value]
+      result[comment.filename] ||= {}
+      result[comment.filename][comment.line] ||= []
+      result[comment.filename][comment.line] << comment.display
     end
     result
   end

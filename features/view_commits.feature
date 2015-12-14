@@ -11,6 +11,7 @@ Scenario:
   And the commit with sha '010a' has some comments
   | filename       | line | body    | commented_at        | user  |
   | dir/file.ext   | 3    | my body | 2015-12-12 01:22:00 | user1 |
+  | dir/file.ext   | 3    | another | 2015-12-12 01:23:21 | user2 |
   And I am on the commits page
   When I click on 'message 1'
   Then I should see all the following
@@ -29,3 +30,4 @@ Scenario:
   | Line   |
   | line 5 |
   And I should see comment 'my body' of user 'user1' on line 3 of file 'dir/file.ext'
+  And I should see comment 'another' of user 'user2' on line 3 of file 'dir/file.ext'

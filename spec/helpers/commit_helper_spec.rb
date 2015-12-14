@@ -43,21 +43,21 @@ RSpec.describe CommitHelper, type: :helper do
     end
   end
 
-  describe '#display_comment' do
+  describe '#display_comments' do
     let(:line_comments) do
       {
         filename => {
-          line => body
+          line => comments
         }
       }
     end
 
-    let(:result) { helper.display_comment(line_comments, filename, line, is_modified, klass) }
+    let(:result) { helper.display_comments(line_comments, filename, line, is_modified, klass) }
     let(:is_modified) { false }
     let(:klass) { 'class-name' }
     let(:filename) { 'dir/filename.ext' }
     let(:line) { 3 }
-    let(:body) { 'my comment body' }
+    let(:comments) { ['my comment 1', 'my comment 2'] }
     let(:show_comment) { true }
 
     before do
@@ -66,7 +66,7 @@ RSpec.describe CommitHelper, type: :helper do
 
     context 'comment not shown' do
       let(:show_comment) { false }
-      
+
       it 'returns nil' do
         expect(helper).not_to receive(:render)
         expect(result).to be_nil
@@ -74,7 +74,7 @@ RSpec.describe CommitHelper, type: :helper do
     end
 
     context 'comment not exists' do
-      let(:body) { nil }
+      let(:comments) { [] }
 
       it 'returns nil' do
         expect(helper).not_to receive(:render)
@@ -86,7 +86,7 @@ RSpec.describe CommitHelper, type: :helper do
       let(:partial) { 'My partial' }
 
       it 'renders comment partial' do
-        expect(helper).to receive(:render).with('file_changes/comment', comment: body).and_return(partial)
+        expect(helper).to receive(:render).with('file_changes/comments', comments: comments).and_return(partial)
         expect(result).to eq partial
       end
     end
@@ -110,7 +110,7 @@ RSpec.describe CommitHelper, type: :helper do
 
     let(:klass) { 'class' }
     let(:filename) { 'dir/filename' }
-    
+
     before do
       expect(helper).to receive(:render)
                           .with('file_changes/line_change', key: key1, value: value1, special_class: klass, filename: filename)

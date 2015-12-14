@@ -25,13 +25,13 @@ RSpec.describe Commit, type: :model do
 
   describe '#line_comments' do
     let(:commit) { create(:commit) }
-    let!(:comments) { create_list(:comment, 3, commit: commit) }
+    let(:filename) { 'dir/file' }
+    let(:line) { 10 }
+    let!(:comments) { create_list(:comment, 2, filename: filename, line: line, commit: commit) }
     let(:result) { commit.line_comments }
 
     it 'returns hash of comments base on filename and line' do
-      comments.each do |comment|
-        expect(result[comment.filename][comment.line]).to eq [comment.user, comment.body, comment.commented_at]
-      end 
+      expect(commit.line_comments[filename][line]).to match_array comments.map { |c| [c.user, c.body, c.commented_at] }
     end
   end
 end
