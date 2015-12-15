@@ -1,0 +1,49 @@
+{
+  "New line warning": [
+    "You should add a newline at EOF to make github happy :smile:",
+    "You could config your IDE to get rid of newline warning from github",
+    "Beware of the newline here"
+  ],
+  "Explicit return": [
+    "You don't need to explicitly `return` here",
+    "`return` could be omitted"
+  ],
+  "Use text field tag": [
+    "You may use `text_field_tag` here",
+    "You could use `text_field_tag` instead",
+    "You may consider `text_field_tag` instead"
+  ],
+  "Use email field tag": [
+    "You may use `email_field_tag` here",
+    "You could use `email_field_tag` instead",
+    "You may consider `email_field_tag` instead"
+  ],
+  "Use number field tag": [
+    "You may use `number_field_tag` here",
+    "You could use `number_field_tag` instead",
+    "You may consider `number_field_tag` instead"
+  ],
+  "Use file field tag": [
+    "You may use `file_field_tag` here",
+    "You could use `file_field_tag` instead",
+    "You may consider `file_field_tag` instead"
+  ],
+  "Use select tag": [
+    "You may use `select_tag` here",
+    "You could use `select_tag` instead",
+    "You may consider `select_tag` instead"
+  ],
+  "Use view helper": [
+    "You may consider view helper here"
+  ],
+  "Use link to": [
+    "You may use `link_to` here",
+    "You could use `link_to` instead",
+    "You may consider `link_to` instead"
+  ],
+  "Use image tag": [
+    "You may use `image_tag` here",
+    "You could use `image_tag` instead",
+    "You may consider `image_tag` instead"
+  ]
+}

@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20151212073215) do
     t.string   "filename"
     t.string   "patch"
     t.json     "line_changes"
+    t.json     "suggestions"
     t.integer  "commit_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false

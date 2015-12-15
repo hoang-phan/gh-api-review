@@ -1,0 +1,79 @@
+[
+  {
+    "regex": {
+      "all": "\\bNo newline at end of file"
+    },
+    "name": "New line warning"
+  },
+  {
+    "regex": {
+      "coffee": "\\breturn",
+      "rb": "\\breturn"
+    },
+    "name": "Explicit return"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*text",
+      "haml": "%input\\W.*text",
+      "slim": "\\binput\\W.*text"
+    },
+    "name": "Use text field tag"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*email",
+      "haml": "%input\\W.*email",
+      "slim": "\\binput\\W.*email"
+    },
+    "name": "Use email field tag"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*number",
+      "haml": "%input\\W.*number",
+      "slim": "\\binput\\W.*number"
+    },
+    "name": "Use number field tag"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*file",
+      "haml": "%input\\W.*file",
+      "slim": "\\binput\\W.*file"
+    },
+    "name": "Use file field tag"
+  },
+  {
+    "regex": {
+      "erb": "<select\\W",
+      "haml": "%select\\W",
+      "slim": "\\bselect\\W"
+    },
+    "name": "Use select tag"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*text",
+      "haml": "%input\\W.*text",
+      "slim": "\\binput\\W.*text"
+    },
+    "name": "Use text field tag"
+  },
+  {
+    "regex": {
+      "erb": "<a\\W",
+      "haml": "%a\\W",
+      "slim": "\\ba\\W"
+    },
+    "name": "Use link to"
+  },
+  {
+    "regex": {
+      "erb": "<img\\W",
+      "haml": "%img\\W",
+      "slim": "\\bimg\\W"
+    },
+    "name": "Use image tag"
+  }
+]
