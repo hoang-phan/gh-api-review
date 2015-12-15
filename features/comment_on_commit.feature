@@ -13,9 +13,9 @@ Background:
   | key  | value                      |
   | key1 | content1[[cursor]]content2 |
   And I am on the commits page
+  When I click on 'message 1'
 
 Scenario: Autocomplete snippet
-  When I click on 'message 1'
   And I click on last line change with text 'line 1'
   And I wait for ajax to finish
   Then I should see comment dialog on line 0
@@ -28,8 +28,7 @@ Scenario: Autocomplete snippet
   Then I should see 'content1    content2' on 'body' field
 
 Scenario: Comment on commit
-  When I click on 'message 1'
-  And I click on last line change with text 'line 1'
+  When I click on last line change with text 'line 1'
   And I wait for ajax to finish
   And I fill in 'body' with 'My content'
   Then I should successfully commented with 'My content' on line 0 of the file 'dir/file.ext' of commit '010a'
@@ -37,23 +36,20 @@ Scenario: Comment on commit
   Then I should see 'Successfully commented'
 
 Scenario: Cannot add 2 comment boxes on the same line
-  When I click on 'message 1'
-  And I click on last line change with text 'line 1'
+  When I click on last line change with text 'line 3'
   And I wait for ajax to finish
-  And I click on last line change with text 'line 1'
+  And I click on last line change with text 'line 3'
   Then no ajax call should be made
 
 Scenario: Can add 2 comment boxes on 2 different lines
-  When I click on 'message 1'
-  And I click on last line change with text 'line 1'
+  When I click on last line change with text 'line 1'
   And I click on last line change with text 'line 2'
   And I wait for ajax to finish
   Then I should see comment dialog on line 0
   And I should see comment dialog on line 1
 
 Scenario: Remove a dialog
-  When I click on 'message 1'
-  And I click on last line change with text 'line 1'
+  When I click on last line change with text 'line 1'
   And I click on last line change with text 'line 2'
   And I wait for ajax to finish
   And I click 'Cancel' within comment dialog on line 0  
