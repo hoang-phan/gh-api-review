@@ -9,7 +9,7 @@ Background:
   And the commit with sha '010a' has some file changes
   | filename       | patch                                                             |
   | dir/file.ext   | @@ -10,5 +10,5 @@line 1\nline 2\nline 3\n+line 4\n-line 5\nline 6 |
-  Given there are some snippets
+  And there are some snippets
   | key  | value                      |
   | key1 | content1[[cursor]]content2 |
   And I am on the commits page
@@ -52,6 +52,6 @@ Scenario: Remove a dialog
   When I click on last line change with text 'line 1'
   And I click on last line change with text 'line 2'
   And I wait for ajax to finish
-  And I click 'Cancel' within comment dialog on line 0  
+  And I click 'Cancel' within comment dialog on line 0
   Then I should not see comment dialog on line 0
   And I should see comment dialog on line 1

@@ -14,6 +14,10 @@ Then(/^I should see '(.*)' in '(.*)' field$/) do |content, field|
   expect(page).to have_field(field, with: content)
 end
 
+Then(/^I should not see '(.*)' in '(.*)' field$/) do |content, field|
+  expect(page).not_to have_field(field, with: content)
+end
+
 Then(/^I should see all the following$/) do |table|
   table.hashes.each do |row|
     expect(page).to have_content(row['Content'])
@@ -54,6 +58,10 @@ end
 
 Then(/^I should see '(.*)' on '(.*)' field$/) do |content, field|
   expect(page).to have_field(field, with: content)
+end
+
+When(/^I select '(.*)' from dropdown '(.*)'$/) do |option, field|
+  select option, from: field
 end
 
 Then(/^no ajax call should be made$/) do

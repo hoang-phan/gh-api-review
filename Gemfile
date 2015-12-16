@@ -16,6 +16,7 @@ gem 'sidekiq'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'bootstrap-switch-rails'
+gem 'bootstrap-select-rails'
 gem 'rails-i18n'
 gem 'activerecord-import'
 

@@ -1,4 +1,5 @@
 snippets = {}
+randomComments = {}
 
 textcompleteOptions = [
   match: /\b(\w+)$/
@@ -17,6 +18,9 @@ matchString = (str, term) ->
     regex += "#{ch}.*"
   str.match(regex)
 
+sample = (items) ->
+  items[Math.floor(Math.random() * items.length)]
+
 fetchSnippets = ->
   $.ajax
     url: '/snippets'
@@ -24,8 +28,16 @@ fetchSnippets = ->
     success: (data) ->
       snippets = data.snippets
 
+fetchRandomComments = ->
+  $.ajax
+    url: '/commits_suggestions'
+    dataType: 'json'
+    success: (data) ->
+      randomComments = data.comments
+
 $ ->
   fetchSnippets()
+  fetchRandomComments()
 
   $fileChangeContent = $('.file-change-content')
   $fileChangeContent.find('textarea[name=body]').textcomplete(textcompleteOptions)
@@ -37,6 +49,10 @@ $ ->
       val = $(this).val()
       $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
       $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
+
+  $fileChangeContent.on 'change', '[name=rules]', (e) ->
+    $this = $(this)
+    $this.closest('form').find('[name=body]').val(sample(randomComments[$this.val()]))
 
   $fileChangeContent.on 'click', '.cancel-btn', ->
     $(this).closest('.comment-form').remove()
