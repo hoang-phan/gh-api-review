@@ -2,16 +2,22 @@ require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
   describe "GET new" do
-    let(:params) { { line: line, commit_id: commit.id } }
+    let(:params) { { line: line, commit_id: commit.id, filename: filename } }
     let(:commit) { create(:commit) }
+    let(:filename) { 'filename' }
     let(:line) { '7' }
 
     it "renders partial view" do
+      allow(controller).to receive(:render).with no_args
+      expect(controller).to receive(:render).with(partial: 'new', locals: {
+        'line' => line,
+        'filename' => filename,
+        'sha' => commit.sha,
+        'repo' => commit.repository.full_name,
+        'body' => nil,
+        'suggestions' => {}
+      })
       get :new, params
-      expect(assigns(:line)).to eq line 
-      expect(assigns(:repo)).to eq commit.repository.full_name
-      expect(assigns(:sha)).to eq commit.sha 
-      expect(response).to render_template(partial: 'comments/_new')
     end
   end
 

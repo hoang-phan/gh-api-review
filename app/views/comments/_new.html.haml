@@ -2,11 +2,11 @@
   %h4= GITHUB_ENV['user_name']
   = form_tag comments_path, method: :post, remote: true do
     .fieldset
-      = text_area_tag :body, nil, placeholder: t('comments.placeholder'), class: 'form-control'
-      = hidden_field_tag :line, @line
-      = hidden_field_tag :repo, @repo
-      = hidden_field_tag :sha, @sha
-      = hidden_field_tag :filename, @filename
+      = text_area_tag :body, body, placeholder: t('comments.placeholder'), class: 'form-control'
+      = hidden_field_tag :line, line
+      = hidden_field_tag :repo, repo
+      = hidden_field_tag :sha, sha
+      = hidden_field_tag :filename, filename
     .fieldset
       = submit_tag 'Add comment', class: 'btn btn-primary'
       = link_to 'Cancel', '#', class: 'btn btn-default cancel-btn'

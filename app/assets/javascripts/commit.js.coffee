@@ -1,19 +1,46 @@
+snippets = {}
+
+textcompleteOptions = [
+  match: /\b(\w+)$/
+  index: 1
+  search: (term, callback) ->
+    callback($.map(snippets, (value, key) ->
+      if matchString(key, term) then key else null
+    ))
+  replace: (word) ->
+    "#{snippets[word]}".split('[[cursor]]')
+]
+
 matchString = (str, term) ->
   regex = ''
   for ch in term
     regex += "#{ch}.*"
   str.match(regex)
 
-$ ->
-  $fileChangeContent = $('.file-change-content')
-
-  snippets = {}
-
+fetchSnippets = ->
   $.ajax
     url: '/snippets'
     dataType: 'json'
     success: (data) ->
       snippets = data.snippets
+
+$ ->
+  fetchSnippets()
+
+  $fileChangeContent = $('.file-change-content')
+  $fileChangeContent.find('textarea[name=body]').textcomplete(textcompleteOptions)
+
+  $fileChangeContent.on 'keydown', 'textarea[name=body]', (e) ->
+    if (e.keyCode || e.which) == 9
+      e.preventDefault()
+      caretPos = $(this)[0].selectionStart
+      val = $(this).val()
+      $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
+      $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
+
+  $fileChangeContent.on 'click', '.cancel-btn', ->
+    $(this).closest('.comment-form').remove()
+    false
 
   $fileChangeContent.find('p').on 'click', ->
     $this = $(this)
@@ -31,28 +58,6 @@ $ ->
         $comments.append(data)
         $textarea = $comments.find('[name=body]')
         $textarea.focus()
-        $textarea.on 'keydown', (e) ->
-          keyCode = e.keyCode || e.which
-          if keyCode == 9
-            e.preventDefault()
-            caretPos = $(this)[0].selectionStart
-            val = $(this).val()
-            $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
-            $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
-
-        $textarea.textcomplete [
-          match: /\b(\w+)$/
-          search: (term, callback) ->
-            callback($.map(snippets, (value, key) ->
-              if matchString(key, term) then key else null
-            ))
-          index: 1
-          replace: (word) ->
-            "#{snippets[word]}".split('[[cursor]]')
-        ]
-
-        $comments.find('.cancel-btn').on 'click', (e) ->
-          $comments.find('.comment-form').remove()
-          false
+        $textarea.textcomplete(textcompleteOptions)
 
 

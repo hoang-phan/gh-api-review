@@ -1,9 +1,7 @@
 = form_for branch, remote: true do |f|
   = hidden_field_tag :repository_id, @repository.id
   .row.branch-item
-    .col-xs-1
-      = image_tag 'logo.png', class: 'full-width'
-    .col-xs-8
-      = branch.name
-    .col-xs-3
+    = image_tag 'logo.png'
+    = branch.name
+    .pull-right
       = f.check_box :watched

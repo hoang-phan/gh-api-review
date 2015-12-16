@@ -4,4 +4,4 @@
     .col-xs-6
       = raw render_line_changes(file_change.line_changes['-'], 'removed-line', file_change.filename)
     .col-xs-6
-      = raw render_line_changes(file_change.line_changes['+'], 'added-line', file_change.filename)
+      = raw render_line_changes(file_change.line_changes['+'], 'added-line', file_change.filename, file_change.suggestions)

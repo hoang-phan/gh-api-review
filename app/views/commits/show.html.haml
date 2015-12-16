@@ -4,5 +4,5 @@
   %h3.pull-left= @commit.short_message
 .page-content
   %p Author #{@commit.committer}
-  .file-changes-list
+  .file-changes-list{ data: { comments: RANDOM_COMMENTS } }
     = render @commit.file_changes

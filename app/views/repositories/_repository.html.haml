@@ -1,8 +1,6 @@
 = form_for repository, remote: true do |f|
   .row.repository-item
-    .col-xs-1
-      = image_tag 'logo.png', class: 'full-width'
-    .col-xs-8
-      = link_to repository.full_name, repository_path(repository)
-    .col-xs-3
+    = image_tag 'logo.png'
+    = link_to repository.full_name, repository_path(repository)
+    .pull-right
       = f.check_box :watched
