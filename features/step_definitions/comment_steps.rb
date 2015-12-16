@@ -20,3 +20,7 @@ end
 Then(/^I should see dropdown '(.*)' with following options$/) do |field, table|
   expect(page).to have_select(field, table.raw)
 end
+
+Given(/^the sample of rule '.*' is '(.*)'$/) do |suggestion|
+  allow_any_instance_of(Array).to receive(:sample).and_return(suggestion)
+end

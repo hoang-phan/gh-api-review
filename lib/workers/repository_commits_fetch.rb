@@ -7,12 +7,12 @@ class RepositoryCommitsFetch
   def perform(repository_id)
     if repository = Repository.find_by_id(repository_id)
       watched_branches(repository).each do |branch|
-        $client.commits_since(repository.full_name, started_date, branch).each do |commit|
+        $client.commits_since(repository.full_name, started_date, branch, per_page: GITHUB_ENV['results_per_page']).each do |commit|
           unless repository.commits.exists?(sha: commit['sha'])
             repository.commits.create(commit_attributes(commit))
             FileChangesFetch.perform_async(commit['sha'])
-            CommentsFetch.perform_async(commit['sha'])
           end
+          CommentsFetch.perform_async(commit['sha'])
         end
       end
     end

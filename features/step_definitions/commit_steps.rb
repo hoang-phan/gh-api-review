@@ -79,7 +79,7 @@ Given(/^I have some commits of repository '(.*)' on Github$/) do |repo|
   allow(@client).to receive(:commit_comments).with(repo, anything, per_page: GITHUB_ENV['results_per_page']).and_return(@comments_json)
   allow(@client).to receive(:branches).with(repo, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(@branches_json)
   allow(@client).to receive(:branches).with(repo, page: 2, per_page: GITHUB_ENV['results_per_page'])
-  allow(@client).to receive(:commits_since).with(repo, anything, anything).and_return([@commits_result, @commits_result2])
+  allow(@client).to receive(:commits_since).with(repo, anything, anything, per_page: GITHUB_ENV['results_per_page']).and_return([@commits_result, @commits_result2])
   $client = @client
 end
 

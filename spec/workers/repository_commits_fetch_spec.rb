@@ -73,21 +73,23 @@ RSpec.describe RepositoryCommitsFetch do
     let(:committed_at) { DateTime.parse('2015-10-10') }
     let(:message) { Faker::Lorem.sentence }
     let(:existing_sha) { 'existing_sha' }
-    let!(:existing_commit) { create(:commit, sha: existing_sha) }
+    let!(:existing_commit) { create(:commit, sha: existing_sha, repository: repository) }
 
     before do
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 1, per_page: GITHUB_ENV['results_per_page']).and_return(branches)
       allow(fake_client).to receive(:branches).with(repository.full_name, page: 2, per_page: GITHUB_ENV['results_per_page'])
-      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name']).and_return([watched_json1, watched_json2])
-      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, unwatch_branch.name).and_return([unwatched_json])
+      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, branches.second['name'], per_page: GITHUB_ENV['results_per_page']).and_return([watched_json1, watched_json2, existing_json])
+      allow(fake_client).to receive(:commits_since).with(repository.full_name, anything, unwatch_branch.name, per_page: GITHUB_ENV['results_per_page']).and_return([unwatched_json])
       $client = fake_client
     end
 
     it 'fetches new commits of the non-unwatched branches' do
       expect(FileChangesFetch).to receive(:perform_async).with(sha)
       expect(FileChangesFetch).to receive(:perform_async).with(sha1)
+      expect(FileChangesFetch).not_to receive(:perform_async).with(existing_sha)
       expect(CommentsFetch).to receive(:perform_async).with(sha)
       expect(CommentsFetch).to receive(:perform_async).with(sha1)
+      expect(CommentsFetch).to receive(:perform_async).with(existing_sha)
       expect {
         subject.perform(repository.id)
       }.to change(repository.commits, :count).by(2)
