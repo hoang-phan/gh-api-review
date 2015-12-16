@@ -8,7 +8,7 @@ RSpec.describe SnippetsController, type: :controller do
     it "returns all snippets" do
       get :index
       expect(response).to be_success
-      expect(json['snippets']).to eq described_class::ALL_SNIPPETS
+      expect(json['snippets']).to eq ALL_SNIPPETS
     end
   end
 end

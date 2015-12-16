@@ -19,9 +19,10 @@ module CommitHelper
     is_modified || special_class == 'added-line'
   end
 
-  def render_line_changes(line_changes, klass, filename)
+  def render_line_changes(line_changes, klass, filename, suggestions = {})
+    suggestions ||= {}
     line_changes.map do |key, value|
-      render 'file_changes/line_change', key: key, value: value, special_class: klass, filename: filename
+      render 'file_changes/line_change', key: key, value: value, special_class: klass, filename: filename, line_suggestions: suggestions[key]
     end.join('')
   end
 end

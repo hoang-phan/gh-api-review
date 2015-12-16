@@ -93,33 +93,65 @@ RSpec.describe CommitHelper, type: :helper do
   end
 
   describe '#render_line_changes' do
-    subject { render_line_changes(line_changes, klass, filename) }
-
     let(:line_changes) do
       {
         key1 => value1,
         key2 => value2
       }
     end
+
+    let(:render_options_1) do
+      {
+        key: key1,
+        value: value1,
+        special_class: klass,
+        filename: filename,
+        line_suggestions: line_suggestions_1
+      }
+    end
+    let(:render_options_2) do
+      {
+        key: key2,
+        value: value2,
+        special_class: klass,
+        filename: filename,
+        line_suggestions: line_suggestions_2
+      }
+    end
+
     let(:key1) { '1' }
     let(:key2) { '5' }
     let(:value1) { 'value1' }
     let(:value2) { 'value2' }
     let(:partial1) { 'partial1' }
     let(:partial2) { 'partial2' }
+    let(:line_suggestions_1) { nil }
+    let(:line_suggestions_2) { nil }
 
     let(:klass) { 'class' }
     let(:filename) { 'dir/filename' }
 
     before do
-      expect(helper).to receive(:render)
-                          .with('file_changes/line_change', key: key1, value: value1, special_class: klass, filename: filename)
+      expect(helper).to receive(:render).with('file_changes/line_change', render_options_1)
                           .and_return(partial1)
-      expect(helper).to receive(:render)
-                          .with('file_changes/line_change', key: key2, value: value2, special_class: klass, filename: filename)
+      expect(helper).to receive(:render).with('file_changes/line_change', render_options_2)
                           .and_return(partial2)
     end
 
-    it { is_expected.to eq "#{partial1}#{partial2}" }
+    context 'suggestions for line are absent' do
+      it 'renders all line changes partials with null line_suggestions' do
+        expect(render_line_changes(line_changes, klass, filename)).to eq "#{partial1}#{partial2}"
+      end
+    end
+
+    context 'suggestions for line are present' do
+      let(:suggestions) { { key1 => line_suggestions_1 } }
+      let(:line_suggestions_1) { [suggest_1] }
+      let(:suggest_1) { 'suggest_1' }
+
+      it 'renders all line changes partials with the correct line_suggestions' do
+        expect(render_line_changes(line_changes, klass, filename, suggestions)).to eq "#{partial1}#{partial2}"
+      end
+    end
   end
 end
