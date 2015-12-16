@@ -21,6 +21,11 @@ matchString = (str, term) ->
 sample = (items) ->
   items[Math.floor(Math.random() * items.length)]
 
+removeItem = (items, value) ->
+  index = items.indexOf(value)
+  items.splice(index, 1) if index >= 0
+  items
+
 fetchSnippets = ->
   $.ajax
     url: '/snippets'
@@ -53,9 +58,19 @@ $ ->
   $fileChangeContent.on 'change', '[name=rules]', (e) ->
     $this = $(this)
     $this.closest('form').find('[name=body]').val(sample(randomComments[$this.val()]))
+    false
 
   $fileChangeContent.on 'click', '.cancel-btn', ->
     $(this).closest('.comment-form').remove()
+    false
+
+  $fileChangeContent.on 'click', '.random-comment', ->
+    $this = $(this)
+    $body = $this.closest('form').find('[name=body]')
+    comments = randomComments[$this.siblings("[name=rules]").val()]
+    comments = removeItem(comments, $body.val())
+    if comments.length > 0   
+      $body.val(sample(comments))
     false
 
   $fileChangeContent.find('p').on 'click', ->

@@ -14,9 +14,10 @@ Background:
   | line 1 | ext  | rule 1 |
   | ne 1   | ext  | rule 2 |
   And there are some random comments for rules
-  | rule  | suggestions |
-  | rule 1| suggest1    |
-  | rule 2| suggest2    |
+  | rule  | suggestions       |
+  | rule 1| suggest1,suggest3 |
+  | rule 2| suggest2          |
+  And the sample of rule 'rule 1' is 'suggest1'
   And I am on the commits page
   When I click on 'Analyze all commits'
   And I wait for 'Analyzer' workers to finish
@@ -34,3 +35,8 @@ Scenario: Change rules for suggestions
   When I select 'rule 2' from dropdown 'rules'
   Then I should see 'suggest2' on 'body' field
   And I should not see 'suggest1' in 'body' field
+
+Scenario: Randomize comments
+  When I click on 'Random comment'
+  Then I should not see 'suggest1' in 'body' field
+  And I should see 'suggest3' in 'body' field
