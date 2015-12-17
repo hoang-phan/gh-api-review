@@ -40,3 +40,5 @@ Scenario: Randomize comments
   When I click on 'Random comment'
   Then I should not see 'suggest1' in 'body' field
   And I should see 'suggest3' in 'body' field
+  When I click on 'Random comment'
+  Then I should see 'suggest1' in 'body' field
