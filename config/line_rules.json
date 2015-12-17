@@ -3,12 +3,13 @@
     "regex": {
       "all": "\\bNo newline at end of file"
     },
-    "name": "New line warning"
+    "name": "New line warning",
+    "offset": 1
   },
   {
     "regex": {
-      "coffee": "\\breturn",
-      "rb": "\\breturn"
+      "coffee": "\\breturn\\W",
+      "rb": "\\breturn\\W"
     },
     "name": "Explicit return"
   },

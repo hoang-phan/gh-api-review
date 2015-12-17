@@ -4,7 +4,8 @@ Given(/^there are some rules$/) do |table|
       'regex' => {
         row['lang'] => row['regex']
       },
-      'name' => row['name']
+      'name' => row['name'],
+      'offset' => row['offset']
     }
   end
   stub_const('LINE_RULES', rules)
