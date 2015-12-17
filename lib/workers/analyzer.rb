@@ -12,7 +12,7 @@ class Analyzer
               regexes = rule['regex']
               regex = regexes[file_type] || regexes['all']
               if regex.present? && values[0].match(regex)
-                suggestions[ln] = (suggestions[ln] || []) << rule['name']
+                suggestions[(ln.to_i - rule['offset'].to_i).to_s] = (suggestions[ln] || []) << rule['name']
               end
             end
           end

@@ -22,9 +22,8 @@ sample = (items) ->
   items[Math.floor(Math.random() * items.length)]
 
 removeItem = (items, value) ->
-  index = items.indexOf(value)
-  items.splice(index, 1) if index >= 0
-  items
+  items.filter (val) ->
+    value != val
 
 fetchSnippets = ->
   $.ajax
