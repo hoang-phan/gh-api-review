@@ -1,8 +1,11 @@
 .row.clearfix.page-header.relative
-  .middle.pull-right
+  .middle.pull-right.page-header-block
     = link_to 'Commits', commits_path, class: 'btn btn-default'
-  %h3.pull-left= @commit.short_message
+  .pull-left
+    .middle.commit-title
+      %h3= @commit.short_message
+      %p Author #{@commit.committer}
+
 .page-content
-  %p Author #{@commit.committer}
   .file-changes-list
     = render @commit.file_changes

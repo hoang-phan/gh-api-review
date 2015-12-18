@@ -7,7 +7,7 @@ module CommitHelper
 
   def display_line_change(key, value, special_class)
     content_tag :p do
-      content_tag(:span, key.rjust(5), class: 'line-number') + content_tag(:span, value[0], class: line_class(value[2], special_class))
+    content_tag(:span, key.rjust(4), class: 'line-number') + content_tag(:span, value[0].presence || ' ', class: line_class(value[2], special_class))
     end
   end
 
