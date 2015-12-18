@@ -10,13 +10,13 @@ RSpec.describe CommitHelper, type: :helper do
     let(:line) { Faker::Lorem.sentence }
 
     context 'unchanged line' do
-      it { is_expected.to eq "<p><span class=\"line-number\">#{key.rjust(5)}</span><span class=\"line unchanged-line\">#{line}</span></p>" }
+      it { is_expected.to eq "<p><span class=\"line-number\">#{key.rjust(4)}</span><span class=\"line unchanged-line\">#{line}</span></p>" }
     end
 
     context 'changed line' do
       let(:value) { [line, '1', true] }
 
-      it { is_expected.to eq "<p><span class=\"line-number\">#{key.rjust(5)}</span><span class=\"line #{special_class}\">#{line}</span></p>" }
+      it { is_expected.to eq "<p><span class=\"line-number\">#{key.rjust(4)}</span><span class=\"line #{special_class}\">#{line}</span></p>" }
     end
   end
 
