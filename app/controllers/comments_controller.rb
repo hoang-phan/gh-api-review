@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
 
   def create
     $client.create_commit_comment(params[:repo], params[:sha], params[:body], params[:filename], nil, params[:line].to_i)
+    CommentsFetch.perform_async(params[:sha])
   end
 
   private

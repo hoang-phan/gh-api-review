@@ -1,7 +1,5 @@
 module PatchHelper
   class << self
-    include ActionView::Helpers::TagHelper
-
     HEADER_REGEX = /^@@ -(\d+)(,\d+)? \+(\d+)(,\d+)? @@.*$/
 
     def build_patch(patch)

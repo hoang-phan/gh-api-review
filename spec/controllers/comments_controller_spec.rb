@@ -42,6 +42,7 @@ RSpec.describe CommentsController, type: :controller do
 
     it 'sends comment command to github' do
       expect(fake_client).to receive(:create_commit_comment).with(repo, sha, body, filename, nil, line.to_i)
+      expect(CommentsFetch).to receive(:perform_async).with(sha)
       $client = fake_client
       post :create, params
       expect(response).to render_template(:create, format: :js)
