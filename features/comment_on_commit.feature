@@ -34,6 +34,7 @@ Scenario: Comment on commit
   Then I should successfully commented with 'My content' on line 1 of the file 'dir/file.ext' of commit '010a'
   And I click on 'Add comment'
   Then I should see 'Successfully commented'
+  And I should not see 'Add comment'
 
 Scenario: Cannot add 2 comment boxes on the same line
   When I click on last line change with text 'line 3'
