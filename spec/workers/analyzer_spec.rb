@@ -6,15 +6,21 @@ RSpec.describe Analyzer do
     let(:commit) { create(:commit) }
     let!(:file_change) { create(:file_change, line_changes: line_changes, filename: 'sample.rb', commit: commit) }
     let(:line_changes) do
-      {
-        '+' => {
+      [
+        {
+          '+' => {
           line_1 => [value_1],
           line_2 => [value_2],
-          line_3 => [value_3],
-          line_4 => [value_4],
-          line_5 => [value_5]
+          line_3 => [value_3]
+          }
+        },
+        {
+          '+' => {
+            line_4 => [value_4],
+            line_5 => [value_5]
+          }
         }
-      }
+      ]
     end
 
     let(:rules) do

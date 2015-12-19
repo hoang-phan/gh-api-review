@@ -8,14 +8,14 @@ Background:
   | bf22| message 2| committer 2| 2015-12-12 01:12:33 |
   And the commit with sha '010a' has some file changes
   | filename       | patch                                                             |
-  | dir/file.ext   | @@ -10,5 +10,5 @@line 1\nline 2\nline 3\n+line 4\n-line 5\nline 6 |
+  | dir/file.ext   | @@ -10,4 +10,4 @@line 1\nline 2\nline 3\n+line 4\n-line 5\nline 6 |
   And the commit with sha 'bf22' has some file changes
   | filename       | patch                                                             |
-  | dir/file.ext   | @@ -1,1 +1,2 @@line 7\n+line 8 |
+  | dir/file.ext   | @@ -1,1 +1,2 @@line 7\nline 9\n+line 8 |
   And there are some rules
   | regex  | lang | name   | offset |
-  | line 1 | ext  | rule 1 |        |
-  | ne 1   | ext  | rule 2 |        |
+  | line 2 | ext  | rule 1 |        |
+  | ne 2   | ext  | rule 2 |        |
   | line 8 | ext  | rule 3 | 1      |
   And there are some random comments for rules
   | rule  | suggestions       |
@@ -30,7 +30,7 @@ Background:
   
 Scenario: Autosuggest
   When I click on 'message 1'
-  Then I should see comment dialog on line 0
+  Then I should see comment dialog on line 1
   And I should see dropdown 'rules' with following options
   | rule 1 |
   | rule 2 |
@@ -38,7 +38,7 @@ Scenario: Autosuggest
 
 Scenario: Autosuggest for line with offset
   When I click on 'message 2' 
-  Then I should see comment dialog on line 0
+  Then I should see comment dialog on line 1
 
 @javascript
 Scenario: Change rules for suggestions

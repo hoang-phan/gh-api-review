@@ -25,22 +25,22 @@ $border: #d8d8d8
 .file-change
   border: 1px solid $border
   margin-bottom: 20px
+  p
+    margin: 0
 
 .file-change-header
   background-color: $header_background
   padding: 10px
   font-size: 13px
-  border-bottom: 1px solid $border
 
 .file-change-content
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace
   font-size: 11px
   line-height: 1.1
-  p
-    margin: 0
   span
     white-space: pre
     display: inline-block
+    padding: 4px 1px 0 0
     &.line-number
       width: 30px
       vertical-align: top
@@ -55,6 +55,12 @@ $border: #d8d8d8
     background: rgba(0, 255, 0, 0.2)
   .removed-line
     background: rgba(255, 0, 0, 0.2)
+
+  .chunk-header
+    border-top: 1px solid $border
+    padding: 7px 13px
+    border-bottom: 1px solid $border
+    background: #f0fafa
 
 .prev-comment
   margin: 10px

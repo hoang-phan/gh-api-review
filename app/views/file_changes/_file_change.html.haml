@@ -1,7 +1,12 @@
 .file-change
   %p.file-change-header= file_change.filename
-  .row.file-change-content
-    .col-xs-6
-      = raw render_line_changes(file_change.line_changes['-'], 'removed-line', file_change.filename)
-    .col-xs-6
-      = raw render_line_changes(file_change.line_changes['+'], 'added-line', file_change.filename, file_change.suggestions)
+  .file-change-content
+    - file_change.line_changes.each do |chunk|
+      .row
+        .col-xs-12
+          %p.chunk-header= chunk['header']
+      .row
+        .col-xs-6
+          = raw render_line_changes(chunk['-'], 'removed-line', file_change.filename)
+        .col-xs-6
+          = raw render_line_changes(chunk['+'], 'added-line', file_change.filename, file_change.suggestions)
