@@ -2,33 +2,38 @@ module PatchHelper
   class << self
     include ActionView::Helpers::TagHelper
 
+    HEADER_REGEX = /^@@ -(\d+)(,\d+)? \+(\d+)(,\d+)? @@.*$/
+
     def build_patch(patch)
-      return {} unless patch
+      return [] unless patch
+      result, chunk = [], {}
       s1 = s2 = 0
-      result = { '+' => {}, '-' => {} }
-
       patch.split("\n").each_with_index do |line, index|
-        code_line = if (parts = line.match(/^@@ -(\d+),(\d+) \+(\d+),(\d+) @@(.*)$/))
-          s2, e2, s1, e1 = parts[1..4].map(&:to_i)
-          parts[5]
+        if (parts = line.match(HEADER_REGEX)).present?
+          result << chunk if chunk.present?
+          chunk = init_chunk(line)
+          s2 = parts[1].to_i
+          s1 = parts[3].to_i
         else
-          line
-        end
-
-        if code_line[0] == '+'
-          result['+'][s1] = [code_line, index,true]
-          s1 += 1
-        elsif code_line[0] == '-'
-          result['-'][s2] = [code_line, index, true]
-          s2 += 1
-        else
-          result['+'][s1] = [code_line, index]
-          result['-'][s2] = [code_line, index]
-          s1 += 1
-          s2 += 1
+          if line[0] == '+'
+            chunk['+'][s1] = [line, index, true]
+            s1 += 1
+          elsif line[0] == '-'
+            chunk['-'][s2] = [line, index, true]
+            s2 += 1
+          else
+            chunk['+'][s1] = [line, index]
+            chunk['-'][s2] = [line, index]
+            s1 += 1
+            s2 += 1
+          end
         end
       end
-      result
+      result << chunk
+    end
+
+    def init_chunk(line)
+      { '+' => {}, '-' => {}, 'header' => line }
     end
   end
 end

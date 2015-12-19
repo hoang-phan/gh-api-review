@@ -16,9 +16,9 @@ Background:
   When I click on 'message 1'
 
 Scenario: Autocomplete snippet
-  And I click on last line change with text 'line 1'
+  And I click on last line change with text 'line 2'
   And I wait for ajax to finish
-  Then I should see comment dialog on line 0
+  Then I should see comment dialog on line 1
   When I focus first field with name 'body'
   And I enter 'key1'
   And I wait for ajax to finish
@@ -28,10 +28,10 @@ Scenario: Autocomplete snippet
   Then I should see 'content1    content2' on 'body' field
 
 Scenario: Comment on commit
-  When I click on last line change with text 'line 1'
+  When I click on last line change with text 'line 2'
   And I wait for ajax to finish
   And I fill in 'body' with 'My content'
-  Then I should successfully commented with 'My content' on line 0 of the file 'dir/file.ext' of commit '010a'
+  Then I should successfully commented with 'My content' on line 1 of the file 'dir/file.ext' of commit '010a'
   And I click on 'Add comment'
   Then I should see 'Successfully commented'
 
@@ -42,16 +42,16 @@ Scenario: Cannot add 2 comment boxes on the same line
   Then no ajax call should be made
 
 Scenario: Can add 2 comment boxes on 2 different lines
-  When I click on last line change with text 'line 1'
-  And I click on last line change with text 'line 2'
+  When I click on last line change with text 'line 2'
+  And I click on last line change with text 'line 4'
   And I wait for ajax to finish
-  Then I should see comment dialog on line 0
-  And I should see comment dialog on line 1
+  Then I should see comment dialog on line 1
+  And I should see comment dialog on line 3
 
 Scenario: Remove a dialog
-  When I click on last line change with text 'line 1'
-  And I click on last line change with text 'line 2'
+  When I click on last line change with text 'line 2'
+  And I click on last line change with text 'line 4'
   And I wait for ajax to finish
-  And I click 'Cancel' within comment dialog on line 0
-  Then I should not see comment dialog on line 0
-  And I should see comment dialog on line 1
+  And I click 'Cancel' within comment dialog on line 1
+  Then I should not see comment dialog on line 1
+  And I should see comment dialog on line 3
