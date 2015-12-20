@@ -8,6 +8,13 @@
   },
   {
     "regex": {
+      "all": "=\\w"
+    },
+    "name": "Missing space",
+    "offset": 1
+  },
+  {
+    "regex": {
       "coffee": "\\breturn\\W",
       "rb": "\\breturn\\W"
     },

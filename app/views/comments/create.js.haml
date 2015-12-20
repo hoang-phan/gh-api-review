@@ -1,2 +1,2 @@
 toastr.info("Successfully commented")
-('.comment-form').remove()
+$(".file-change:contains('#{params[:filename]}') .line-change[data-line='#{params[:line]}'] .comment-form").remove()
