@@ -4,9 +4,15 @@
     "You could config your IDE to get rid of newline warning from github",
     "Beware of the newline here"
   ],
+  "Missing space": [
+    "I think you should put a space here for consistency",
+    "Missing a space here",
+    "You could put a space here to make it consistent"
+  ],
   "Explicit return": [
     "You don't need to explicitly `return` here",
-    "`return` could be omitted"
+    "`return` could be omitted",
+    "No need for explicit `return` here"
   ],
   "Use text field tag": [
     "You may use `text_field_tag` here",
