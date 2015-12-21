@@ -124,5 +124,17 @@
       "rb": "where\\([^\\)]*\\).count *(>|<|>=|<=|==) *[01]\\b"
     },
     "name": "Check exists"
+  },
+  {
+    "regex": {
+      "rb": "render[ \\(]*partial:"
+    },
+    "name": "Partial redundancy"
+  },
+  {
+    "regex": {
+      "rb": "render.*locals:"
+    },
+    "name": "Locals redundancy"
   }
 ]
