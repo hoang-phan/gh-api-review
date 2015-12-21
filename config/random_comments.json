@@ -65,5 +65,22 @@
     "Try using `action` instead of `filter`",
     "You may consider using new syntax `action` instead",
     "New syntax `action` is preferable here"
+  ],
+  "Check exists": [
+    "I think `exists?` is faster here",
+    "You may use `exists?` for better performance here",
+    "You could consider `exists?` here, it's faster I think"
+  ],
+  "Partial redundancy": [
+    "I think we could omit `partial` here",
+    "`partial` is redundant",
+    "`partial` could be omitted",
+    "I think we could remove `partial` without affecting the meaning of this"
+  ],
+  "Locals redundancy": [
+    "I think we could omit `locals` here",
+    "`locals` is redundant",
+    "`locals` could be omitted",
+    "I think we could remove `locals` without affecting the meaning of this"
   ]
 }

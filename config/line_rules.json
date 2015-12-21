@@ -115,8 +115,26 @@
   },
   {
     "regex": {
-      "rb": "[before|after|around]_filter"
+      "rb": "(before|after|around)_filter"
     },
     "name": "Use action"
+  },
+  {
+    "regex": {
+      "rb": "where\\([^\\)]*\\).count *(>|<|>=|<=|==) *[01]\\b"
+    },
+    "name": "Check exists"
+  },
+  {
+    "regex": {
+      "rb": "render[ \\(]*partial:"
+    },
+    "name": "Partial redundancy"
+  },
+  {
+    "regex": {
+      "rb": "render.*locals:"
+    },
+    "name": "Locals redundancy"
   }
 ]

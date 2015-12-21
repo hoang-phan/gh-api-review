@@ -16,6 +16,18 @@ bruby: |
   ```ruby
   [[cursor]]
   ```
+berb: |
+  ```erb
+  [[cursor]]
+  ```
+bslim: |
+  ```slim
+  [[cursor]]
+  ```
+bhaml: |
+  ```haml
+  [[cursor]]
+  ```
 bcoffeescript: |
   ```coffee
   [[cursor]]
