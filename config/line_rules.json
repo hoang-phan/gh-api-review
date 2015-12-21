@@ -8,15 +8,31 @@
   },
   {
     "regex": {
-      "all": "=\\w"
+      "rb": "=\\w",
+      "erb": "=\\w",
+      "haml": "=\\w",
+      "slim": "=\\w",
+      "coffee": "=\\w",
+      "js": "=\\w"
     },
-    "name": "Missing space",
-    "offset": 1
+    "name": "Missing space"
   },
   {
     "regex": {
-      "coffee": "\\breturn\\W",
-      "rb": "\\breturn\\W"
+      "all": "{\\w"
+    },
+    "name": "Missing space"
+  },
+  {
+    "regex": {
+      "all": "\\w}"
+    },
+    "name": "Missing space"
+  },
+  {
+    "regex": {
+      "coffee": "^[ \\t]*return\\W",
+      "rb": "^[ \\t]*return\\W"
     },
     "name": "Explicit return"
   },
@@ -83,5 +99,24 @@
       "slim": "\\bimg\\W"
     },
     "name": "Use image tag"
+  },
+  {
+    "regex": {
+      "haml": "%div\\W",
+      "slim": "\\bdiv\\W"
+    },
+    "name": "Explicit div"
+  },
+  {
+    "regex": {
+      "all": ":\\w+ *=>"
+    },
+    "name": "Old hash syntax"
+  },
+  {
+    "regex": {
+      "rb": "[before|after|around]_filter"
+    },
+    "name": "Use action"
   }
 ]

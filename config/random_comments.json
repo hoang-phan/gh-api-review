@@ -51,5 +51,19 @@
     "You may use `image_tag` here",
     "You could use `image_tag` instead",
     "You may consider `image_tag` instead"
+  ],
+  "Explicit div": [
+    "`div` could be omitted",
+    "No need for explicit `div` here",
+    "You could remove `div` without changing the semantic"
+  ],
+  "Old hash syntax": [
+    "You may consider moving to new hash syntax 1.9",
+    "You could use new hash syntax here"
+  ],
+  "Use action": [
+    "Try using `action` instead of `filter`",
+    "You may consider using new syntax `action` instead",
+    "New syntax `action` is preferable here"
   ]
 }
