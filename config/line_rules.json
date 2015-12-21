@@ -115,8 +115,14 @@
   },
   {
     "regex": {
-      "rb": "[before|after|around]_filter"
+      "rb": "(before|after|around)_filter"
     },
     "name": "Use action"
+  },
+  {
+    "regex": {
+      "rb": "where\\([^\\)]*\\).count *(>|<|>=|<=|==) *[01]\\b"
+    },
+    "name": "Check exists"
   }
 ]

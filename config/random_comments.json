@@ -65,5 +65,10 @@
     "Try using `action` instead of `filter`",
     "You may consider using new syntax `action` instead",
     "New syntax `action` is preferable here"
+  ],
+  "Check exists": [
+    "I think `exists?` is faster here",
+    "You may use `exists?` for better performance here",
+    "You could consider `exists?` here, it's faster I think"
   ]
 }
