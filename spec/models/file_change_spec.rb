@@ -2,4 +2,367 @@ require 'rails_helper'
 
 RSpec.describe FileChange, type: :model do
   it { is_expected.to belong_to :commit }
+
+  describe '#analyze' do
+    subject { build(:file_change, line_changes: line_changes, filename: 'sample.rb') }
+
+    let(:line_changes) do
+      [
+        {
+          '+' => {
+          line_1 => [value_1],
+          line_2 => [value_2],
+          line_3 => [value_3]
+          }
+        },
+        {
+          '+' => {
+            line_4 => [value_4],
+            line_5 => [value_5]
+          }
+        }
+      ]
+    end
+
+    let(:rules) do
+      [
+        {
+          'regex' => {
+            'rb' => 'matching 1'
+          },
+          'name' => rule1_name
+        },
+        {
+          'regex' => {
+            'all' => 'matching 2'
+          },
+          'name' => rule2_name
+        },
+        {
+          'regex' => {
+            'all' => 'matching 3'
+          },
+          'name' => rule3_name,
+          'offset' => 1
+        }
+      ]
+    end
+
+    let(:expected_result) do
+      {
+        line_1 => [rule1_name],
+        line_2 => [rule2_name],
+        line_3 => [rule1_name, rule2_name],
+        (line_5.to_i - 1).to_s => [rule3_name]
+      }
+    end
+
+    let(:line_1) { '5' }
+    let(:line_2) { '10' }
+    let(:line_3) { '11' }
+    let(:line_4) { '13' }
+    let(:line_5) { '17' }
+    let(:value_1) { 'matching 1 and sth' }
+    let(:value_2) { 'matching 2' }
+    let(:value_3) { 'matching 1 and matching 2' }
+    let(:value_4) { 'nomatch' }
+    let(:value_5) { 'matching 3' }
+    let(:rule1_name) { Faker::Name.name }
+    let(:rule2_name) { Faker::Name.name }
+    let(:rule3_name) { Faker::Name.name }
+
+    before do
+      stub_const('LINE_RULES', rules)
+      subject.analyze
+    end
+
+    it 'updates suggestions with correct result' do
+      expect(subject.suggestions).to eq expected_result
+    end
+  end
+
+  describe '#match_rules' do
+    subject { build(:file_change, filename: "sample.#{extension}") }
+
+    let(:matching) do
+      Proc.new do |block|
+        subject.send(:match_rules, line, ln, &block)
+      end
+    end
+
+    let(:extension) { 'html' }
+    let(:line) { '' }
+    let(:ln) { '3' }
+
+    context 'line is not present' do
+      it { expect(matching).not_to yield_control }
+    end
+
+    context 'missing new line' do
+      let(:line) { '\No newline at end of file' }
+
+      it { expect(matching).to yield_with_args('2', 'New line warning') }
+    end
+
+    context 'missing space after =' do
+      let(:line) { 'span.class#id=method(args)' }
+
+      %w(rb erb haml slim coffee js).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          it { expect(matching).to yield_with_args(ln, 'Missing space') }
+        end
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'missing space after {' do
+      let(:line) { '{abc: "123" }' }
+
+      it { expect(matching).to yield_with_args(ln, 'Missing space') }
+    end
+
+    context 'missing space before }' do
+      let(:line) { '{ abc: "123"}' }
+
+      it { expect(matching).to yield_with_args(ln, 'Missing space') }
+    end
+
+    context 'starts with return' do
+      let(:line) { 'return method' }
+
+      %w(rb coffee).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          it { expect(matching).to yield_with_args(ln, 'Explicit return') }
+        end
+      end
+
+      context 'otherwise' do
+        let(:extension) { 'js' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    %w(text email file number).each do |type|
+      context "input with type #{type}" do
+        context 'erb' do
+          let(:extension) { 'erb' }
+          let(:line) { "<input type='#{type}'>" }
+
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+        end
+
+        context 'haml' do
+          let(:extension) { 'haml' }
+          let(:line) { "%input{ type: '#{type}' }" }
+
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+        end
+
+        context 'slim' do
+          let(:extension) { 'slim' }
+          let(:line) { "input(type='#{type}')" }
+
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+        end
+
+        context 'otherwise' do
+          let(:line) { "<input type='#{type}'>" }
+
+          it { expect(matching).not_to yield_control }
+        end
+      end
+    end
+
+    context 'raw select tag' do
+      context 'erb' do
+        let(:extension) { 'erb' }
+        let(:line) { "<select class='abc'>" }
+
+        it { expect(matching).to yield_with_args(ln, "Use select tag") }
+      end
+
+      context 'haml' do
+        let(:extension) { 'haml' }
+        let(:line) { "%select.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use select tag") }
+      end
+
+      context 'slim' do
+        let(:extension) { 'slim' }
+        let(:line) { "select.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use select tag") }
+      end
+
+      context 'otherwise' do
+        let(:line) { "<select class='abc'>" }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'raw img tag' do
+      context 'erb' do
+        let(:extension) { 'erb' }
+        let(:line) { "<img class='abc'>" }
+
+        it { expect(matching).to yield_with_args(ln, "Use image tag") }
+      end
+
+      context 'haml' do
+        let(:extension) { 'haml' }
+        let(:line) { "%img.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use image tag") }
+      end
+
+      context 'slim' do
+        let(:extension) { 'slim' }
+        let(:line) { "img.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use image tag") }
+      end
+
+      context 'otherwise' do
+        let(:line) { "<img class='abc'>" }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'raw a tag' do
+      context 'erb' do
+        let(:extension) { 'erb' }
+        let(:line) { "<a class='abc'>" }
+
+        it { expect(matching).to yield_with_args(ln, "Use link to") }
+      end
+
+      context 'haml' do
+        let(:extension) { 'haml' }
+        let(:line) { "%a.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use link to") }
+      end
+
+      context 'slim' do
+        let(:extension) { 'slim' }
+        let(:line) { "a.abc" }
+
+        it { expect(matching).to yield_with_args(ln, "Use link to") }
+      end
+
+      context 'otherwise' do
+        let(:line) { "<a class='abc'>" }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'explicit div tag' do
+      context 'haml' do
+        let(:extension) { 'haml' }
+        let(:line) { '%div.abc' }
+
+        it { expect(matching).to yield_with_args(ln, 'Explicit div') }
+      end
+
+      context 'slim' do
+        let(:extension) { 'slim' }
+        let(:line) { 'div.abc' }
+
+        it { expect(matching).to yield_with_args(ln, 'Explicit div') }
+      end
+
+      context 'otherwise' do
+        let(:extension) { 'erb' }
+        let(:line) { "<div class='abc'>" }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'old hash syntax' do
+      let(:line) { ':a => 1' }
+
+      context 'rb' do
+        let(:extension) { 'rb' }
+
+        it { expect(matching).to yield_with_args(ln, 'Old hash syntax') }
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'filter' do
+      let(:line) { 'before_filter :set_args' }
+
+      context 'rb' do
+        let(:extension) { 'rb' }
+
+        it { expect(matching).to yield_with_args(ln, 'Use action') }
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use where and count to check for exists' do
+      let(:line) { 'where(attr: "attr").count > 0' }
+
+      context 'rb' do
+        let(:extension) { 'rb' }
+
+        it { expect(matching).to yield_with_args(ln, 'Check exists') }
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use render partial in view' do
+      let(:line) { '= render partial: "view"' }
+
+      %w(erb haml slim).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          it { expect(matching).to yield_with_args(ln, 'Partial redundancy') }
+        end
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use render locals in view' do
+      let(:line) { '= render "view", locals: { abc: 123 }' }
+
+      %w(erb haml slim).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          it { expect(matching).to yield_with_args(ln, 'Locals redundancy') }
+        end
+      end
+
+      context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+  end
 end
