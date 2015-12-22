@@ -8,6 +8,12 @@
   },
   {
     "regex": {
+      "all": "#{( .*|.* )}"
+    },
+    "name": "Extra space"
+  },
+  {
+    "regex": {
       "rb": "=\\w",
       "erb": "=\\w",
       "haml": "=\\w",
@@ -19,13 +25,7 @@
   },
   {
     "regex": {
-      "all": "{[^ ]"
-    },
-    "name": "Missing space"
-  },
-  {
-    "regex": {
-      "all": "[^ ]}"
+      "all": "(^|[^#]){([^ ].*|.*[^ ])}"
     },
     "name": "Missing space"
   },
