@@ -19,13 +19,13 @@
   },
   {
     "regex": {
-      "all": "{\\w"
+      "all": "{[^ ]"
     },
     "name": "Missing space"
   },
   {
     "regex": {
-      "all": "\\w}"
+      "all": "[^ ]}"
     },
     "name": "Missing space"
   },
@@ -78,14 +78,6 @@
   },
   {
     "regex": {
-      "erb": "<input\\W.*text",
-      "haml": "%input\\W.*text",
-      "slim": "\\binput\\W.*text"
-    },
-    "name": "Use text field tag"
-  },
-  {
-    "regex": {
       "erb": "<a\\W",
       "haml": "%a\\W",
       "slim": "\\ba\\W"
@@ -109,7 +101,7 @@
   },
   {
     "regex": {
-      "all": ":\\w+ *=>"
+      "rb": ":\\w+ *=>"
     },
     "name": "Old hash syntax"
   },
@@ -127,13 +119,17 @@
   },
   {
     "regex": {
-      "rb": "render[ \\(]*partial:"
+      "erb": "render[ \\(]*partial:",
+      "haml": "render[ \\(]*partial:",
+      "slim": "render[ \\(]*partial:"
     },
     "name": "Partial redundancy"
   },
   {
     "regex": {
-      "rb": "render.*locals:"
+      "erb": "render.*locals:",
+      "haml": "render.*locals:",
+      "slim": "render.*locals:"
     },
     "name": "Locals redundancy"
   }
