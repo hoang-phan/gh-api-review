@@ -10,9 +10,9 @@ RSpec.describe FileChange, type: :model do
       [
         {
           '+' => {
-          line_1 => [value_1],
-          line_2 => [value_2],
-          line_3 => [value_3]
+            line_1 => [value_1],
+            line_2 => [value_2],
+            line_3 => [value_3]
           }
         },
         {
@@ -182,25 +182,13 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'raw select tag' do
-      context 'erb' do
-        let(:extension) { 'erb' }
-        let(:line) { "<select class='abc'>" }
+      { 'erb' => "<select class='abc'>", 'haml' => '%select.abc', 'slim' => 'select.abc' }.each do |lang, value|
+        context lang do
+          let(:extension) { lang }
+          let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, "Use select tag") }
-      end
-
-      context 'haml' do
-        let(:extension) { 'haml' }
-        let(:line) { "%select.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use select tag") }
-      end
-
-      context 'slim' do
-        let(:extension) { 'slim' }
-        let(:line) { "select.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use select tag") }
+          it { expect(matching).to yield_with_args(ln, 'Use select tag') }
+        end
       end
 
       context 'otherwise' do
@@ -211,25 +199,13 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'raw img tag' do
-      context 'erb' do
-        let(:extension) { 'erb' }
-        let(:line) { "<img class='abc'>" }
+      { 'erb' => "<img class='abc'>", 'haml' => '%img.abc', 'slim' => 'img.abc' }.each do |lang, value|
+        context lang do
+          let(:extension) { lang }
+          let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, "Use image tag") }
-      end
-
-      context 'haml' do
-        let(:extension) { 'haml' }
-        let(:line) { "%img.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use image tag") }
-      end
-
-      context 'slim' do
-        let(:extension) { 'slim' }
-        let(:line) { "img.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use image tag") }
+          it { expect(matching).to yield_with_args(ln, 'Use image tag') }
+        end
       end
 
       context 'otherwise' do
@@ -240,25 +216,13 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'raw a tag' do
-      context 'erb' do
-        let(:extension) { 'erb' }
-        let(:line) { "<a class='abc'>" }
+      { 'erb' => "<a class='abc'>", 'haml' => '%a.abc', 'slim' => 'a.abc' }.each do |lang, value|
+        context lang do
+          let(:extension) { lang }
+          let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, "Use link to") }
-      end
-
-      context 'haml' do
-        let(:extension) { 'haml' }
-        let(:line) { "%a.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use link to") }
-      end
-
-      context 'slim' do
-        let(:extension) { 'slim' }
-        let(:line) { "a.abc" }
-
-        it { expect(matching).to yield_with_args(ln, "Use link to") }
+          it { expect(matching).to yield_with_args(ln, 'Use link to') }
+        end
       end
 
       context 'otherwise' do
