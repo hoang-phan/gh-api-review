@@ -104,6 +104,14 @@ RSpec.describe FileChange, type: :model do
       it { expect(matching).to yield_with_args('2', 'New line warning') }
     end
 
+    ['"string_#{ interpolate}"', '"string_#{interpolate }"', '"string_#{  interpolate }"'].each do |value|
+      context value do
+        let(:line) { value }
+
+        it { expect(matching).to yield_with_args(ln, 'Extra space') }
+      end
+    end
+
     context 'missing space after =' do
       let(:line) { 'span.class#id=method(args)' }
 
@@ -120,16 +128,20 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    context 'missing space after {' do
-      let(:line) { '{abc: "123" }' }
+    [' {abc: 123 }', ' { abc: 123}', '{abc: 123}'].each do |value|
+      context value do
+        let(:line) { value }
 
-      it { expect(matching).to yield_with_args(ln, 'Missing space') }
+        it { expect(matching).to yield_with_args(ln, 'Missing space') }
+      end
     end
 
-    context 'missing space before }' do
-      let(:line) { '{ abc: "123"}' }
+    ['{}', ' { }'].each do |value|
+      context value do
+        let(:line) { value }
 
-      it { expect(matching).to yield_with_args(ln, 'Missing space') }
+        it { expect(matching).not_to yield_control }
+      end
     end
 
     context 'starts with return' do

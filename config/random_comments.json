@@ -9,6 +9,11 @@
     "Missing a space here",
     "You could put a space here to make it consistent"
   ],
+  "Extra space": [
+    "No need for extra space here",
+    "Since this is string interpolation, I think we would not add space here",
+    "You should remove the extra space here"
+  ],
   "Explicit return": [
     "You don't need to explicitly `return` here",
     "`return` could be omitted",
