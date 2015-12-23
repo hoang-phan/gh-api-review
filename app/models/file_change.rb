@@ -9,8 +9,11 @@ class FileChange < ActiveRecord::Base
   def build_suggestions
     line_changes.each_with_object({}) do |chunk, result|
       chunk['+'].each do |ln, values|
-        match_rules(values[0], ln) do |lp, rule|
-          result[lp] = (result[lp] || []) << rule
+        match_rules(values[0], ln) do |lp, rule_name, matches|
+          result[lp] = (result[lp] || []) << {
+            'name' => rule_name,
+            'matches' => matches
+          }
         end
       end
     end
@@ -21,8 +24,8 @@ class FileChange < ActiveRecord::Base
       LINE_RULES.each do |rule|
         regexes = rule['regex']
         regex = regexes[file_type] || regexes['all']
-        if regex.present? && line.match(regex)
-          yield (ln.to_i - rule['offset'].to_i).to_s, rule['name']
+        if regex.present? && (matches = line.match(regex))
+          yield (ln.to_i - rule['offset'].to_i).to_s, rule['name'], matches.to_a.drop(1)
         end
       end
     end

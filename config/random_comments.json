@@ -39,6 +39,11 @@
     "You could use `file_field_tag` instead",
     "You may consider `file_field_tag` instead"
   ],
+  "Use hidden field tag": [
+    "You may use `hidden_field_tag` here",
+    "You could use `hidden_field_tag` instead",
+    "You may consider `hidden_field_tag` instead"
+  ],
   "Use select tag": [
     "You may use `select_tag` here",
     "You could use `select_tag` instead",
@@ -87,5 +92,15 @@
     "`locals` is redundant",
     "`locals` could be omitted",
     "I think we could remove `locals` without affecting the meaning of this"
+  ],
+  "Use to be matchers": [
+    "You could consider `be_<1>` matcher here\n\n```ruby\n<0>).to be_<1><2>\n```",
+    "Another way to do that\n\n```ruby\n<0>).to be_<1><2>\n```",
+    "How about this?\n\n```ruby\n<0>).to be_<1><2>\n```"
+  ],
+  "Use not_to be matchers": [
+    "You could consider `be_<1>` matcher here\n\n```ruby\n<0>).not_to be_<1><2>\n```",
+    "Another way to do that\n\n```ruby\n<0>).not_to be_<1><2>\n```",
+    "How about this?\n\n```ruby\n<0>).not_to be_<1><2>\n```"
   ]
 }

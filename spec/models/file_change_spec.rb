@@ -28,7 +28,7 @@ RSpec.describe FileChange, type: :model do
       [
         {
           'regex' => {
-            'rb' => 'matching 1'
+            'rb' => '(matching 1)'
           },
           'name' => rule1_name
         },
@@ -50,10 +50,25 @@ RSpec.describe FileChange, type: :model do
 
     let(:expected_result) do
       {
-        line_1 => [rule1_name],
-        line_2 => [rule2_name],
-        line_3 => [rule1_name, rule2_name],
-        (line_5.to_i - 1).to_s => [rule3_name]
+        line_1 => [{
+          'name' => rule1_name,
+          'matches' => ['matching 1']
+        }],
+        line_2 => [{
+          'name' => rule2_name,
+          'matches' => []
+        }],
+        line_3 => [{
+          'name' => rule1_name,
+          'matches' => ['matching 1']
+        }, {
+          'name' => rule2_name,
+          'matches' => []
+        }],
+        (line_5.to_i - 1).to_s => [{
+          'name' => rule3_name,
+          'matches' => []
+        }]
       }
     end
 
@@ -101,14 +116,14 @@ RSpec.describe FileChange, type: :model do
     context 'missing new line' do
       let(:line) { '\No newline at end of file' }
 
-      it { expect(matching).to yield_with_args('2', 'New line warning') }
+      it { expect(matching).to yield_with_args('2', 'New line warning', anything) }
     end
 
     ['"string_#{ interpolate}"', '"string_#{interpolate }"', '"string_#{  interpolate }"'].each do |value|
       context value do
         let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, 'Extra space') }
+        it { expect(matching).to yield_with_args(ln, 'Extra space', anything) }
       end
     end
 
@@ -119,17 +134,39 @@ RSpec.describe FileChange, type: :model do
         context value do
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Missing space') }
+          it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
         end
       end
     end
 
     context 'missing space for hash' do
-      ['{ "a":123 }', "{ a:'123' }"].each do |value|
+      ['{ "bc":123 }', "{ bc:'123' }"].each do |value|
         context value do
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Missing space') }
+          %w(rb erb haml slim coffee js).each do |lang|
+            context lang do
+              let(:extension) { lang }
+
+              it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
+            end
+          end
+
+          context 'otherwise' do
+            let(:extension) { 'xml' }
+
+            it { expect(matching).not_to yield_control }
+          end
+        end
+      end
+
+      [' :abc', 'Faker::Lorem'].each do |value|
+        let(:extension) { 'rb' }
+
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
         end
       end
     end
@@ -141,7 +178,7 @@ RSpec.describe FileChange, type: :model do
         context lang do
           let(:extension) { lang }
 
-          it { expect(matching).to yield_with_args(ln, 'Missing space') }
+          it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
         end
       end
 
@@ -154,7 +191,7 @@ RSpec.describe FileChange, type: :model do
       context value do
         let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, 'Missing space') }
+        it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
       end
     end
 
@@ -173,7 +210,7 @@ RSpec.describe FileChange, type: :model do
         context lang do
           let(:extension) { lang }
 
-          it { expect(matching).to yield_with_args(ln, 'Explicit return') }
+          it { expect(matching).to yield_with_args(ln, 'Explicit return', anything) }
         end
       end
 
@@ -191,7 +228,7 @@ RSpec.describe FileChange, type: :model do
         context lang do
           let(:extension) { lang }
 
-          it { expect(matching).to yield_with_args(ln, 'Explicit return') }
+          it { expect(matching).to yield_with_args(ln, 'Explicit return', anything) }
         end
       end
 
@@ -202,27 +239,27 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    %w(text email file number).each do |type|
+    %w(text email file number hidden).each do |type|
       context "input with type #{type}" do
         context 'erb' do
           let(:extension) { 'erb' }
           let(:line) { "<input type='#{type}'>" }
 
-          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag", anything) }
         end
 
         context 'haml' do
           let(:extension) { 'haml' }
           let(:line) { "%input{ type: '#{type}' }" }
 
-          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag", anything) }
         end
 
         context 'slim' do
           let(:extension) { 'slim' }
           let(:line) { "input(type='#{type}')" }
 
-          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag") }
+          it { expect(matching).to yield_with_args(ln, "Use #{type} field tag", anything) }
         end
 
         context 'otherwise' do
@@ -239,7 +276,7 @@ RSpec.describe FileChange, type: :model do
           let(:extension) { lang }
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Use select tag') }
+          it { expect(matching).to yield_with_args(ln, 'Use select tag', anything) }
         end
       end
 
@@ -256,7 +293,7 @@ RSpec.describe FileChange, type: :model do
           let(:extension) { lang }
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Use image tag') }
+          it { expect(matching).to yield_with_args(ln, 'Use image tag', anything) }
         end
       end
 
@@ -273,7 +310,7 @@ RSpec.describe FileChange, type: :model do
           let(:extension) { lang }
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Use link to') }
+          it { expect(matching).to yield_with_args(ln, 'Use link to', anything) }
         end
       end
 
@@ -289,14 +326,14 @@ RSpec.describe FileChange, type: :model do
         let(:extension) { 'haml' }
         let(:line) { '%div.abc' }
 
-        it { expect(matching).to yield_with_args(ln, 'Explicit div') }
+        it { expect(matching).to yield_with_args(ln, 'Explicit div', anything) }
       end
 
       context 'slim' do
         let(:extension) { 'slim' }
         let(:line) { 'div.abc' }
 
-        it { expect(matching).to yield_with_args(ln, 'Explicit div') }
+        it { expect(matching).to yield_with_args(ln, 'Explicit div', anything) }
       end
 
       context 'otherwise' do
@@ -313,7 +350,7 @@ RSpec.describe FileChange, type: :model do
       context 'rb' do
         let(:extension) { 'rb' }
 
-        it { expect(matching).to yield_with_args(ln, 'Old hash syntax') }
+        it { expect(matching).to yield_with_args(ln, 'Old hash syntax', anything) }
       end
 
       context 'otherwise' do
@@ -327,7 +364,7 @@ RSpec.describe FileChange, type: :model do
       context 'rb' do
         let(:extension) { 'rb' }
 
-        it { expect(matching).to yield_with_args(ln, 'Use action') }
+        it { expect(matching).to yield_with_args(ln, 'Use action', anything) }
       end
 
       context 'otherwise' do
@@ -341,7 +378,7 @@ RSpec.describe FileChange, type: :model do
       context 'rb' do
         let(:extension) { 'rb' }
 
-        it { expect(matching).to yield_with_args(ln, 'Check exists') }
+        it { expect(matching).to yield_with_args(ln, 'Check exists', anything) }
       end
 
       context 'otherwise' do
@@ -356,7 +393,7 @@ RSpec.describe FileChange, type: :model do
         context lang do
           let(:extension) { lang }
 
-          it { expect(matching).to yield_with_args(ln, 'Partial redundancy') }
+          it { expect(matching).to yield_with_args(ln, 'Partial redundancy', anything) }
         end
       end
 
@@ -372,11 +409,51 @@ RSpec.describe FileChange, type: :model do
         context lang do
           let(:extension) { lang }
 
-          it { expect(matching).to yield_with_args(ln, 'Locals redundancy') }
+          it { expect(matching).to yield_with_args(ln, 'Locals redundancy', anything) }
         end
       end
 
       context 'otherwise' do
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use be matchers' do
+      context 'ruby' do
+        let(:extension) { 'rb' }
+
+        ['expect(Model.exists?).to be_truthy', 'expect(parent.assocs.abc?).to be_truthy'].each do |value|
+          context value do
+            let(:line) { value }
+
+            it { expect(matching).to yield_with_args(ln, 'Use to be matchers', anything) }
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'expect(Author.exists?).to be_truthy' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use not be matchers' do
+      context 'ruby' do
+        let(:extension) { 'rb' }
+
+        ['expect(Model.exists?).to be_falsey', 'expect(parent.assocs.abc?).to be_falsey'].each do |value|
+          context value do
+            let(:line) { value }
+
+            it { expect(matching).to yield_with_args(ln, 'Use not_to be matchers', anything) }
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'expect(Author.exists?).to be_falsey' }
+
         it { expect(matching).not_to yield_control }
       end
     end

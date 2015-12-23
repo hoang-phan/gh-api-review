@@ -21,9 +21,9 @@ matchString = (str, term) ->
 sample = (items) ->
   items[Math.floor(Math.random() * items.length)]
 
-removeItem = (items, value) ->
+removeItem = (items, matches, value) ->
   items.filter (val) ->
-    value != val
+    replaceTemplate(val, matches) != value
 
 fetchSnippets = ->
   $.ajax
@@ -38,6 +38,12 @@ fetchRandomComments = ->
     dataType: 'json'
     success: (data) ->
       randomComments = data.comments
+
+replaceTemplate = (text, matches) ->
+  result = text
+  matches.split('<,>').forEach (value, index) ->
+    result = result.replace(new RegExp("<#{index}>", 'g'), value)
+  result
 
 $ ->
   fetchSnippets()
@@ -54,9 +60,13 @@ $ ->
       $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
       $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
 
+  $fileChangeContent.find('[name=rules]').trigger('change')
+
   $fileChangeContent.on 'change', '[name=rules]', (e) ->
     $this = $(this)
-    $this.closest('form').find('[name=body]').val(sample(randomComments[$this.val()]))
+    $rule = $this.find('option:selected')
+    text = sample(randomComments[$rule.text()])
+    $this.closest('form').find('[name=body]').val(replaceTemplate(text, $rule.val()))
     false
 
   $fileChangeContent.on 'click', '.cancel-btn', ->
@@ -66,10 +76,12 @@ $ ->
   $fileChangeContent.on 'click', '.random-comment', ->
     $this = $(this)
     $body = $this.closest('form').find('[name=body]')
-    comments = randomComments[$this.siblings("[name=rules]").val()]
-    comments = removeItem(comments, $body.val())
-    if comments.length > 0   
-      $body.val(sample(comments))
+    $rule = $this.siblings("[name=rules]").find("option:selected")
+    comments = randomComments[$rule.text()]
+    comments = removeItem(comments, $rule.val(), $body.val())
+    if comments.length > 0
+      text = sample(comments)
+      $body.val(replaceTemplate(text, $rule.val()))
     false
 
   $fileChangeContent.find('p').on 'click', ->

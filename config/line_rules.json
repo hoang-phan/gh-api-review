@@ -31,7 +31,12 @@
   },
   {
     "regex": {
-      "all": "[\\w'\\\"]:[^ ]"
+      "rb": "[\\w'\\\"]:[^: ]",
+      "erb": "[\\w'\\\"]:[^: ]",
+      "haml": "[\\w'\\\"]:[^: ]",
+      "slim": "[\\w'\\\"]:[^: ]",
+      "coffee": "[\\w'\\\"]:[^: ]",
+      "js": "[\\w'\\\"]:[^: ]"
     },
     "name": "Missing space"
   },
@@ -79,6 +84,14 @@
       "slim": "\\binput\\W.*file"
     },
     "name": "Use file field tag"
+  },
+  {
+    "regex": {
+      "erb": "<input\\W.*hidden",
+      "haml": "%input\\W.*hidden",
+      "slim": "\\binput\\W.*hidden"
+    },
+    "name": "Use hidden field tag"
   },
   {
     "regex": {
@@ -144,5 +157,17 @@
       "slim": "render.*locals:"
     },
     "name": "Locals redundancy"
+  },
+  {
+    "regex": {
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_truthy"
+    },
+    "name": "Use to be matchers"
+  },
+  {
+    "regex": {
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_falsey"
+    },
+    "name": "Use not_to be matchers"
   }
 ]
