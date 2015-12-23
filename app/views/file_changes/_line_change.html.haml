@@ -3,4 +3,4 @@
   .comments
     = display_comments(@line_comments, filename, value[1], value[2], special_class)
     - if line_suggestions.present?
-      = render 'comments/new', repo: @repository.full_name, line: value[1], sha: @commit.sha, filename: filename, body: RANDOM_COMMENTS[line_suggestions.first].sample, suggestions: line_suggestions
+      = render 'comments/new', repo: @repository.full_name, line: value[1], sha: @commit.sha, filename: filename, body: random_comments(line_suggestions.first), suggestions: line_suggestions

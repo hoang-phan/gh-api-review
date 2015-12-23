@@ -157,5 +157,17 @@
       "slim": "render.*locals:"
     },
     "name": "Locals redundancy"
+  },
+  {
+    "regex": {
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_truthy"
+    },
+    "name": "Use to be matchers"
+  },
+  {
+    "regex": {
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_falsey"
+    },
+    "name": "Use not_to be matchers"
   }
 ]

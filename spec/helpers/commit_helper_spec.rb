@@ -125,8 +125,8 @@ RSpec.describe CommitHelper, type: :helper do
     let(:value2) { 'value2' }
     let(:partial1) { 'partial1' }
     let(:partial2) { 'partial2' }
-    let(:line_suggestions_1) { nil }
-    let(:line_suggestions_2) { nil }
+    let(:line_suggestions_1) { [] }
+    let(:line_suggestions_2) { [] }
 
     let(:klass) { 'class' }
     let(:filename) { 'dir/filename' }
@@ -145,13 +145,34 @@ RSpec.describe CommitHelper, type: :helper do
     end
 
     context 'suggestions for line are present' do
-      let(:suggestions) { { key1 => line_suggestions_1 } }
-      let(:line_suggestions_1) { [suggest_1] }
+      let(:suggestions) { { key1 => line_raw_1 } }
+      let(:line_raw_1) { [{'name' => suggest_1, 'matches' => []}] }
+      let(:line_suggestions_1) { [[suggest_1, '']] }
       let(:suggest_1) { 'suggest_1' }
 
       it 'renders all line changes partials with the correct line_suggestions' do
         expect(render_line_changes(line_changes, klass, filename, suggestions)).to eq "#{partial1}#{partial2}"
       end
+    end
+  end
+
+  describe '#random_comments' do
+    let(:comments) do
+      {
+        key => [value]
+      }
+    end
+
+    let(:key) { 'key' }
+    let(:value) { "<0><2><0>" }
+    let(:suggestion) { [key, ['aa', 'b', 'cc'].join('<,>')] }
+
+    before do
+      stub_const('RANDOM_COMMENTS', comments)
+    end
+
+    it 'render correct templates' do
+      expect(random_comments(suggestion)).to eq 'aaccaa'
     end
   end
 end
