@@ -39,6 +39,11 @@
     "You could use `file_field_tag` instead",
     "You may consider `file_field_tag` instead"
   ],
+  "Use hidden field tag": [
+    "You may use `hidden_field_tag` here",
+    "You could use `hidden_field_tag` instead",
+    "You may consider `hidden_field_tag` instead"
+  ],
   "Use select tag": [
     "You may use `select_tag` here",
     "You could use `select_tag` instead",

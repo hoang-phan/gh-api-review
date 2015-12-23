@@ -224,7 +224,7 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    %w(text email file number).each do |type|
+    %w(text email file number hidden).each do |type|
       context "input with type #{type}" do
         context 'erb' do
           let(:extension) { 'erb' }

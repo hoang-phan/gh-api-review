@@ -87,6 +87,14 @@
   },
   {
     "regex": {
+      "erb": "<input\\W.*hidden",
+      "haml": "%input\\W.*hidden",
+      "slim": "\\binput\\W.*hidden"
+    },
+    "name": "Use hidden field tag"
+  },
+  {
+    "regex": {
       "erb": "<select\\W",
       "haml": "%select\\W",
       "slim": "\\bselect\\W"
