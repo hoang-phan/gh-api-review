@@ -125,11 +125,33 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'missing space for hash' do
-      ['{ "a":123 }', "{ a:'123' }"].each do |value|
+      ['{ "bc":123 }', "{ bc:'123' }"].each do |value|
         context value do
           let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Missing space') }
+          %w(rb erb haml slim coffee js).each do |lang|
+            context lang do
+              let(:extension) { lang }
+
+              it { expect(matching).to yield_with_args(ln, 'Missing space') }
+            end
+          end
+
+          context 'otherwise' do
+            let(:extension) { 'xml' }
+
+            it { expect(matching).not_to yield_control }
+          end
+        end
+      end
+
+      [' :abc', 'Faker::Lorem'].each do |value|
+        let(:extension) { 'rb' }
+
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
         end
       end
     end
