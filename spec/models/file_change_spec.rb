@@ -144,6 +144,24 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
+    context 'starts with return plus' do
+      let(:line) { "+  \treturn method" }
+
+      %w(rb coffee).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          it { expect(matching).to yield_with_args(ln, 'Explicit return') }
+        end
+      end
+
+      context 'otherwise' do
+        let(:extension) { 'js' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
     context 'starts with return' do
       let(:line) { 'return method' }
 

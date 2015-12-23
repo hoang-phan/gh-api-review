@@ -31,8 +31,8 @@
   },
   {
     "regex": {
-      "coffee": "^[ \\t]*return\\W",
-      "rb": "^[ \\t]*return\\W"
+      "coffee": "^\\+?[ \\t]*return\\W",
+      "rb": "^\\+?[ \\t]*return\\W"
     },
     "name": "Explicit return"
   },
