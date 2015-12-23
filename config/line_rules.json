@@ -31,6 +31,18 @@
   },
   {
     "regex": {
+      "all": "[\\w'\\\"]:[^ ]"
+    },
+    "name": "Missing space"
+  },
+  {
+    "regex": {
+      "erb": "<%([^ ].*|.*[^ ])%>"
+    },
+    "name": "Missing space"
+  },
+  {
+    "regex": {
       "coffee": "^\\+?[ \\t]*return\\W",
       "rb": "^\\+?[ \\t]*return\\W"
     },
