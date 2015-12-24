@@ -144,9 +144,9 @@
   },
   {
     "regex": {
-      "erb": "render[ \\(]*partial:",
-      "haml": "render[ \\(]*partial:",
-      "slim": "render[ \\(]*partial:"
+      "erb": "render[ \\(]*partial((?!collection).)*",
+      "haml": "render[ \\(]*partial((?!collection).)*",
+      "slim": "render[ \\(]*partial((?!collection).)*"
     },
     "name": "Partial redundancy"
   },
@@ -160,14 +160,20 @@
   },
   {
     "regex": {
-      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_truthy"
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*(be_truthy|be true|eq true)"
     },
     "name": "Use to be matchers"
   },
   {
     "regex": {
-      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*be_falsey"
+      "rb": "(expect.*)\\.(\\w+)\\?(\\(.*\\))?\\).*(be_falsey|be_falsy|be false|eq false)"
     },
     "name": "Use not_to be matchers"
+  },
+  {
+    "regex": {
+      "rb": "FactoryGirl\\.(create|build)"
+    },
+    "name": "Add factory girl syntax"
   }
 ]
