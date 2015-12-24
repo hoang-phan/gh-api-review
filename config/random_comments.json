@@ -108,5 +108,10 @@
     "You could get rid of `FactoryGirl.` prefix by adding `FactoryGirl::Syntax::Methods` to your test config",
     "You may want to [setup your test config](https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md) to get rid of FactoryGirl syntax",
     "You may consider including `FactoryGirl::Syntax::Methods` to your test config instead"
+  ],
+  "Use have_http_status": [
+    "You may consider using `have_http_status` here for more semantic test",
+    "Another way to do that:\n\n```ruby\nexpect(response).to have_http_status :<s<0>>\n```",
+    "You could use `expect(response).to have_http_status(:<s<0>>)` instead"
   ]
 }

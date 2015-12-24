@@ -1,6 +1,28 @@
 class FileChange < ActiveRecord::Base
   belongs_to :commit
 
+  def self.build_random_comments
+    random_comments = {}
+    all.each do |file|
+      next unless suggestions = file.suggestions
+      suggestions.each do |ln, line_suggestions|
+        line_suggestions.each do |suggestion|
+          name = suggestion['name']
+          matches = suggestion['matches']
+          key = ([name] + matches).join('<,>')
+          random_comments[key] = RANDOM_COMMENTS[name].map do |template|
+            result = template
+            matches.each_with_index do |match, index|
+              result = result.gsub("<#{index}>", match.to_s)
+            end
+            result.gsub(/<s(\d+)>/, HTTP_STATUS_TABLE)
+          end
+        end
+      end
+    end
+    random_comments
+  end
+
   def analyze
     update(suggestions: build_suggestions)
   end

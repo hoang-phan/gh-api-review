@@ -18,6 +18,7 @@ before_script:
   - cp config/github.yml.example config/github.yml
   - cp config/secrets.yml.example config/secrets.yml
   - cp config/snippets.yml.example config/snippets.yml
+  - cp config/http_statuses.yml.example config/http_statuses.yml
   - bundle exec rake db:test:prepare
 script:
   - bundle exec rspec spec

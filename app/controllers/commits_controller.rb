@@ -8,6 +8,7 @@ class CommitsController < ApplicationController
     @commit = Commit.find(params[:id])
     @repository = @commit.repository
     @line_comments = @commit.line_comments
+    @random_comments = FileChange.build_random_comments
   end
 
   def create

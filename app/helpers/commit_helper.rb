@@ -23,18 +23,9 @@ module CommitHelper
     suggestions ||= {}
     line_changes.map do |key, value|
       line_suggestions = suggestions[key].to_a.map do |suggestion|
-        [ suggestion['name'], suggestion['matches'].join('<,>') ]
+        [ suggestion['name'], ([suggestion['name']] + suggestion['matches']).join('<,>') ]
       end
       render 'file_changes/line_change', key: key, value: value, special_class: klass, filename: filename, line_suggestions: line_suggestions
     end.join('')
-  end
-
-  def random_comments(suggestion)
-    matches = suggestion[1].split('<,>')
-    template = RANDOM_COMMENTS[suggestion[0]].sample
-    suggestion[1].split('<,>').each_with_index do |match, index|
-      template = template.gsub("<#{index}>", match)
-    end
-    template
   end
 end

@@ -26,11 +26,20 @@ RSpec.describe CommitsController, type: :controller do
 
   describe "GET show" do
     let(:commit) { create(:commit) }
+    let(:line_comments) { double('line_comments') }
+    let(:random_comments) { double('random_comments') }
+
+    before do
+      expect_any_instance_of(Commit).to receive(:line_comments).and_return(line_comments)
+      expect(FileChange).to receive(:build_random_comments).and_return(random_comments)
+      get :show, id: commit.id
+    end
 
     it "returns http success" do
-      get :show, id: commit.id
       expect(response).to be_success
       expect(assigns(:commit)).to eq commit
+      expect(assigns(:repository)).to eq commit.repository
+      expect(assigns(:line_comments)).to eq line_comments
     end
   end
 

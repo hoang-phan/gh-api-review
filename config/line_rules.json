@@ -175,5 +175,11 @@
       "rb": "FactoryGirl\\.(create|build)"
     },
     "name": "Add factory girl syntax"
+  },
+  {
+    "regex": {
+      "rb": "expect\\( *response.status *\\).to eq\\W(\\d+)"
+    },
+    "name": "Use have_http_status"
   }
 ]
