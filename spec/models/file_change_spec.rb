@@ -3,6 +3,48 @@ require 'rails_helper'
 RSpec.describe FileChange, type: :model do
   it { is_expected.to belong_to :commit }
 
+  describe '.build_random_comments' do
+    let(:suggestions_1) do
+      {
+        '1' => [
+          'name' => 'Use have_http_status',
+          'matches' => ['404']
+        ]
+      }
+    end
+
+    let(:suggestions_2) do
+      {
+        '2' => [
+          'name' => 'Missing space',
+          'matches' => []
+        ]
+      }
+    end
+
+    let(:expected_result) do
+      {
+        'Use have_http_status<,>404' => [
+          "You may consider using `have_http_status` here for more semantic test",
+          "Another way to do that:\n\n```ruby\nexpect(response).to have_http_status :not_found\n```",
+          "You could use `expect(response).to have_http_status(:not_found)` instead"
+        ],
+        'Missing space' => [
+          'I think you should put a space here for consistency',
+          'Missing a space here',
+          'You could put a space here to make it consistent'
+        ]
+      }
+    end
+
+    let!(:file_change_1) { create(:file_change, suggestions: suggestions_1) }
+    let!(:file_change_2) { create(:file_change, suggestions: suggestions_2) }
+
+    it 'builds random_comments hash' do
+      expect(described_class.build_random_comments).to eq expected_result
+    end
+  end
+
   describe '#analyze' do
     subject { build(:file_change, line_changes: line_changes, filename: 'sample.rb') }
 
@@ -479,6 +521,26 @@ RSpec.describe FileChange, type: :model do
 
       context 'otherwise' do
         let(:line) { 'FactoryGirl.build_list(:model, 2)' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use have_http_status' do
+      context 'ruby' do
+        let(:extension) { 'rb' }
+
+        ['expect(response.status).to eq(200)', 'expect( response.status ).to eq 400'].each do |value|
+          context value do
+            let(:line) { value }
+
+            it { expect(matching).to yield_with_args(ln, 'Use have_http_status', anything) }
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'expect( response.status ).to eq 400' }
 
         it { expect(matching).not_to yield_control }
       end

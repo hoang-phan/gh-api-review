@@ -1,6 +1,6 @@
 class CommitsSuggestionsController < ApplicationController
   def index
-    render json: { comments: RANDOM_COMMENTS }
+    render json: { comments: FileChange.build_random_comments }
   end
 
   def create
