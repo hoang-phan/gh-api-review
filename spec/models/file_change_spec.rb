@@ -397,6 +397,12 @@ RSpec.describe FileChange, type: :model do
         end
       end
 
+      context 'with collection' do
+        let(:line) { '= render partial: "view", collection: "collection"' }
+
+        it { expect(matching).not_to yield_control }
+      end
+
       context 'otherwise' do
         it { expect(matching).not_to yield_control }
       end
@@ -422,7 +428,7 @@ RSpec.describe FileChange, type: :model do
       context 'ruby' do
         let(:extension) { 'rb' }
 
-        ['expect(Model.exists?).to be_truthy', 'expect(parent.assocs.abc?).to be_truthy'].each do |value|
+        ['expect(Model.exists?).to be_truthy', 'expect(parent.assocs.abc?(xyz)).to eq true'].each do |value|
           context value do
             let(:line) { value }
 
@@ -442,7 +448,7 @@ RSpec.describe FileChange, type: :model do
       context 'ruby' do
         let(:extension) { 'rb' }
 
-        ['expect(Model.exists?).to be_falsey', 'expect(parent.assocs.abc?).to be_falsey'].each do |value|
+        ['expect(Model.exists?).to be_falsy', 'expect(parent.assocs.abc?(xyz)).to be false'].each do |value|
           context value do
             let(:line) { value }
 
@@ -453,6 +459,26 @@ RSpec.describe FileChange, type: :model do
 
       context 'otherwise' do
         let(:line) { 'expect(Author.exists?).to be_falsey' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'use FactoryGirl syntax' do
+      context 'ruby' do
+        let(:extension) { 'rb' }
+
+        ['FactoryGirl.create :model', 'FactoryGirl.build_list(:model, 2)'].each do |value|
+          context value do
+            let(:line) { value }
+
+            it { expect(matching).to yield_with_args(ln, 'Add factory girl syntax', anything) }
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'FactoryGirl.build_list(:model, 2)' }
 
         it { expect(matching).not_to yield_control }
       end

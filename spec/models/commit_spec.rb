@@ -41,4 +41,14 @@ RSpec.describe Commit, type: :model do
       expect(commit.line_comments[filename][line]).to eq [comment_2, comment_1].map { |c| [c.user, c.body, c.commented_at] }
     end
   end
+
+  describe '#num_suggestions' do
+    let(:commit) { create(:commit) }
+    let!(:file_change_1) { create(:file_change, suggestions: suggestions, commit: commit) }
+    let!(:file_change_2) { create(:file_change, suggestions: [], commit: commit) }
+    let!(:file_change_3) { create(:file_change, suggestions: nil, commit: commit) }
+    let(:suggestions) { [0..5].to_a }
+
+    it { expect(commit.num_suggestions).to eq suggestions.count }
+  end
 end
