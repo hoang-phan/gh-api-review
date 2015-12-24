@@ -3,4 +3,7 @@
   .middle.commit-info.pull-left
     %div= link_to commit.short_message, commit_path(commit)
     %em Committed by #{commit.committer} #{time_ago_in_words(commit.committed_at)} ago.
+  .pull-right
+    %h5 #{@comments_count[commit.id].to_i} comments
+    %h5 #{commit.file_changes.pluck(:suggestions).sum(&:count)} suggestions
 %br

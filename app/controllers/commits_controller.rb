@@ -1,6 +1,7 @@
 class CommitsController < ApplicationController
   def index
     @commits = Commit.includes(:repository).from_newest
+    @comments_count = Comment.group(:commit_id).count
   end
 
   def show
