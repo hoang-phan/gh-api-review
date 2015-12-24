@@ -22,4 +22,10 @@ class Commit < ActiveRecord::Base
     end
     result
   end
+
+  def num_suggestions
+    file_changes.pluck(:suggestions).sum do |suggestion|
+      suggestion.to_a.count
+    end
+  end
 end
