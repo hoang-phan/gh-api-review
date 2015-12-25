@@ -202,7 +202,7 @@ RSpec.describe FileChange, type: :model do
         end
       end
 
-      [' :abc', 'Faker::Lorem'].each do |value|
+      [' :abc', 'Faker::Lorem', 'http://'].each do |value|
         let(:extension) { 'rb' }
 
         context value do
@@ -229,15 +229,27 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    [' {abc: 123 }', ' { abc: 123}', '{abc: 123}'].each do |value|
+    [' {abc: 123 }', ' { abc: 123}', '{abc => 123}'].each do |value|
       context value do
         let(:line) { value }
 
-        it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
+        %w(rb erb haml slim coffee js).each do |lang|
+          context lang do
+            let(:extension) { lang }
+
+            it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
+          end
+        end
+
+        context 'otherwise' do
+          let(:extension) { 'm' }
+
+          it { expect(matching).not_to yield_control }
+        end
       end
     end
 
-    ['{}', ' { }', '+#{value == 1}'].each do |value|
+    ['{}', ' { }', '+#{value == 1}','{value}'].each do |value|
       context value do
         let(:line) { value }
 
@@ -330,7 +342,7 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'raw img tag' do
-      { 'erb' => "<img class='abc'>", 'haml' => '%img.abc', 'slim' => 'img.abc' }.each do |lang, value|
+      { 'erb' => "<img class='abc'>", 'haml' => '%img.abc', 'slim' => ' img.abc' }.each do |lang, value|
         context lang do
           let(:extension) { lang }
           let(:line) { value }
@@ -347,7 +359,7 @@ RSpec.describe FileChange, type: :model do
     end
 
     context 'raw a tag' do
-      { 'erb' => "<a class='abc'>", 'haml' => '%a.abc', 'slim' => 'a.abc' }.each do |lang, value|
+      { 'erb' => "<a class='abc'>", 'haml' => '%a.abc', 'slim' => '+ a.abc' }.each do |lang, value|
         context lang do
           let(:extension) { lang }
           let(:line) { value }
@@ -389,10 +401,12 @@ RSpec.describe FileChange, type: :model do
     context 'old hash syntax' do
       let(:line) { ':a => 1' }
 
-      context 'rb' do
-        let(:extension) { 'rb' }
+      %w(rb erb haml slim).each do |lang|
+        context lang do
+          let(:extension) { lang }
 
-        it { expect(matching).to yield_with_args(ln, 'Old hash syntax', anything) }
+          it { expect(matching).to yield_with_args(ln, 'Old hash syntax', anything) }
+        end
       end
 
       context 'otherwise' do
