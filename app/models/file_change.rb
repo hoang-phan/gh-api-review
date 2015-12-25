@@ -2,32 +2,45 @@ class FileChange < ActiveRecord::Base
   belongs_to :commit
 
   def self.build_random_comments
-    random_comments = {}
-    all.each do |file|
-      next unless suggestions = file.suggestions
-      suggestions.each do |ln, line_suggestions|
-        line_suggestions.each do |suggestion|
-          name = suggestion['name']
-          matches = suggestion['matches']
-          key = ([name] + matches).join('<,>')
-          random_comments[key] = RANDOM_COMMENTS[name].map do |template|
-            result = template
-            matches.each_with_index do |match, index|
-              result = result.gsub("<#{index}>", match.to_s)
-            end
-            result.gsub(/<s(\d+)>/, HTTP_STATUS_TABLE)
-          end
-        end
+    all.each_with_object({}) do |file, random_comments|
+      file.build_comments do |key, value|
+        random_comments[key] = value
       end
     end
-    random_comments
   end
 
   def analyze
     update(suggestions: build_suggestions)
   end
 
+  def build_comments(&block)
+    return unless suggestions.present?
+    suggestions.each do |ln, line_suggestions|
+      line_suggestions.each do |suggestion|
+        build_line_random_comments(suggestion, &block)
+      end
+    end
+  end
+
   private
+
+  def build_line_random_comments(suggestion)
+    name, matches = suggestion['name'], suggestion['matches']
+    key = ([name] + matches).join('<,>')
+    value = RANDOM_COMMENTS[name].map do |template|
+      build_comment(template, matches)
+    end
+    yield key, value
+  end
+
+  def build_comment(template, matches)
+    result = template
+    matches.each_with_index do |match, index|
+      result = result.gsub("<#{index}>", match.to_s)
+    end
+    result.gsub(/<s(\d+)>/, HTTP_STATUS_TABLE)
+  end
+
   def build_suggestions
     line_changes.each_with_object({}) do |chunk, result|
       chunk['+'].each do |ln, values|
