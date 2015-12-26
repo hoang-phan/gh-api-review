@@ -559,5 +559,61 @@ RSpec.describe FileChange, type: :model do
         it { expect(matching).not_to yield_control }
       end
     end
+
+    context 'hardcoded dimensions' do
+      context 'xml' do
+        let(:extension) { 'xml' }
+
+        [' android:width="10dp"',"+\tfontSize='5sp'"].each do |value|
+          context value do
+            let(:line) { value }
+            
+            it { expect(matching).to yield_with_args(ln, 'Hardcoded dimensions', anything) }
+          end
+        end
+
+        ['<dimen name="snake_case">50dp</dimen>', 'android:value="0dp"'].each do |value|
+          context value do
+            let(:line) { value }
+            
+            it { expect(matching).not_to yield_control }            
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'android:width="10dp"' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
+
+    context 'hardcoded dimensions' do
+      context 'xml' do
+        let(:extension) { 'xml' }
+
+        [' android:text="My text"',"+\tpath='abc/xyz'"].each do |value|
+          context value do
+            let(:line) { value }
+            
+            it { expect(matching).to yield_with_args(ln, 'Hardcoded string', anything) }
+          end
+        end
+
+        ['android:width="match_parent"', '+android:height="wrap_content"'].each do |value|
+          context value do
+            let(:line) { value }
+            
+            it { expect(matching).not_to yield_control }            
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { 'android:width="10dp"' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
   end
 end

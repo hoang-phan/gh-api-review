@@ -152,9 +152,9 @@
   },
   {
     "regex": {
-      "erb": "render[ \\(]*partial((?!collection).)*",
-      "haml": "render[ \\(]*partial((?!collection).)*",
-      "slim": "render[ \\(]*partial((?!collection).)*"
+      "erb": "render[ \\(]*partial((?!collection).*)",
+      "haml": "render[ \\(]*partial((?!collection).*)",
+      "slim": "render[ \\(]*partial((?!collection).*)"
     },
     "name": "Partial redundancy"
   },
@@ -189,5 +189,17 @@
       "rb": "expect\\( *response.status *\\).to eq\\W(\\d+)"
     },
     "name": "Use have_http_status"
+  },
+  {
+    "regex": {
+      "xml": "^\\+?[ \t]*\\w+(:\\w+)? *= *[\"'] *((?!0dp)\\d+) *(dp|sp|dip|px) *[\"']"
+    },
+    "name": "Hardcoded dimensions"
+  },
+  {
+    "regex": {
+      "xml": "^\\+?[ \t]*\\w+(:\\w+)? *= *[\"'][^@].*\\W.*[\"']"
+    },
+    "name": "Hardcoded string"
   }
 ]
