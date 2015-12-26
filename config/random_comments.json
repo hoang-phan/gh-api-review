@@ -113,5 +113,13 @@
     "You may consider using `have_http_status` here for more semantic test",
     "Another way to do that:\n\n```ruby\nexpect(response).to have_http_status :<s<0>>\n```",
     "You could use `expect(response).to have_http_status(:<s<0>>)` instead"
+  ],
+  "Hardcoded dimensions": [
+    "You may consider moving hardcoded value into dimens.xml",
+    "Hardcoded value should be moved into dimens.xml"
+  ],
+  "Hardcoded string": [
+    "You may consider moving hardcoded string into strings.xml",
+    "Hardcoded string should be moved into strings.xml"
   ]
 }
