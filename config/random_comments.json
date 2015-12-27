@@ -126,5 +126,17 @@
     "For Rails, we have gem [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to support multi-browser style",
     "You may want to use [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to reduce the hardwork",
     "Rails has a very cool gem: [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) for this use, check it out :smile:"
+  ],
+  "Nil checking": [
+    "`.nil?` here could be omitted",
+    "I think it's not necessary to add `.nil?` here"
+  ],
+  "Use blank": [
+    "You may use `<0>.blank?` instead",
+    "You may consider `blank?` instead"
+  ],
+  "Use present": [
+    "You may use `<0>.present?` instead",
+    "You may consider `present?` instead"
   ]
 }

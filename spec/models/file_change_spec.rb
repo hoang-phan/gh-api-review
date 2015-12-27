@@ -637,5 +637,47 @@ RSpec.describe FileChange, type: :model do
         it { expect(matching).not_to yield_control }
       end
     end
+
+    context 'nil checking' do
+      let(:line) { 'abc.nil?' }
+      
+      it { expect(matching).to yield_with_args(ln, 'Nil checking', anything) }
+    end
+
+    context 'blank checking' do
+      ['!var||var.empty?','!var_1 || var_1.count == 0', '!var10 || var10.length<1'].each do |value|
+        context value do
+          let(:line) { value }
+          
+          it { expect(matching).to yield_with_args(ln, 'Use blank', anything) }
+        end
+      end
+
+      ['var||var.count == 0', '!var1||var2.empty?', '!var1||var1.abc.empty?'].each do |value|
+        context value do
+          let(:line) { value }
+          
+          it { expect(matching).not_to yield_control }            
+        end
+      end
+    end
+
+    context 'present checking' do
+      ['var&&!var.empty?','var_1 && var_1.count > 0', 'var10 && var10.length>=1'].each do |value|
+        context value do
+          let(:line) { value }
+          
+          it { expect(matching).to yield_with_args(ln, 'Use present', anything) }
+        end
+      end
+
+      ['var&&var.count == 0', 'var&& !var2.empty?', 'var1 &&var1.abc.length > 0'].each do |value|
+        context value do
+          let(:line) { value }
+          
+          it { expect(matching).not_to yield_control }            
+        end
+      end
+    end
   end
 end
