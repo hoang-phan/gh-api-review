@@ -615,5 +615,27 @@ RSpec.describe FileChange, type: :model do
         it { expect(matching).not_to yield_control }
       end
     end
+
+    context 'with prefixer' do
+      %w(css scss sass less).each do |lang|
+        context lang do
+          let(:extension) { lang }
+
+          ['+-moz-border', '-webkit-gradient', '-ms-flex'].each do |value|
+            context value do
+              let(:line) { value }
+
+              it { expect(matching).to yield_with_args(ln, 'Use auto prefixer gem', anything) }
+            end
+          end
+        end
+      end
+
+      context 'otherwise' do
+        let(:line) { '-moz-box-shadow: none' }
+
+        it { expect(matching).not_to yield_control }
+      end
+    end
   end
 end

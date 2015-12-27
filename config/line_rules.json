@@ -201,5 +201,14 @@
       "xml": "^\\+?[ \t]*\\w+(:\\w+)? *= *[\"'][^@].*\\W.*[\"']"
     },
     "name": "Hardcoded string"
+  },
+  {
+    "regex": {
+      "css": "(-moz|-webkit|-ms)-",
+      "scss": "(-moz|-webkit|-ms)-",
+      "sass": "(-moz|-webkit|-ms)-",
+      "less": "(-moz|-webkit|-ms)-"
+    },
+    "name": "Use auto prefixer gem"
   }
 ]
