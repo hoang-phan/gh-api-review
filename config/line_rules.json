@@ -210,5 +210,23 @@
       "less": "(-moz|-webkit|-ms)-"
     },
     "name": "Use auto prefixer gem"
+  },
+  {
+    "regex": {
+      "all": "\\.nil\\?"
+    },
+    "name": "Nil checking"
+  },
+  {
+    "regex": {
+      "all": "\\!(.+) *\\|\\| *(\\1)(\\.empty\\?|(\\.count|\\.length) *(== *0|< *1))"
+    },
+    "name": "Use blank"
+  },
+  {
+    "regex": {
+      "all": "(.+) *\\&\\& *(\\!\\1\\.empty\\?|\\1(\\.count|\\.length) *(> *0|>= *1))"
+    },
+    "name": "Use present"
   }
 ]
