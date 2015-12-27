@@ -121,5 +121,10 @@
   "Hardcoded string": [
     "You may consider moving hardcoded string into strings.xml",
     "Hardcoded string should be moved into strings.xml"
+  ],
+  "Use auto prefixer": [
+    "For Rails, we have gem [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to support multi-browser style",
+    "You may want to use [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to reduce the hardwork",
+    "Rails has a very cool gem: [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) for this use, check it out :smile:"
   ]
 }
