@@ -54,8 +54,6 @@ $ ->
       $(this).val("#{val.substring(0, caretPos)}  #{val.substring(caretPos)}")
       $(this)[0].selectionStart = $(this)[0].selectionEnd = caretPos + 2
 
-  $fileChangeContent.find('[name=rules]').trigger('change')
-
   $fileChangeContent.on 'change', '[name=rules]', (e) ->
     $this = $(this)
     text = sample(randomComments[$this.val()])
