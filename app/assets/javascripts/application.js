@@ -14,6 +14,7 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap-sprockets
 //= require bootstrap-switch
 //= require bootstrap-select
 //= require_tree ../../../vendor/assets/javascripts/.
