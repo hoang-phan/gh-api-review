@@ -152,9 +152,9 @@
   },
   {
     "regex": {
-      "erb": "render[ \\(]*partial((?!collection).*)",
-      "haml": "render[ \\(]*partial((?!collection).*)",
-      "slim": "render[ \\(]*partial((?!collection).*)"
+      "erb": "render[ \\(]*partial((?!collection).)*",
+      "haml": "render[ \\(]*partial((?!collection).)*",
+      "slim": "render[ \\(]*partial((?!collection).)*"
     },
     "name": "Partial redundancy"
   },
@@ -228,5 +228,11 @@
       "all": "(.+) *\\&\\& *(\\!\\1\\.empty\\?|\\1(\\.count|\\.length) *(> *0|>= *1))"
     },
     "name": "Use present"
+  },
+  {
+    "regex": {
+      "rb": "has_(many|one)[ \t]*:(?:(?!through|dependent).)*$"
+    },
+    "name": "Add dependent destroy"
   }
 ]

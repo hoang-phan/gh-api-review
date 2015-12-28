@@ -567,7 +567,7 @@ RSpec.describe FileChange, type: :model do
         [' android:width="10dp"',"+\tfontSize='5sp'"].each do |value|
           context value do
             let(:line) { value }
-            
+
             it { expect(matching).to yield_with_args(ln, 'Hardcoded dimensions', anything) }
           end
         end
@@ -575,8 +575,8 @@ RSpec.describe FileChange, type: :model do
         ['<dimen name="snake_case">50dp</dimen>', 'android:value="0dp"'].each do |value|
           context value do
             let(:line) { value }
-            
-            it { expect(matching).not_to yield_control }            
+
+            it { expect(matching).not_to yield_control }
           end
         end
       end
@@ -595,7 +595,7 @@ RSpec.describe FileChange, type: :model do
         [' android:text="My text"',"+\tpath='abc/xyz'"].each do |value|
           context value do
             let(:line) { value }
-            
+
             it { expect(matching).to yield_with_args(ln, 'Hardcoded string', anything) }
           end
         end
@@ -603,8 +603,8 @@ RSpec.describe FileChange, type: :model do
         ['android:width="match_parent"', '+android:height="wrap_content"'].each do |value|
           context value do
             let(:line) { value }
-            
-            it { expect(matching).not_to yield_control }            
+
+            it { expect(matching).not_to yield_control }
           end
         end
       end
@@ -640,7 +640,7 @@ RSpec.describe FileChange, type: :model do
 
     context 'nil checking' do
       let(:line) { 'abc.nil?' }
-      
+
       it { expect(matching).to yield_with_args(ln, 'Nil checking', anything) }
     end
 
@@ -648,7 +648,7 @@ RSpec.describe FileChange, type: :model do
       ['!var||var.empty?','!var_1 || var_1.count == 0', '!var10 || var10.length<1'].each do |value|
         context value do
           let(:line) { value }
-          
+
           it { expect(matching).to yield_with_args(ln, 'Use blank', anything) }
         end
       end
@@ -656,8 +656,8 @@ RSpec.describe FileChange, type: :model do
       ['var||var.count == 0', '!var1||var2.empty?', '!var1||var1.abc.empty?'].each do |value|
         context value do
           let(:line) { value }
-          
-          it { expect(matching).not_to yield_control }            
+
+          it { expect(matching).not_to yield_control }
         end
       end
     end
@@ -666,7 +666,7 @@ RSpec.describe FileChange, type: :model do
       ['var&&!var.empty?','var_1 && var_1.count > 0', 'var10 && var10.length>=1'].each do |value|
         context value do
           let(:line) { value }
-          
+
           it { expect(matching).to yield_with_args(ln, 'Use present', anything) }
         end
       end
@@ -674,8 +674,28 @@ RSpec.describe FileChange, type: :model do
       ['var&&var.count == 0', 'var&& !var2.empty?', 'var1 &&var1.abc.length > 0'].each do |value|
         context value do
           let(:line) { value }
-          
-          it { expect(matching).not_to yield_control }            
+
+          it { expect(matching).not_to yield_control }
+        end
+      end
+    end
+
+    context 'has_many checking' do
+      let(:extension) { 'rb' }
+
+      ['has_many :models', 'has_one :model'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Add dependent destroy', anything) }
+        end
+      end
+
+      ['has_one :model, dependent: :destroy', 'has_many :models, through: :modelbs'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
         end
       end
     end

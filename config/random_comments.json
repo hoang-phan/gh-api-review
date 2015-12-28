@@ -138,5 +138,10 @@
   "Use present": [
     "You may use `<0>.present?` instead",
     "You may consider `present?` instead"
+  ],
+  "Add dependent destroy": [
+    "You may consider adding `dependent: :destroy` here",
+    "`dependent: :destroy` maybe?",
+    "How about `dependent: :destroy` here?"
   ]
 }
