@@ -680,7 +680,7 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    context 'has_many checking' do
+    context 'has_many/has_one checking' do
       let(:extension) { 'rb' }
 
       ['has_many :models', 'has_one :model'].each do |value|
@@ -688,6 +688,22 @@ RSpec.describe FileChange, type: :model do
           let(:line) { value }
 
           it { expect(matching).to yield_with_args(ln, 'Add dependent destroy', anything) }
+        end
+      end
+
+      ['has_many :model, dependent: :destroy'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Use plural form', anything) }
+        end
+      end
+
+      ['has_one :models, dependent: :destroy', 'belongs_to :models'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Use singular form', anything) }
         end
       end
 
