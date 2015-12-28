@@ -234,5 +234,19 @@
       "rb": "has_(many|one)[ \t]*:(?:(?!through|dependent).)*$"
     },
     "name": "Add dependent destroy"
+  },
+  {
+    "regex": {
+      "rb": "has_many[ \t]*:(\\w+)\\W"
+    },
+    "constraint": "plural",
+    "name": "Use plural form"
+  },
+  {
+    "regex": {
+      "rb": "(?:has_one|belongs_to)[ \t]*:(\\w+)(\\W|$)"
+    },
+    "constraint": "singular",
+    "name": "Use singular form"
   }
 ]

@@ -59,7 +59,7 @@ class FileChange < ActiveRecord::Base
       LINE_RULES.each do |rule|
         regexes = rule['regex']
         regex = regexes[file_type] || regexes['all']
-        if regex.present? && (matches = line.match(regex))
+        if regex.present? && (matches = line.match(regex)) && match_constraints(matches, rule['constraint'])
           yield (ln.to_i - rule['offset'].to_i).to_s, rule['name'], matches.to_a.drop(1)
         end
       end
@@ -68,5 +68,18 @@ class FileChange < ActiveRecord::Base
 
   def file_type
     filename.split('.').last
+  end
+
+  def match_constraints(matches, constraint)
+    return true unless constraint
+    return false if matches.try(:size).to_i < 2
+
+    first_match = matches[1]
+
+    case constraint
+      when 'plural' then first_match.pluralize != first_match
+      else
+        first_match.singularize != first_match
+    end
   end
 end
