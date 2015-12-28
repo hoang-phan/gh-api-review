@@ -237,7 +237,7 @@
   },
   {
     "regex": {
-      "rb": "has_many[ \t]*:(\\w+)\\W"
+      "rb": "has_many[ \t]*:(\\w+)(\\W|$)"
     },
     "constraint": "plural",
     "name": "Use plural form"

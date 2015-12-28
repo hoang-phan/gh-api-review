@@ -143,5 +143,11 @@
     "You may consider adding `dependent: :destroy` here",
     "`dependent: :destroy` maybe?",
     "How about `dependent: :destroy` here?"
+  ],
+  "Use plural form": [
+    "I think `<0>` should be in plural form instead"
+  ],
+  "Use singular form": [
+    "I think `<0>` should be in singular form instead"
   ]
 }
