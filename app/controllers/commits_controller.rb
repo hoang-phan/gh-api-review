@@ -1,6 +1,6 @@
 class CommitsController < ApplicationController
   def index
-    @commits = Commit.includes(:repository).from_newest
+    @commits = Commit.includes(:repository, :file_changes).from_newest
     @comments_count = Comment.group(:commit_id).count
   end
 
