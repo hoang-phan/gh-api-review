@@ -248,5 +248,17 @@
     },
     "constraint": "singular",
     "name": "Use singular form"
+  },
+  {
+    "regex": {
+      "all": "(\\w+)\\.(?:(?:blank|nil)\\?) *\\? *0 *: *\\1\\.(\\w+)"
+    },
+    "name": "Use to_i"
+  },
+  {
+    "regex": {
+      "all": "(\\w+)(?:\\.present\\?)? \\? *\\1\\.(\\w+) *: *0"
+    },
+    "name": "Use to_i"
   }
 ]
