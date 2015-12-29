@@ -715,5 +715,15 @@ RSpec.describe FileChange, type: :model do
         end
       end
     end
+
+    context 'use to_i' do
+      ['model.present? ? model.method : 0', 'mo_del.blank? ? 0 : mo_del.method',  '+model ? model.me_thod : 0'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Use to_i', anything) }
+        end
+      end
+    end
   end
 end

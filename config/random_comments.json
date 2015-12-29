@@ -122,7 +122,7 @@
     "You may consider moving hardcoded string into strings.xml",
     "Hardcoded string should be moved into strings.xml"
   ],
-  "Use auto prefixer": [
+  "Use auto prefixer gem": [
     "For Rails, we have gem [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to support multi-browser style",
     "You may want to use [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) to reduce the hardwork",
     "Rails has a very cool gem: [autoprefixer-rails](https://github.com/ai/autoprefixer-rails) for this use, check it out :smile:"
@@ -149,5 +149,10 @@
   ],
   "Use singular form": [
     "I think `<0>` should be in singular form instead"
+  ],
+  "Use to_i": [
+    "How about `<0>.try(:<1>).to_i` here?",
+    "You may consider `<0>.try(:<1>).to_i` instead",
+    "How about this?\n\n```ruby\n<0>.try(:<1>).to_i```"
   ]
 }
