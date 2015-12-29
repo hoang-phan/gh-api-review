@@ -24,8 +24,8 @@ class Commit < ActiveRecord::Base
   end
 
   def num_suggestions
-    file_changes.pluck(:suggestions).sum do |suggestion|
-      suggestion.to_a.count
+    file_changes.to_a.sum do |file|
+      file.suggestions.to_a.count
     end
   end
 end
