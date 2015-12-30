@@ -257,7 +257,7 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    ['{}', ' { }', '+#{value == 1}','{value}'].each do |value|
+    ['{}', ' { }', '+#{value == 1}','{value}', '{ "#{abc}" }'].each do |value|
       context value do
         let(:line) { value }
 
