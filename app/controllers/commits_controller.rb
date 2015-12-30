@@ -12,6 +12,7 @@ class CommitsController < ApplicationController
   end
 
   def create
+    Commit.delete_all if params[:reload]
     CommitsFetch.perform_async
     redirect_to commits_path, notice: t('common.request_sent')
   end

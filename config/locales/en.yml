@@ -32,5 +32,6 @@ en:
     fetch: Fetch commits
     view_on_github: View on Github
     analyze: Analyze all commits
+    reload: Reload all commits
   comments:
     placeholder: What do you want to say?
