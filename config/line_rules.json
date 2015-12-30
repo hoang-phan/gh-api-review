@@ -260,5 +260,13 @@
       "all": "(\\w+)(?:\\.present\\?)? \\? *\\1\\.(\\w+) *: *0"
     },
     "name": "Use to_i"
+  },
+  {
+    "regex": {
+      "js": "console.log ?\\(",
+      "coffee": "console.log[ \\(]",
+      "rb": "^\\+?[ \\t]*p[ \\(]"
+    },
+    "name": "Debug code"
   }
 ]
