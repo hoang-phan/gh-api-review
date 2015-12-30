@@ -733,5 +733,20 @@ RSpec.describe FileChange, type: :model do
         end
       end
     end
+
+    context 'debug code' do
+      {
+        'js': 'console.log(1)',
+        'coffee': '+\tconsole.log 1',
+        'rb': '+ p mdl.mtd'
+      }.each do |lang, value|
+        context lang do
+          let(:extension) { lang }
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Debug code', anything) }
+        end
+      end
+    end
   end
 end

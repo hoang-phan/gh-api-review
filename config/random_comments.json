@@ -154,5 +154,10 @@
     "How about `<0>.try(:<1>).to_i` here?",
     "You may consider `<0>.try(:<1>).to_i` instead",
     "How about this?\n\n```ruby\n<0>.try(:<1>).to_i\n```"
+  ],
+  "Debug code": [
+    "Debug code?",
+    "You should remove all debug code before commit",
+    "You may want to remove this debug code"
   ]
 }
