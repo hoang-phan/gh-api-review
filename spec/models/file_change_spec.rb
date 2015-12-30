@@ -172,11 +172,19 @@ RSpec.describe FileChange, type: :model do
     context 'missing space for erb' do
       let(:extension) { 'erb' }
 
-      ["<% abc%>", "<%abc %>", "<%abc%>"].each do |value|
+      ["<% abc%>", "<%abc %>", "<%=abc%>"].each do |value|
         context value do
           let(:line) { value }
 
           it { expect(matching).to yield_with_args(ln, 'Missing space', anything) }
+        end
+      end
+
+      ["<%= abc %>"].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
         end
       end
     end
@@ -249,7 +257,7 @@ RSpec.describe FileChange, type: :model do
       end
     end
 
-    ['{}', ' { }', '+#{value == 1}','{value}'].each do |value|
+    ['{}', ' { }', '+#{value == 1}','{value}', '{ "#{abc}" }'].each do |value|
       context value do
         let(:line) { value }
 

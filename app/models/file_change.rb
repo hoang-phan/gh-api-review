@@ -56,10 +56,13 @@ class FileChange < ActiveRecord::Base
 
   def match_rules(line, ln)
     if line.present?
+      matched_rules = []
       LINE_RULES.each do |rule|
+        next if matched_rules.include?(rule['name'])
         regexes = rule['regex']
         regex = regexes[file_type] || regexes['all']
         if regex.present? && (matches = line.match(regex)) && match_constraints(matches, rule['constraint'])
+          matched_rules << rule['name']
           yield (ln.to_i - rule['offset'].to_i).to_s, rule['name'], matches.to_a.drop(1)
         end
       end

@@ -44,11 +44,25 @@ RSpec.describe CommitsController, type: :controller do
   end
 
   describe "POST create" do
-    it "returns http success" do
-      expect(CommitsFetch).to receive(:perform_async)
-      post :create
+    after do
       expect(response).to redirect_to(commits_path)
       expect(flash[:notice]).to eq I18n.t('common.request_sent')
+    end
+
+    context 'reload' do
+      it 'clears all commits and fetch' do
+        expect(Commit).to receive(:delete_all)
+        expect(CommitsFetch).to receive(:perform_async)
+        post :create, reload: true
+      end
+    end
+
+    context 'fetch' do
+      it 'performs commits fetch' do
+        expect(Commit).not_to receive(:delete_all)
+        expect(CommitsFetch).to receive(:perform_async)
+        post :create
+      end
     end
   end
 end

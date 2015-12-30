@@ -3,6 +3,7 @@
   .middle.pull-right
     = link_to t('commits.fetch'), commits_path, method: :post, class: 'btn btn-primary'
     = link_to t('commits.analyze'), commits_suggestions_path, method: :post, class: 'btn btn-default'
+    = link_to t('commits.reload'), commits_path(reload: true), method: :post, class: 'btn btn-default'
     = link_to 'Repositories', repositories_path, class: 'btn btn-default'
 .page-content
   .commit-list
