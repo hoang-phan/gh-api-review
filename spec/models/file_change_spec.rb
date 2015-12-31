@@ -736,15 +736,20 @@ RSpec.describe FileChange, type: :model do
 
     context 'debug code' do
       {
-        'js': 'console.log(1)',
-        'coffee': '+\tconsole.log 1',
-        'rb': '+ p mdl.mtd'
-      }.each do |lang, value|
+        'js': ['console.log(1)'],
+        'coffee': ['+\tconsole.log 1', ' console.log(2)'],
+        'rb': ['+ p mdl.mtd', 'puts "abc"']
+      }.each do |lang, values|
         context lang do
           let(:extension) { lang }
-          let(:line) { value }
+          
+          values.each do |value|
+            context value do
+              let(:line) { value }
 
-          it { expect(matching).to yield_with_args(ln, 'Debug code', anything) }
+              it { expect(matching).to yield_with_args(ln, 'Debug code', anything) }
+            end
+          end
         end
       end
     end

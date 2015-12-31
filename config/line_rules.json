@@ -265,7 +265,7 @@
     "regex": {
       "js": "console.log ?\\(",
       "coffee": "console.log[ \\(]",
-      "rb": "^\\+?[ \\t]*p[ \\(]"
+      "rb": "^\\+?[ \\t]*(?:p|puts)[ \\(]"
     },
     "name": "Debug code"
   }
