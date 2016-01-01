@@ -159,5 +159,9 @@
     "Debug code?",
     "You should remove all debug code before commit",
     "You may want to remove this debug code"
+  ],
+  "Id shorthand": [
+    "Shorthand of this: `<0>#<2>`",
+    "It could be shorter: `<0>#<2>`"
   ]
 }
