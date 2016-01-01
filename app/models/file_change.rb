@@ -81,8 +81,7 @@ class FileChange < ActiveRecord::Base
 
     case constraint
       when 'plural' then first_match.pluralize != first_match
-      else
-        first_match.singularize != first_match
+      when 'singular' then first_match.singularize != first_match
     end
   end
 end

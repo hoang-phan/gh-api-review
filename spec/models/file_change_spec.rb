@@ -737,7 +737,7 @@ RSpec.describe FileChange, type: :model do
     context 'debug code' do
       {
         'js': ['console.log(1)'],
-        'coffee': ['+\tconsole.log 1', ' console.log(2)'],
+        'coffee': ["+\tconsole.log 1", ' console.log(2)'],
         'rb': ['+ p mdl.mtd', 'puts "abc"']
       }.each do |lang, values|
         context lang do
@@ -748,6 +748,42 @@ RSpec.describe FileChange, type: :model do
               let(:line) { value }
 
               it { expect(matching).to yield_with_args(ln, 'Debug code', anything) }
+            end
+          end
+        end
+      end
+    end
+
+    context 'id shorthand' do
+      {
+        'haml': ['+ %span.class{ id: "my_id" }'],
+        'slim': ["\tspan.class(id='my-id')"]
+      }.each do |lang, values|
+        context lang do
+          let(:extension) { lang }
+          
+          values.each do |value|
+            context value do
+              let(:line) { value }
+
+              it { expect(matching).to yield_with_args(ln, 'Id shorthand', anything) }
+            end
+          end
+        end
+      end
+
+      {
+        'haml': ['  %span.class{ id: id }'],
+        'slim': ['span.class(id= id)']
+      }.each do |lang, values|
+        context lang do
+          let(:extension) { lang }
+          
+          values.each do |value|
+            context value do
+              let(:line) { value }
+
+              it { expect(matching).not_to yield_control }
             end
           end
         end
