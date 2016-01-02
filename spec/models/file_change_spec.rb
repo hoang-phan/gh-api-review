@@ -9,6 +9,10 @@ RSpec.describe FileChange, type: :model do
         '1' => [
           'name' => 'Use have_http_status',
           'matches' => ['404']
+        ],
+        '3' => [
+          'name' => 'Class shorthand',
+          'matches' => ['origin' ,'anything', 'abc xyz']
         ]
       }
     end
@@ -33,6 +37,10 @@ RSpec.describe FileChange, type: :model do
           'I think you should put a space here for consistency',
           'Missing a space here',
           'You could put a space here to make it consistent'
+        ],
+        'Class shorthand<,>origin<,>anything<,>abc xyz' => [
+          "Shorthand of this: `origin.abc.xyz`", 
+          "It could be shorter: `origin.abc.xyz`"
         ]
       }
     end
@@ -775,6 +783,42 @@ RSpec.describe FileChange, type: :model do
       {
         'haml': ['  %span.class{ id: id }'],
         'slim': ['span.class(id= id)']
+      }.each do |lang, values|
+        context lang do
+          let(:extension) { lang }
+          
+          values.each do |value|
+            context value do
+              let(:line) { value }
+
+              it { expect(matching).not_to yield_control }
+            end
+          end
+        end
+      end
+    end
+
+    context 'class shorthand' do
+      {
+        'haml': ['+ %span.class{ class: "my-class" }'],
+        'slim': ["\tspan.class(class='my-class class2')"]
+      }.each do |lang, values|
+        context lang do
+          let(:extension) { lang }
+          
+          values.each do |value|
+            context value do
+              let(:line) { value }
+
+              it { expect(matching).to yield_with_args(ln, 'Class shorthand', anything) }
+            end
+          end
+        end
+      end
+
+      {
+        'haml': ['  %span.class{ class: id }'],
+        'slim': ['span.class(class= id)']
       }.each do |lang, values|
         context lang do
           let(:extension) { lang }
