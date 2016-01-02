@@ -39,6 +39,7 @@ class FileChange < ActiveRecord::Base
       result = result.gsub("<#{index}>", match.to_s)
     end
     result.gsub(/<s(\d+)>/, HTTP_STATUS_TABLE)
+          .sub(/<spdt\((.*)\)>/) { $1.split(' ').join('.') }
   end
 
   def build_suggestions

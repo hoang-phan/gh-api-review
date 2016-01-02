@@ -163,5 +163,9 @@
   "Id shorthand": [
     "Shorthand of this: `<0>#<2>`",
     "It could be shorter: `<0>#<2>`"
+  ],
+  "Class shorthand": [
+    "Shorthand of this: `<0>.<spdt(<2>)>`",
+    "It could be shorter: `<0>.<spdt(<2>)>`"
   ]
 }
