@@ -833,5 +833,25 @@ RSpec.describe FileChange, type: :model do
         end
       end
     end
+
+    context 'sleep' do
+      let(:extension) { 'rb' }
+
+      ['+sleep 1', "\t  sleep(2)"].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Use wait for ajax', anything) }
+        end
+      end
+
+      ['Thread.sleep 1', '#  sleep(2)'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
+        end
+      end
+    end
   end
 end
