@@ -616,7 +616,13 @@ RSpec.describe FileChange, type: :model do
           end
         end
 
-        ['android:width="match_parent"', '+android:height="wrap_content"'].each do |value|
+        [
+          'android:width="match_parent"',
+          '+android:height="wrap_content"',
+          'xmlns:text="My text"',
+          'package="com.hoangphan.xx"',
+          'android:versionCode="myversion"'
+        ].each do |value|
           context value do
             let(:line) { value }
 
