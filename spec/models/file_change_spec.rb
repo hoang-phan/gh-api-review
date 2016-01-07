@@ -859,5 +859,25 @@ RSpec.describe FileChange, type: :model do
         end
       end
     end
+
+    context 'pluck id' do
+      let(:extension) { 'rb' }
+
+      ['Book.pluck(:id)', "categories.where(type: abc).pluck :id"].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).to yield_with_args(ln, 'Use ids', anything) }
+        end
+      end
+
+      ['Book.pluck(:my_id)', 'categories.pluck :my_id', 'categories.pluck :id1'].each do |value|
+        context value do
+          let(:line) { value }
+
+          it { expect(matching).not_to yield_control }
+        end
+      end
+    end
   end
 end

@@ -172,5 +172,10 @@
     "Sleeping in test is not a good idea, you could instead try [wait_for_ajax](https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara)",
     "I think we should use wait for ajax instead in this case",
     "I think it's better to use wait_for_ajax here"
+  ],
+  "Use ids": [
+    "I think you could use `ids` here instead of `pluck`",
+    "You may consider `ids` here",
+    "`ids` here seems shorter"
   ]
 }
