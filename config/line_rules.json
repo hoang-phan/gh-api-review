@@ -288,5 +288,11 @@
       "rb": "^\\+?[ \t]*sleep[ (]"
     },
     "name": "Use wait for ajax"
+  },
+  {
+    "regex": {
+      "rb": ".pluck[ \\(]:id($|[\\) ])"
+    },
+    "name": "Use ids"
   }
 ]
